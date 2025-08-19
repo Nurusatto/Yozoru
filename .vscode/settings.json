@@ -1,0 +1,15 @@
+{
+  // включаем ESLint
+  "eslint.enable": true,
+
+  // запускаем eslint везде
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // разрешаем Flat Config (ВАЖНО)
+  "eslint.experimental.useFlatConfig": true
+}

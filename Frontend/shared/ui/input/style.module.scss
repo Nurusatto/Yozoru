@@ -1,0 +1,27 @@
+.Input {
+  width: 100%;
+  padding: rem(12) rem(16);
+  height: inherit;
+  border: none;
+  background-color: var(--color-bg-surface);
+  border-bottom: 2px solid var(--border);
+
+  &:-webkit-autofill {
+    background-color: transparent !important;
+    box-shadow: 0 0 0px 1000px #000 inset; // цвет подложки формы
+    -webkit-text-fill-color: #fff !important; // цвет текста
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  &Wrapper {
+    position: relative;
+
+    height: rem(48);
+  }
+
+  &SVG {
+    position: absolute;
+    right: 16px;
+    top: 25%;
+  }
+}

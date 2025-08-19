@@ -1,0 +1,49 @@
+.Header {
+  &Body {
+    display: flex;
+    flex-direction: column;
+    gap: rem(20);
+  }
+
+  &Nav {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: rem(5);
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    &Item {
+      & > svg {
+        @include square(rem(26));
+      }
+      transition-duration: var(--transition-duration);
+      display: flex;
+      align-items: center;
+      gap: rem(20);
+      border-radius: 9999px;
+      padding: rem(12);
+      height: rem(50);
+
+      @include hover {
+        background-color: var(--color-hover);
+      }
+
+      &Active {
+        h2 {
+          font-weight: 700;
+        }
+        > svg {
+          stroke: white;
+          fill: none;
+
+          > path:first-child {
+            fill: white;
+          }
+        }
+      }
+    }
+  }
+}

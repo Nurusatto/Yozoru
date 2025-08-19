@@ -1,0 +1,85 @@
+@use "./functions.scss" as *;
+@use "./mixins.scss" as *;
+@use "./media.scss" as *;
+
+:root {
+  --font-size-xs: #{rem(13)};
+  --font-size-sm: #{rem(14)};
+  --font-size-base: #{rem(15)};
+  --font-size-md: #{rem(16)};
+  --font-size-lg: #{rem(18)};
+  --font-size-xl: #{rem(20)};
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.4;
+  --line-height-loose: 1.6;
+}
+
+.h1,
+h1,
+.h2,
+h2,
+.h3,
+h3,
+.h4,
+h4,
+.h5,
+h5,
+.h6,
+h6 {
+  color: var(--color-accent);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+.h1,
+h1 {
+  font-size: var(--font-size-lg);
+
+  @include mobile {
+    font-size: var(--font-size-md);
+  }
+}
+
+.h2,
+h2 {
+  font-size: var(--font-size-md);
+
+  @include mobile {
+    font-size: var(--font-size-base);
+  }
+}
+
+.h3,
+h3 {
+  font-size: var(--font-size-base);
+
+  @include mobile {
+    font-size: var(--font-size-sm);
+  }
+}
+
+.h4,
+h4 {
+  font-size: var(--font-size-sm);
+
+  @include mobile {
+    font-size: var(--font-size-xs);
+  }
+}
+
+.h5,
+h5,
+.h6,
+h6 {
+  font-size: var(--font-size-xs);
+
+  @include mobile {
+    font-size: var(--font-size-xs);
+  }
+}

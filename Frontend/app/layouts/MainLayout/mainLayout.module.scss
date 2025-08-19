@@ -1,0 +1,24 @@
+.MainLayout {
+  @include mixinContainer;
+
+  //настрока интерфэйса лээ
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 20px;
+  margin: 0 auto;
+  background-color: var(--color-bg-main);
+  height: 100vh;
+
+  @include mobile {
+    grid-template-columns: 2fr 1fr;
+
+    footer {
+      grid-column: 1 / -1;
+    }
+  }
+
+  > main {
+    border-left: var(--border);
+    border-right: var(--border);
+  }
+}

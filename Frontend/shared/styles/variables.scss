@@ -1,0 +1,46 @@
+@use "./functions.scss" as *;
+@use "./media.scss" as *;
+
+:root {
+  --color-bg-main: #000000;
+  --color-bg-alt: #25282b;
+
+  --color-accent: #e7e9ea;
+  --color-accent-alt: #1d9bf0;
+  --color-muted: #71767b;
+
+  --color-hover: #5a5d61;
+
+  --color-border: #2f3336;
+
+  --font-base: "Segoe UI", sans-serif;
+  --font-alt: "Manrope", sans-serif;
+
+  --transition-duration: 0.2s;
+
+  --z-index-base: 1;
+  --z-index-header: 10;
+  --z-index-overlay: 20;
+  --z-index-modal: 30;
+  --z-index-tooltip: 40;
+  --z-index-toast: 50;
+  --z-index-always-top: 100;
+
+  --container-width: #{rem(1200)};
+  --container-padding-x: #{rem(20)};
+
+  --border: var(--color-border) solid 1px;
+
+  @include tablet {
+    --container-width: #{rem(800)};
+    --container-padding-x: #{rem(20)};
+  }
+  @include mobile {
+    --container-width: #{rem(600)};
+    --container-padding-x: #{rem(12)};
+  }
+  @include mobile-s {
+    --container-width: #{rem(400)};
+    --container-padding-x: #{rem(10)};
+  }
+}

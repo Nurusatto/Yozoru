@@ -1,0 +1,17 @@
+<svg width="50" height="50" viewBox="0 0 230 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .text { fill: #e7e9ea; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 70px; }
+    .moon { fill: #e7e9ea; }
+  </style>
+  <!-- YZ -->
+  <text x="10" y="46" class="text">YZ</text>
+  
+  <!-- Луна ближе к YZ -->
+  <g transform="translate(95, 2)">
+    <circle class="moon" cx="18" cy="20" r="12"/>
+    <circle fill="#000000" cx="22" cy="18" r="12"/>
+  </g>
+  
+  <!-- RU чуть дальше -->
+  <text x="135" y="46 " class="text">RU</text>
+</svg>

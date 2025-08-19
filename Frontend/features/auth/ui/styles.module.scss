@@ -1,0 +1,78 @@
+.Auth {
+  cursor: default;
+  user-select: none;
+  overflow: auto;
+  color: var(--color-accent);
+  background-color: var(--color-bg-main);
+  border-radius: rem(20);
+  border: var(--border);
+
+  padding: rem(50);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: rem(20);
+
+  width: rem(400);
+  @include mobile {
+    width: rem(310);
+    padding: rem(40);
+  }
+
+  &Button {
+    &Google {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: rem(2);
+      width: 100%;
+      border-radius: rem(20);
+      border: var(--border);
+      padding: rem(5);
+    }
+    &Submit {
+      margin-top: rem(10);
+      width: 100%;
+      padding: rem(10);
+      border-radius: rem(20);
+      border: var(--border);
+      background-color: var(--color-bg-main);
+      color: var(--color-accent-alt);
+      transition:
+        background-color var(--transition-duration) ease,
+        transform var(--transition-duration) ease;
+
+      @include hover {
+        background-color: #111; // чуть светлее чёрного
+        transform: translateY(-2px);
+      }
+    }
+    &SignUp,
+    &ForgotPassword {
+      color: var(--color-accent-alt);
+    }
+  }
+  &Divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: rem(10);
+    width: 100%;
+    &Line {
+      height: 1px;
+      width: 100%;
+      background-color: var(--color-border);
+    }
+  }
+  &Form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: rem(5);
+    &Input {
+      color: var(--color-accent);
+      outline-color: var(--color-accent-alt);
+    }
+  }
+}

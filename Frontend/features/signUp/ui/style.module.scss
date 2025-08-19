@@ -1,0 +1,74 @@
+.SignUp {
+  background-color: var(--color-bg-main);
+  display: flex;
+  flex-direction: column;
+  width: rem(400);
+  padding: rem(50);
+  gap: rem(20);
+  justify-content: center;
+  border-radius: rem(20);
+  border: var(--border);
+
+  @include mobile {
+    width: rem(310);
+    padding: rem(40);
+  }
+
+  &Form {
+    display: flex;
+    gap: rem(10);
+    flex-direction: column;
+    &Input {
+      color: var(--color-accent);
+      outline-color: var(--color-accent-alt);
+
+      border-bottom: var(--border);
+    }
+
+    &Action {
+      display: flex;
+      justify-content: space-between;
+      gap: rem(5);
+
+      @include mobile {
+        flex-direction: column;
+      }
+
+      &Button {
+        background-color: var(--color-bg-main);
+        color: var(--color-accent);
+        border: var(--border);
+
+        padding: rem(10);
+        border-radius: rem(10);
+        color: var(--color-accent-alt);
+
+        transition:
+          background-color var(--transition-duration) ease,
+          transform var(--transition-duration) ease;
+
+        @include hover {
+          background-color: #111; // чуть светлее чёрного
+          transform: translateY(-2px);
+        }
+      }
+    }
+
+    &Button {
+      width: 100%;
+      padding: rem(10);
+      border-radius: rem(20);
+      background-color: var(--color-bg-main);
+      color: var(--color-accent-alt);
+      border: var(--border);
+      transition:
+        background-color var(--transition-duration) ease,
+        transform var(--transition-duration) ease;
+
+      @include hover {
+        background-color: #111; // чуть светлее чёрного
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
