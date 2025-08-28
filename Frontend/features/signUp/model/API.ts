@@ -1,7 +1,10 @@
-import axios from "axios";
+import { API } from "@/shared/API/Instance";
+import { prefix } from "@/app/config/API";
 
-import type { SignUpProps } from "./type";
+import type { SignUpProps, registerProp } from "./type";
 
-export const SendCode = (email: string) => axios.post("", { email });
+export const registerUser = (data: registerProp) =>
+  API.post(prefix.auth.register, data);
 
-export const registerUser = (data: SignUpProps) => axios.post("", data);
+export const verifyUser = (data: SignUpProps) =>
+  API.post(prefix.auth.registerVerify, data);
