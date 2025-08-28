@@ -1,4 +1,16 @@
 services:
+  frontend:
+    build: ./Frontend
+    container_name: frontend_service
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./Frontend:/frontend
+      - /frontend/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - VITE_API_URL=http://localhost:3000
+
   backend:
     build: ./Backend
     container_name: backend_service
@@ -9,9 +21,9 @@ services:
       - postgres
       - redis
     ports:
-      - "3000:3000"
-  
-  postgres: 
+      - '3000:3000'
+
+  postgres:
     image: postgres:15
     container_name: postgres_db
     restart: always
@@ -20,7 +32,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: mydb
     ports:
-      - "5433:5432"
+      - '5433:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -29,7 +41,7 @@ services:
     container_name: redis_cache
     restart: always
     ports:
-      - "6379:6379"
+      - '6379:6379'
 
 volumes:
   pgdata:
