@@ -1,15 +1,18 @@
 import { Input } from "@/shared/ui/input";
-import styles from "./style.module.scss";
 import { Button } from "@/shared/ui/ButtonBase";
+import styles from "./style.module.scss";
+//form
 import type { SignUpProps } from "../model/type";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignUpShema } from "../model/validations";
 
-import { SendCode, registerUser } from "../model/API";
+//api
+import { registerUser, verifyUser } from "../model/API";
 
 export const SignUp = () => {
   const {
+    trigger,
     getValues,
     register,
     handleSubmit,
@@ -19,16 +22,17 @@ export const SignUp = () => {
     resolver: yupResolver(SignUpShema),
   });
 
-  const handleSentCode = async () => {
-    const emailValue = getValues("email");
-    if (!emailValue) return;
-    await SendCode(emailValue);
+  const handleRegister = async () => {
+    const isValid = await trigger(["email", "login", "password"]);
+    if (!isValid) return;
+
+    const { email, login, password } = getValues();
+    const formData = { email, login, password };
+
+    await registerUser(formData);
   };
 
-  const onSubmit = async (data: SignUpProps) => {
-    const res = await registerUser(data);
-    console.log(res.data);
-  };
+  const onSubmit = async (data: SignUpProps) => console.log(data);
 
   return (
     <div className={styles.SignUp}>
@@ -68,7 +72,7 @@ export const SignUp = () => {
           <Button
             className={styles.SignUpFormActionButton}
             type="button"
-            onClick={handleSentCode}
+            onClick={handleRegister}
           >
             Code
           </Button>

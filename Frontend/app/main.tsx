@@ -9,12 +9,6 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import "./style/index.scss";
 
-// if (import.meta.env.DEV && !import.meta.env.VITE_API_URL) {
-//   import("@/mocks");
-// }
-
-import("@/mocks");
-
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient();
 
