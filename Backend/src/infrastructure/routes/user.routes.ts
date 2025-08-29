@@ -12,4 +12,6 @@ router.get('/auth/logout', UserController.logout);
 router.get('/auth/google', UserController.startAuthGoogle);
 router.get('/auth/google/callback', UserController.googleCallback);
 
+router.get('/auth/refresh', UserController.refresh);
+
 export default router;

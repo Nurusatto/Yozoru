@@ -1,13 +1,23 @@
 import jwt from 'jsonwebtoken';
 
-export const JWT_Utils = {
+export class JWT_Utils {
+  static generateTokens(userId: number) {
+    const accessToken = jwt.sign(
+      { userId },
+      process.env.JWT_SECRET!,
+      { expiresIn: "15m" }
+    );
 
-	async VerifyToken(token: string, ){
-		try{
-			const payload = jwt.verify(token, process.env.JWT_SECRET!);
-			return payload;
-		}catch(err){
-			throw new Error('Невалидный или истёкший токен');
-		}
-	}
+    const refreshToken = jwt.sign(
+      { userId },
+      process.env.JWT_SECRET!,
+      { expiresIn: "7d" }
+    );
+
+    return { accessToken, refreshToken };
+  }
+
+  static verifyToken(token: string) {
+    return jwt.verify(token, process.env.JWT_SECRET!);
+  }
 };

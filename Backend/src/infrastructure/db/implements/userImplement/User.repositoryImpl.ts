@@ -3,6 +3,7 @@ import { UserRepository } from '../../../../domain/repositories/User.repository'
 import prisma from '../../prisma';
 import redis from '../../redis/redis-client'
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 //utils
 import generateCode from '../../../utils/general/generateCode'
@@ -95,8 +96,6 @@ export class UserRepositoryImpl implements UserRepository {
 		await redis.del(`login_code:${email}`);
 		await redis.del(`login_code_extraData:${email}`);
 
-		
-
 		return new User(
 			user.id,
 			user.login,
@@ -135,5 +134,23 @@ export class UserRepositoryImpl implements UserRepository {
 			user.avatarUrl,
 			user.googleId
 		)
-	}
+	};
+
+	async verifyRefreshToken(refreshToken: string): Promise<string | null> {
+    const userId = await redis.get(`refresh:${refreshToken}`);
+    return userId;
+  }
+
+  async rotateRefreshToken(userId: string, oldToken: string): Promise<string> {
+
+    await redis.del(`refresh:${oldToken}`);
+
+    const newToken = crypto.randomUUID();
+    await redis.setEx(`refresh:${newToken}`, 60 * 60 * 24 * 7, userId);
+    return newToken;
+  }
+
+  generateAccessToken(userId: string): string {
+    return jwt.sign({ userId }, process.env.JWT_SECRET!, { expiresIn: "15m" });
+  }
 };
