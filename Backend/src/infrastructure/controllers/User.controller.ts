@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { googleAuth, login, register, verifyLogin, verifyRegister } from '../../bootstrap';
-import jwt from 'jsonwebtoken';
+import { googleAuth, login, refresh, register, verifyLogin, verifyRegister } from '../../bootstrap';
+import { JWT_Utils } from '../utils/jwt/generalJwtUtils';
 
 import { getGoogleClient } from '../providers/googleClient';
-
+import { Cookie_Expired_Or_NotFound } from '../errors/errorTypes/Cookies-Errors'
+import { CookieUtils } from '../utils/cookie/cookieUtils'
 
 export const UserController = {
 	async register(req: Request, res: Response, next: NextFunction){
@@ -24,17 +25,16 @@ export const UserController = {
 		try{
 			const { email, code } = req.body;
 			const user = await verifyRegister.execute({email, code});
-			const token = jwt.sign({userId: user.id}, process.env.JWT_SECRET!, { expiresIn: '168h'});
-			res.cookie('token', token, {
-				httpOnly: true,
-				sameSite: 'lax',
-				secure: process.env.NODE_ENV === 'production',
-				maxAge: 60 * 60 * 24 * 7 * 1000
-			});
+
+			const {accessToken, refreshToken} = JWT_Utils.generateTokens(user.id);
+
+			CookieUtils.setRefreshToken(res, refreshToken);
+
 			res.status(200).json({
 				success: true,
 				message: "Вы успешно зарегистрировались!",
-				user: user
+				user: user,
+				accessToken: accessToken
 			})
 		}catch(err){
 			next(err);
@@ -59,29 +59,29 @@ export const UserController = {
 		try{
 			const { email, code } = req.body;
 			const user = await verifyLogin.execute({email, code});
-			const token = jwt.sign({userId: user.id}, process.env.JWT_SECRET!, { expiresIn: '168h'});
-			res.cookie('token', token, {
-				httpOnly: true,
-				sameSite: 'lax',
-				secure: process.env.NODE_ENV === 'production',
-				maxAge: 60 * 60 * 24 * 7 * 1000
-			});
+			
+			const { accessToken, refreshToken } = JWT_Utils.generateTokens(user.id);
+
+			CookieUtils.setRefreshToken(res, refreshToken);
+
 			res.status(200).json({
 				success: true,
 				message: "Вы успешно вошли в аккаунт!",
-				user: user
+				user: user,
+				accessToken: accessToken
 			})
 		}catch(err){
 			next(err);
 		}
 	},
 
-	logout(req: Request, res: Response){
-		res.clearCookie('token');
-		res.status(200).json({
-			success: "true",
-			message: "Вы успешно вышли из аккаунта"
-		})
+	logout(req: Request, res: Response, next: NextFunction){
+    try {
+      CookieUtils.clearRefreshToken(res);
+      res.status(200).json({ success: true, message: "Вы вышли из аккаунта" });
+    } catch (err) {
+      next(err);
+    }
 	},
 
 	async startAuthGoogle(req: Request, res: Response){
@@ -112,21 +112,35 @@ export const UserController = {
 
 		const user = await googleAuth.execute(dto);
 
-		const token = jwt.sign({userId: user.id}, process.env.JWT_SECRET!, { expiresIn: "7d"});
-		res.cookie('token', token, 
-			{
-				httpOnly: true,
-				sameSite: 'lax',
-				secure: process.env.NODE_ENV === "production",
-				maxAge: 60 * 60 * 24 * 7 * 1000
-			}
-		)
+		const { accessToken, refreshToken } = JWT_Utils.generateTokens(user.id);
 
-		res.redirect("http://localhost:3000");
-		console.log(user);
-		console.log(dto);
+		CookieUtils.setRefreshToken(res, refreshToken);
+
+		res.redirect("http://localhost:5173");
+
 		}catch(err){
 			next(err);
 		}
 	},
+
+	async refresh(req: Request, res: Response, next: NextFunction) {
+		try {
+			const refreshToken = req.cookies?.refreshToken;
+			if (!refreshToken) throw new Cookie_Expired_Or_NotFound(refreshToken);
+
+			const { accessToken, refreshToken: newRefreshToken, userId } = await refresh.execute(refreshToken);
+
+			CookieUtils.setRefreshToken(res, newRefreshToken);
+
+			res.status(200).json({
+				success: true,
+				accessToken,
+				userId
+			});
+		} catch (err) {
+			res.status(401).json({ success: false, message: "Необходимо войти заново" });
+			next(err);
+		}
+	}
+
 }
