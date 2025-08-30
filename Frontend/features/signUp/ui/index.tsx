@@ -9,8 +9,20 @@ import { SignUpShema } from "../model/validations";
 
 //api
 import { registerUser, verifyUser } from "../model/API";
+import { useState } from "react";
+
+//store / router
+import { useAuthStore } from "@/app/provider/store/authStore";
+import { useNavigate } from "@tanstack/react-router";
+
+//tanstk-querry
+// import { useMutation } from "@tanstack/react-query";
 
 export const SignUp = () => {
+  const [alert, setAlert] = useState<string | null>();
+  const { setUser } = useAuthStore();
+  const navigate = useNavigate({ from: "/auth/signUp" });
+
   const {
     trigger,
     getValues,
@@ -29,11 +41,27 @@ export const SignUp = () => {
     const { email, login, password } = getValues();
     const formData = { email, login, password };
 
-    await registerUser(formData);
+    try {
+      const alertMessage = await registerUser(formData);
+      setAlert(alertMessage.message);
+    } catch (error) {
+      setAlert("ошибка регистрации");
+    }
   };
 
-  const onSubmit = async (data: SignUpProps) => console.log(data);
+  const onSubmit = async (data: SignUpProps) => {
+    try {
+      const response = await verifyUser(data);
 
+      if (response.data.success) {
+        setUser(response.data.user);
+
+        navigate({ to: "/" });
+      }
+    } catch (error) {
+      setAlert("ошибка регистрации");
+    }
+  };
   return (
     <div className={styles.SignUp}>
       <h1>Создайте учетную запись</h1>
@@ -64,19 +92,36 @@ export const SignUp = () => {
           <span style={{ color: "red" }}>Please enter correct password</span>
         )}
         <div className={styles.SignUpFormAction}>
-          <Input
-            placeholder="cod"
-            className={styles.SignUpFormInput}
-            {...register("code")}
-          />
-          <Button
-            className={styles.SignUpFormActionButton}
-            type="button"
-            onClick={handleRegister}
-          >
-            Code
-          </Button>
-          {errors.code && <span style={{ color: "red" }}>введите код</span>}
+          <div className={styles.SignUpFormActionCod}>
+            <Input
+              placeholder="cod"
+              className={styles.SignUpFormInput}
+              {...register("code")}
+            />
+            <Button
+              className={styles.SignUpFormActionButton}
+              type="button"
+              onClick={handleRegister}
+            >
+              Code
+            </Button>
+          </div>
+          <div className={styles.SignUpFormActionAlert}>
+            {errors.code && (
+              <span style={{ color: "red" }}>enter correct code</span>
+            )}
+            {alert && (
+              <span
+                style={{
+                  color: alert.includes("На вашу почту отправлен код!")
+                    ? "green"
+                    : "red",
+                }}
+              >
+                {alert}
+              </span>
+            )}
+          </div>
         </div>
         <Button className={styles.SignUpFormButton} type="submit">
           {isSubmitting ? "Loading" : "Sign Up"}

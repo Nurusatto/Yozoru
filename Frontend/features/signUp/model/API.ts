@@ -1,10 +1,13 @@
 import { API } from "@/shared/API/Instance";
 import { prefix } from "@/app/config/API";
 
-import type { SignUpProps, registerProp } from "./type";
+import type { SignUpProps, message, registerProp } from "./type";
 
-export const registerUser = (data: registerProp) =>
-  API.post(prefix.auth.register, data);
+export const registerUser = async (data: registerProp): Promise<message> => {
+  const response = await API.post<message>(prefix.auth.register, data);
+  return response.data;
+};
 
-export const verifyUser = (data: SignUpProps) =>
-  API.post(prefix.auth.registerVerify, data);
+export const verifyUser = async (data: SignUpProps) => {
+  return API.post(prefix.auth.registerVerify, data);
+};

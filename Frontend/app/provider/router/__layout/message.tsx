@@ -1,15 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useAuthStore } from "../../store/authStore";
-import { useCheckAuth } from "@/shared/hooks/useCheckAuth";
+
+import { ProtectRoute } from "@/shared/hooks/useProtectRoute";
 
 export const Route = createFileRoute("/__layout/message")({
+  beforeLoad: () => ProtectRoute(),
   component: Message,
 });
 
 function Message() {
-  useCheckAuth(); // просто вызываем — он сам обновит стейт
-  const user = useAuthStore((state) => state.user);
-
-  if (!user) return null; // или лоадер
   return <div>Hello /message!</div>;
 }

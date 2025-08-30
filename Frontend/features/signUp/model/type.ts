@@ -10,3 +10,7 @@ export type registerProp = {
   login: string;
   password: string;
 };
+
+export type message = {
+  message: string;
+};

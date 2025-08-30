@@ -25,8 +25,9 @@ export function useCheckAuth(redirectIfUnauthorized = true) {
 
         setUser({
           id: data.id,
-          name: data.name,
+          login: data.name,
           email: data.email,
+          password: data.password,
         });
       } catch (error) {
         setUser(null);

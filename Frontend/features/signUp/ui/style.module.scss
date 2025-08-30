@@ -27,11 +27,20 @@
 
     &Action {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       gap: rem(5);
 
       @include mobile {
         flex-direction: column;
+      }
+
+      &Cod {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &Alert {
+        width: 100%;
       }
 
       &Button {
