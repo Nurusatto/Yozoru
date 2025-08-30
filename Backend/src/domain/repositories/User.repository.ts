@@ -1,9 +1,5 @@
 import { User, registerDTO, logindDTO } from '../entities/User.entities';
 
-type refreshDTO = {
-	refresh_token: string
-}
-
 export interface UserRepository {
 	register(DTO: registerDTO): Promise<void>
 	verifyRegister(email: string, code: string): Promise<Omit<User, 'password'>>
@@ -20,9 +16,8 @@ export interface UserRepository {
 		avatar?: string
 	}): Promise<User>
 
-	// refresh Token
-  verifyRefreshToken(refreshToken: string): Promise<string | null>; 
-  rotateRefreshToken(userId: string, oldToken: string): Promise<string>; 
-  generateAccessToken(userId: string): string;
+	// redis
+	createRefreshToken(userId: number): Promise<string>;
+	verifyRefreshToken(token: string): Promise<number | null>;
 	
 };
