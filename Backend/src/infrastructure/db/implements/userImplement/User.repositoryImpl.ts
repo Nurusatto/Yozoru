@@ -3,7 +3,6 @@ import { UserRepository } from '../../../../domain/repositories/User.repository'
 import prisma from '../../prisma';
 import redis from '../../redis/redis-client'
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 //utils
 import generateCode from '../../../utils/general/generateCode'
@@ -136,21 +135,16 @@ export class UserRepositoryImpl implements UserRepository {
 		)
 	};
 
-	async verifyRefreshToken(refreshToken: string): Promise<string | null> {
-    const userId = await redis.get(`refresh:${refreshToken}`);
-    return userId;
-  }
+	async createRefreshToken(userId: number): Promise<string> {
+		const refreshID = crypto.randomUUID();
+		await redis.setEx(`refreshToken:${refreshID}`, 60 * 60 * 24 * 7, String(userId))
+		return refreshID;
+	};
 
-  async rotateRefreshToken(userId: string, oldToken: string): Promise<string> {
+	async verifyRefreshToken(token: string){
+		const result = await redis.get(`refreshToken:${token}`);
+		if (!result) return null;
 
-    await redis.del(`refresh:${oldToken}`);
-
-    const newToken = crypto.randomUUID();
-    await redis.setEx(`refresh:${newToken}`, 60 * 60 * 24 * 7, userId);
-    return newToken;
-  }
-
-  generateAccessToken(userId: string): string {
-    return jwt.sign({ userId }, process.env.JWT_SECRET!, { expiresIn: "15m" });
-  }
+		return parseInt(result);
+	};
 };

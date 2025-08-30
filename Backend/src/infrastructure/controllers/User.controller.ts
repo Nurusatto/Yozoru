@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { googleAuth, login, refresh, register, verifyLogin, verifyRegister } from '../../bootstrap';
-import { JWT_Utils } from '../utils/jwt/generalJwtUtils';
+import { googleAuth, login, createRefresh, register, verifyLogin, verifyRegister, createAccess } from '../../bootstrap';
 
 import { getGoogleClient } from '../providers/googleClient';
 import { Cookie_Expired_Or_NotFound } from '../errors/errorTypes/Cookies-Errors'
@@ -26,7 +25,7 @@ export const UserController = {
 			const { email, code } = req.body;
 			const user = await verifyRegister.execute({email, code});
 
-			const {accessToken, refreshToken} = JWT_Utils.generateTokens(user.id);
+			const {accessToken, refreshToken} = await createRefresh.execute(user.id);
 
 			CookieUtils.setRefreshToken(res, refreshToken);
 
@@ -60,7 +59,7 @@ export const UserController = {
 			const { email, code } = req.body;
 			const user = await verifyLogin.execute({email, code});
 			
-			const { accessToken, refreshToken } = JWT_Utils.generateTokens(user.id);
+			const { accessToken, refreshToken } = await createRefresh.execute(user.id);
 
 			CookieUtils.setRefreshToken(res, refreshToken);
 
@@ -112,7 +111,7 @@ export const UserController = {
 
 		const user = await googleAuth.execute(dto);
 
-		const { accessToken, refreshToken } = JWT_Utils.generateTokens(user.id);
+		const { accessToken, refreshToken } = await createRefresh.execute(user.id);
 
 		CookieUtils.setRefreshToken(res, refreshToken);
 
@@ -123,23 +122,23 @@ export const UserController = {
 		}
 	},
 
-	async refresh(req: Request, res: Response, next: NextFunction) {
-		try {
-			const refreshToken = req.cookies?.refreshToken;
-			if (!refreshToken) throw new Cookie_Expired_Or_NotFound(refreshToken);
+	async getAccessToken(req: Request, res: Response, next: NextFunction){
+		try{
+			const token = req.cookies.refreshToken;
+			if(!token) throw new Cookie_Expired_Or_NotFound(token);
 
-			const { accessToken, refreshToken: newRefreshToken, userId } = await refresh.execute(refreshToken);
-
-			CookieUtils.setRefreshToken(res, newRefreshToken);
+			const accessToken = await createAccess.execute(token);
 
 			res.status(200).json({
 				success: true,
-				accessToken,
-				userId
+				accessToken: accessToken
 			});
-		} catch (err) {
-			res.status(401).json({ success: false, message: "Необходимо войти заново" });
-			next(err);
+
+		}catch(err){
+			res.status(401).json({
+				success: false,
+				message: "Вы не авторизованы! Войдите в аккаунт!"
+			})
 		}
 	}
 
