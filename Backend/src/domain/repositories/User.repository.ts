@@ -1,6 +1,7 @@
 import { User, registerDTO, logindDTO } from '../entities/User.entities';
 
 export interface UserRepository {
+	// Sign In / Login functions
 	register(DTO: registerDTO): Promise<void>
 	verifyRegister(email: string, code: string): Promise<Omit<User, 'password'>>
 	login(DTO: logindDTO): Promise<void>
@@ -19,5 +20,7 @@ export interface UserRepository {
 	// redis
 	createRefreshToken(userId: number): Promise<string>;
 	verifyRefreshToken(token: string): Promise<number | null>;
-	
+
+	// Another funcitons
+	findUserById(userId: number): Promise<Omit<User, 'password'>>
 };

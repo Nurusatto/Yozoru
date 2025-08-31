@@ -23,3 +23,9 @@ export class WrongPassword extends AppError {
 		super('Неправильный пароль!', 400);
 	}
 }
+
+export class CannotFindUserId extends AppError {
+	constructor(){
+		super('Не удалось найти пользователя с таким ID', 404);
+	}
+}
