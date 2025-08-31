@@ -1,17 +1,20 @@
-import { UserController } from '../controllers/User.controller';
-import { Router } from 'express';
+import { UserController } from '../controllers/User.controller'
+import { authVerify } from '../middlewares/authVerify.middleware'
 
-const router = Router();
+import { Router } from 'express'
 
-router.post('/auth/register', UserController.register);
-router.post('/auth/registerVerify', UserController.verifyRegister);
-router.post('/auth/login', UserController.login);
-router.post('/auth/loginVerify', UserController.verifyLogin);
-router.get('/auth/logout', UserController.logout);
+const router = Router()
 
-router.get('/auth/google', UserController.startAuthGoogle);
-router.get('/auth/google/callback', UserController.googleCallback);
+router.post('/auth/register', UserController.register)
+router.post('/auth/registerVerify', UserController.verifyRegister)
+router.post('/auth/login', UserController.login)
+router.post('/auth/loginVerify', UserController.verifyLogin)
+router.get('/auth/logout', UserController.logout)
 
-router.get('/account/me', UserController.getAccessToken);
+router.get('/auth/google', UserController.startAuthGoogle)
+router.get('/auth/google/callback', UserController.googleCallback)
 
-export default router;
+router.get('/account/accessToken', UserController.getAccessToken)
+router.get('/account/me', authVerify, UserController.getUser)
+
+export default router

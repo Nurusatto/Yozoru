@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 
 //utils
 import generateCode from '../../../utils/general/generateCode'
-import { CannotFindEmail, UserAlreadyExistEmailError, UserAlreadyExistUsernameError, WrongPassword } from '../../../errors/errorTypes/User-Errors'
+import { CannotFindEmail, CannotFindUserId, UserAlreadyExistEmailError, UserAlreadyExistUsernameError, WrongPassword } from '../../../errors/errorTypes/User-Errors'
 import { transporter, sendEmail } from '../../../utils/nodemailer/generalNodeMailer';
 import { AlreadySended, Expired_Or_Notfound, WrongMatch } from '../../../errors/errorTypes/Redis-Errors'
 
@@ -75,8 +75,8 @@ export class UserRepositoryImpl implements UserRepository {
 		if(!comparePass) throw new WrongPassword();
 
 		const code = generateCode();
-		redis.setEx(`login_code:${DTO.email}`, 60 * 5, `${code.toString()}`);
-		redis.setEx(`login_code_extraData:${DTO.email}`, 60 * 5, JSON.stringify(searchUser));
+		await redis.setEx(`login_code:${DTO.email}`, 60 * 5, `${code.toString()}`);
+		await redis.setEx(`login_code_extraData:${DTO.email}`, 60 * 5, JSON.stringify(searchUser));
 
 		const transport = transporter('gmail', process.env.MAIL_USER!, process.env.MAIL_PASS!);
 		sendEmail(DTO.email, 'Login Code', `Код для входа в аккаунт: ${code}`, transport)
@@ -147,4 +147,19 @@ export class UserRepositoryImpl implements UserRepository {
 
 		return parseInt(result);
 	};
+
+	async findUserById(userId: number): Promise<Omit<User, 'password'>> {
+		const user = await prisma.user.findUnique({
+			where: {id: userId}
+		});
+		if(!user) throw new CannotFindUserId();
+		return new User(
+			user.id,
+			user.login,
+			user.email,
+			'',
+			user.avatarUrl,
+			user.googleId
+		)
+	}
 };

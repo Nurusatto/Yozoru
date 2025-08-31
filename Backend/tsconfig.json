@@ -4,10 +4,12 @@
 		"module": "commonjs",
 		"outDir": "./dist",
 		"rootDir": "./src",
+		"types": ["node", "express"],
+		"typeRoots": ["./src/types", "./node_modules/@types"],
 		"strict": true,
 		"skipLibCheck": true,
 		"esModuleInterop": true
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules/", ".dist"]
+	"include": ["src/**/*", "src/types/**/*"],
+	"exclude": ["node_modules/", "./dist"]
 }

@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { googleAuth, login, createRefresh, register, verifyLogin, verifyRegister, createAccess } from '../../bootstrap';
+import { googleAuth, login, createRefresh, register, verifyLogin, verifyRegister, createAccess, getUserById } from '../../bootstrap';
 
 import { getGoogleClient } from '../providers/googleClient';
 import { Cookie_Expired_Or_NotFound } from '../errors/errorTypes/Cookies-Errors'
 import { CookieUtils } from '../utils/cookie/cookieUtils'
+import { success } from 'zod'
+import { CannotFindUserId } from '../errors/errorTypes/User-Errors'
 
 export const UserController = {
 	async register(req: Request, res: Response, next: NextFunction){
@@ -139,6 +141,19 @@ export const UserController = {
 				success: false,
 				message: "Вы не авторизованы! Войдите в аккаунт!"
 			})
+		}
+	},
+
+	async getUser(req: Request, res: Response, next: NextFunction){
+		try{
+			const user = await getUserById.execute(req.userId);
+
+			res.status(200).json({
+				success: true,
+				user: user
+			});
+		}catch(err){
+			next(err);
 		}
 	}
 

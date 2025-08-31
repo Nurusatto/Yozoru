@@ -9,6 +9,8 @@ import { VerifyLogin } from './domain/use-cases/User-Cases/verifyLogin.use-case'
 import { GoogleAuth } from './domain/use-cases/User-Cases/googleAuth.use-case';
 import { CreateRefresh } from './domain/use-cases/User-Cases/createRefresh.use-case';
 import { CreateAccess } from './domain/use-cases/User-Cases/createAccess.use.case';
+import { GetUserIdFromRefreshToken } from './domain/use-cases/User-Cases/getUserIdFromRefreshToken.use-case';
+import { GetUserById } from './domain/use-cases/User-Cases/getUserById.use-case';
 
 const userRepository = new UserRepositoryImpl();
 
@@ -19,3 +21,5 @@ export const verifyLogin = new VerifyLogin(userRepository);
 export const googleAuth = new GoogleAuth(userRepository);
 export const createRefresh = new CreateRefresh(userRepository);
 export const createAccess = new CreateAccess(userRepository);
+export const getUserIdFromRefreshToken = new GetUserIdFromRefreshToken(userRepository);
+export const getUserById = new GetUserById(userRepository);
