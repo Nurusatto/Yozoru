@@ -5,7 +5,8 @@ export const prefix = {
     register: "/users/auth/register",
     registerVerify: "/users/auth/registerVerify",
 
-    getAccessToken: "/users/account/me",
+    getDataUser: "/users/account/me",
+    getAccessTokenUser: "/users/account/accessToken",
   },
   login: {
     login: "/users/auth/login",

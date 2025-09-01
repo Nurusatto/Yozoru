@@ -1,5 +1,9 @@
+import { checkState } from "@/shared/hooks/checkState";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
-  component: () => <Outlet />,
+  component: () => {
+    checkState();
+    return <Outlet />;
+  },
 });

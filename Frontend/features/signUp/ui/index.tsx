@@ -20,7 +20,7 @@ import { useNavigate } from "@tanstack/react-router";
 
 export const SignUp = () => {
   const [alert, setAlert] = useState<string | null>();
-  const { setUser } = useAuthStore();
+  const { setUser, setToken } = useAuthStore();
   const navigate = useNavigate({ from: "/auth/signUp" });
 
   const {
@@ -55,7 +55,7 @@ export const SignUp = () => {
 
       if (response.data.success) {
         setUser(response.data.user);
-
+        setToken(response.data.accessToken);
         navigate({ to: "/" });
       }
     } catch (error) {
