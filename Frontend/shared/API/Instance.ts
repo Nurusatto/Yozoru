@@ -20,22 +20,29 @@ API.interceptors.request.use((config) => {
 API.interceptors.response.use(
   (res) => res,
   async (error) => {
-    if (error.response?.status === 401) {
+    const originalRequest = error.config;
+
+    // если нет accessToken в памяти не делаем refresh
+    const token = useAuthStore.getState().token;
+    if (!token) {
+      return Promise.reject(error);
+    }
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
       try {
-        // refresh по cookie
         const { data } = await API.get(prefix.auth.getAccessTokenUser);
 
-        // обновляем token в zustand
         useAuthStore.getState().setToken(data.accessToken);
 
-        // повторяем запрос с новым токеном
-        error.config.headers.Authorization = `Bearer ${data.accessToken}`;
-        return API.request(error.config);
+        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+        return API.request(originalRequest);
       } catch (refreshError) {
-        // если refresh тоже не удался → разлогиниваем юзера
         useAuthStore.getState().logout();
       }
     }
+
     return Promise.reject(error);
   }
 );

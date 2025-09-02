@@ -16,12 +16,13 @@ import { useAuthStore } from "@/app/provider/store/authStore";
 import { useNavigate } from "@tanstack/react-router";
 
 //tanstk-querry
-// import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 export const SignUp = () => {
   const [alert, setAlert] = useState<string | null>();
   const { setUser, setToken } = useAuthStore();
   const navigate = useNavigate({ from: "/auth/signUp" });
+  const [block, setBlock] = useState(false);
 
   const {
     trigger,
@@ -34,34 +35,41 @@ export const SignUp = () => {
     resolver: yupResolver(SignUpShema),
   });
 
-  const handleRegister = async () => {
-    const isValid = await trigger(["email", "login", "password"]);
-    if (!isValid) return;
+  const registerMutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data) => {
+      setAlert(data.message);
+    },
+    onError: () => setAlert("Ошибка регистрации"),
+  });
 
-    const { email, login, password } = getValues();
-    const formData = { email, login, password };
-
-    try {
-      const alertMessage = await registerUser(formData);
-      setAlert(alertMessage.message);
-    } catch (error) {
-      setAlert("ошибка регистрации");
-    }
-  };
-
-  const onSubmit = async (data: SignUpProps) => {
-    try {
-      const response = await verifyUser(data);
-
+  const verifyMutation = useMutation({
+    mutationFn: verifyUser,
+    onSuccess: (response) => {
       if (response.data.success) {
         setUser(response.data.user);
         setToken(response.data.accessToken);
         navigate({ to: "/" });
       }
-    } catch (error) {
-      setAlert("ошибка регистрации");
-    }
+    },
+    onError: () => setAlert("ошибка регистрации"),
+  });
+
+  const handleRegister = async () => {
+    const isValid = await trigger(["email", "login", "password"]);
+    if (!isValid) return;
+    setBlock(true);
+
+    const { email, login, password } = getValues();
+    const formData = { email, login, password };
+
+    registerMutation.mutate(formData);
   };
+
+  const onSubmit = async (data: SignUpProps) => {
+    verifyMutation.mutate(data);
+  };
+
   return (
     <div className={styles.SignUp}>
       <h1>Создайте учетную запись</h1>
@@ -70,6 +78,7 @@ export const SignUp = () => {
           placeholder="email"
           className={styles.SignUpFormInput}
           {...register("email")}
+          disabled={block}
         />
         {errors.email && (
           <span style={{ color: "red" }}>Please enter correct email</span>
@@ -78,6 +87,7 @@ export const SignUp = () => {
           placeholder="login"
           className={styles.SignUpFormInput}
           {...register("login")}
+          disabled={block}
         />
         {errors.login && (
           <span style={{ color: "red" }}>Please enter correct login</span>
@@ -86,6 +96,7 @@ export const SignUp = () => {
           placeholder="password"
           className={styles.SignUpFormInput}
           type="password"
+          disabled={block}
           {...register("password")}
         />
         {errors.password && (
