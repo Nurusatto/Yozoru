@@ -31,15 +31,18 @@ COPY --from=builder /app/prisma ./prisma
 # Генерируем Prisma клиент в runtime контейнере
 RUN npm run prisma:generate
 
-# Создаем скрипт запуска с миграциями
+# Создаем скрипт запуска с миграциями и очисткой БД
 RUN echo '#!/bin/sh' > /app/start.sh && \
     echo 'echo "Waiting for database..."' >> /app/start.sh && \
     echo 'sleep 10' >> /app/start.sh && \
+    echo 'echo "Resetting database..."' >> /app/start.sh && \
+    echo 'npx prisma migrate reset --force --skip-generate --skip-seed' >> /app/start.sh && \
     echo 'echo "Running database migrations..."' >> /app/start.sh && \
     echo 'npx prisma db push' >> /app/start.sh && \
     echo 'echo "Starting application..."' >> /app/start.sh && \
     echo 'node dist/server.js' >> /app/start.sh && \
     chmod +x /app/start.sh
+
 
 EXPOSE 3000
 
