@@ -18,6 +18,11 @@
     display: flex;
     gap: rem(10);
     flex-direction: column;
+
+    &Block {
+      opacity: 0.7;
+    }
+
     &Input {
       color: var(--color-accent);
       outline-color: var(--color-accent-alt);
@@ -65,7 +70,7 @@
 
     &Button {
       width: 100%;
-      padding: rem(10);
+      padding: rem(5);
       border-radius: rem(20);
       background-color: var(--color-bg-main);
       color: var(--color-accent-alt);

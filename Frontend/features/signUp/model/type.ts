@@ -11,6 +11,6 @@ export type registerProp = {
   password: string;
 };
 
-export type message = {
+export type messageProp = {
   message: string;
 };

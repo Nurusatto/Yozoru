@@ -2,7 +2,7 @@ import { Input } from "@/shared/ui/input";
 import { Button } from "@/shared/ui/ButtonBase";
 import styles from "./style.module.scss";
 //form
-import type { SignUpProps } from "../model/type";
+import type { messageProp, SignUpProps } from "../model/type";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignUpShema } from "../model/validations";
@@ -17,6 +17,8 @@ import { useNavigate } from "@tanstack/react-router";
 
 //tanstk-querry
 import { useMutation } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import clsx from "clsx";
 
 export const SignUp = () => {
   const [alert, setAlert] = useState<string | null>();
@@ -25,6 +27,7 @@ export const SignUp = () => {
   const [block, setBlock] = useState(false);
 
   const {
+    reset,
     trigger,
     getValues,
     register,
@@ -40,7 +43,9 @@ export const SignUp = () => {
     onSuccess: (data) => {
       setAlert(data.message);
     },
-    onError: () => setAlert("Ошибка регистрации"),
+    onError: (err: AxiosError<messageProp>) => {
+      setAlert(err.response?.data?.message || err.message);
+    },
   });
 
   const verifyMutation = useMutation({
@@ -71,12 +76,18 @@ export const SignUp = () => {
   };
 
   return (
-    <div className={styles.SignUp}>
+    <div className={clsx(styles.SignUp)}>
       <h1>Создайте учетную запись</h1>
-      <form className={styles.SignUpForm} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={clsx(styles.SignUpForm)}
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Input
           placeholder="email"
-          className={styles.SignUpFormInput}
+          className={clsx(
+            styles.SignUpFormInput,
+            block && styles.SignUpFormBlock
+          )}
           {...register("email")}
           disabled={block}
         />
@@ -85,7 +96,10 @@ export const SignUp = () => {
         )}
         <Input
           placeholder="login"
-          className={styles.SignUpFormInput}
+          className={clsx(
+            styles.SignUpFormInput,
+            block && styles.SignUpFormBlock
+          )}
           {...register("login")}
           disabled={block}
         />
@@ -94,7 +108,10 @@ export const SignUp = () => {
         )}
         <Input
           placeholder="password"
-          className={styles.SignUpFormInput}
+          className={clsx(
+            styles.SignUpFormInput,
+            block && styles.SignUpFormBlock
+          )}
           type="password"
           disabled={block}
           {...register("password")}
@@ -102,25 +119,22 @@ export const SignUp = () => {
         {errors.password && (
           <span style={{ color: "red" }}>Please enter correct password</span>
         )}
-        <div className={styles.SignUpFormAction}>
-          <div className={styles.SignUpFormActionCod}>
+        <div className={clsx(styles.SignUpFormAction)}>
+          <div className={clsx(styles.SignUpFormActionCod)}>
             <Input
               placeholder="cod"
-              className={styles.SignUpFormInput}
+              className={clsx(styles.SignUpFormInput)}
               {...register("code")}
             />
             <Button
-              className={styles.SignUpFormActionButton}
+              className={clsx(styles.SignUpFormActionButton)}
               type="button"
               onClick={handleRegister}
             >
               Code
             </Button>
           </div>
-          <div className={styles.SignUpFormActionAlert}>
-            {errors.code && (
-              <span style={{ color: "red" }}>enter correct code</span>
-            )}
+          <div className={clsx(styles.SignUpFormActionAlert)}>
             {alert && (
               <span
                 style={{
@@ -134,8 +148,15 @@ export const SignUp = () => {
             )}
           </div>
         </div>
-        <Button className={styles.SignUpFormButton} type="submit">
+        <Button className={clsx(styles.SignUpFormButton)} type="submit">
           {isSubmitting ? "Loading" : "Sign Up"}
+        </Button>
+        <Button
+          className={clsx(styles.SignUpFormButton)}
+          type="submit"
+          onClick={() => setBlock(false)}
+        >
+          Изменить данные
         </Button>
       </form>
     </div>
