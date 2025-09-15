@@ -1,6 +1,6 @@
 import { AuthLayout } from "@/app/layouts/authLayout";
 
-import { AuthPage } from "@/pages/AuthPage";
+import { Auth } from "@/features/auth";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/auth/login")({
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/auth/login")({
 function Login() {
   return (
     <AuthLayout>
-      <AuthPage />
+      <Auth />
     </AuthLayout>
   );
 }

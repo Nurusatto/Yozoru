@@ -1,15 +1,15 @@
 import { AuthLayout } from "@/app/layouts/authLayout";
-import { SignUpWidget } from "@/widgets/SignUpWidget";
+import { SignUp } from "@/features/signUp";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/auth/signUp")({
-  component: SignUp,
+  component: SignUpComponent,
 });
 
-function SignUp() {
+function SignUpComponent() {
   return (
     <AuthLayout>
-      <SignUpWidget />
+      <SignUp />
     </AuthLayout>
   );
 }

@@ -11,6 +11,13 @@ export const prefix = {
   login: {
     login: "/users/auth/login",
     loginVerify: "/users/auth/loginVerify",
+
     logOut: "/users/auth/logout",
+  },
+  social: {
+    google: {
+      auth: "/users/auth/google",
+      call: "/users/auth/google/callback",
+    },
   },
 };

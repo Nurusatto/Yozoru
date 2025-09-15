@@ -1,6 +1,7 @@
 import { Input } from "@/shared/ui/input";
 import { Button } from "@/shared/ui/ButtonBase";
 import styles from "./style.module.scss";
+import clsx from "clsx";
 //form
 import type { messageProp, SignUpProps } from "../model/type";
 import { useForm } from "react-hook-form";
@@ -17,8 +18,8 @@ import { useNavigate } from "@tanstack/react-router";
 
 //tanstk-querry
 import { useMutation } from "@tanstack/react-query";
+
 import type { AxiosError } from "axios";
-import clsx from "clsx";
 
 export const SignUp = () => {
   const [alert, setAlert] = useState<string | null>();
@@ -59,6 +60,11 @@ export const SignUp = () => {
     },
     onError: () => setAlert("ошибка регистрации"),
   });
+
+  const resetForm = () => {
+    setBlock(false);
+    reset();
+  };
 
   const handleRegister = async () => {
     const isValid = await trigger(["email", "login", "password"]);
@@ -154,7 +160,7 @@ export const SignUp = () => {
         <Button
           className={clsx(styles.SignUpFormButton)}
           type="submit"
-          onClick={() => setBlock(false)}
+          onClick={resetForm}
         >
           Изменить данные
         </Button>
