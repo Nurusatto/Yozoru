@@ -1,4 +1,4 @@
-import { User, registerDTO, logindDTO } from '../entities/User.entities';
+import { User, logindDTO, registerDTO } from '../entities/User.entities'
 
 export interface UserRepository {
 	// Sign In / Login functions
@@ -18,9 +18,9 @@ export interface UserRepository {
 	}): Promise<User>
 
 	// redis
-	createRefreshToken(userId: number): Promise<string>;
-	verifyRefreshToken(token: string): Promise<number | null>;
+	createRefreshToken(userId: number): Promise<string>
+	verifyRefreshToken(token: string): Promise<number | null>
 
 	// Another funcitons
 	findUserById(userId: number): Promise<Omit<User, 'password'>>
-};
+}

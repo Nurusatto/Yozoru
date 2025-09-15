@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 
 export class JWT_Utils {
   static generateAccessToken(userId: number) {
@@ -6,12 +6,12 @@ export class JWT_Utils {
       { userId },
       process.env.JWT_SECRET!,
       { expiresIn: "15m" }
-    );
+    )
 
-    return accessToken;
+    return accessToken
   }
 
   static verifyToken(token: string) {
-    return jwt.verify(token, process.env.JWT_SECRET!);
+    return jwt.verify(token, process.env.JWT_SECRET!)
   }
-};
+}

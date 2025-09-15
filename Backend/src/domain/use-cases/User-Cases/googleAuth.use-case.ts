@@ -17,11 +17,11 @@ export class GoogleAuth {
 			user = await this.userRepo.findByEmail(DTO.email)
 		};
 
-		if(!user){
-			user = await this.userRepo.createGoogleAccount(DTO);
+		if (!user) {
+			user = await this.userRepo.createGoogleAccount(DTO)
 		};
 
-		const { password, ...safeUser } = user;
-		return safeUser;
+		const { password, ...safeUser } = user
+		return safeUser
 	};
 }
