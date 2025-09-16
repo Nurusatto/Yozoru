@@ -24,7 +24,6 @@ export const Auth = () => {
   const [alert, setAlert] = useState<string | undefined>();
   const [succes, setSucces] = useState<boolean>();
   const navigate = useNavigate({ from: "/auth/login" });
-  const { setToken, setUser } = useAuthStore();
 
   const {
     reset,
@@ -54,9 +53,15 @@ export const Auth = () => {
   const loginVerifyMutation = useMutation({
     mutationFn: loginVerify,
     onSuccess: (data) => {
-      setToken(data.accesToken);
-      setUser(data.user);
-      navigate({ to: "/" });
+      useAuthStore.setState({
+        user: data.user,
+        token: data.accessToken,
+        isInitialized: true,
+      });
+
+      setTimeout(() => {
+        navigate({ to: "/" });
+      }, 0);
     },
     onError: (err) => {
       console.log(err);

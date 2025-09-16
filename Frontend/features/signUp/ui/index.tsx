@@ -23,7 +23,6 @@ import type { AxiosError } from "axios";
 
 export const SignUp = () => {
   const [alert, setAlert] = useState<string | null>();
-  const { setUser, setToken } = useAuthStore();
   const navigate = useNavigate({ from: "/auth/signUp" });
   const [block, setBlock] = useState(false);
 
@@ -53,8 +52,14 @@ export const SignUp = () => {
     mutationFn: verifyUser,
     onSuccess: (response) => {
       if (response.data.success) {
-        setUser(response.data.user);
-        setToken(response.data.accessToken);
+        const { user, accessToken } = response.data;
+        console.log(response);
+        useAuthStore.setState({
+          user,
+          token: accessToken,
+          isInitialized: true,
+        });
+
         navigate({ to: "/" });
       }
     },
