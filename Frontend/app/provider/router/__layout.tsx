@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { Header } from "@/widgets/Header/";
 import { Footer } from "@/widgets/Footer/";
-import { AsideMain } from "@/pages/asides/AsideMain";
+import { Aside } from "@/widgets/Aside";
 
 export const Route = createFileRoute("/__layout")({
   component: MainLayoutRoute,
@@ -18,7 +18,7 @@ function MainLayoutRoute() {
 
         <Outlet />
 
-        <AsideMain />
+        <Aside />
         <Footer />
       </MainLayout>
     </React.Fragment>
