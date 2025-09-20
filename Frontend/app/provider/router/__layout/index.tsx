@@ -5,5 +5,10 @@ export const Route = createFileRoute("/__layout/")({
 });
 
 function Home() {
-  return <div style={{ color: "white" }}>Hello index!</div>;
+  return (
+    <main>
+      hello index
+      <h1>hello index</h1>
+    </main>
+  );
 }

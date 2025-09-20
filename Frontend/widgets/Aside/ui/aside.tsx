@@ -1,9 +1,9 @@
 import { Weather } from "@/entities/weather";
+import styles from "./aside.module.scss";
 
 export const Aside = () => {
   return (
-    <aside>
-      <h1>hello</h1>
+    <aside className={styles.Aside}>
       <Weather />
     </aside>
   );

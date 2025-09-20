@@ -2,9 +2,10 @@
   @include mixinContainer;
 
   //настрока интерфэйса лээ
+  padding-top: 10px;
   display: grid;
-  grid-template-columns: 250px 2fr 1fr;
-  gap: 20px;
+  grid-template-columns: 250px 2fr 350px;
+  gap: 10px;
   margin: 0 auto;
   background-color: var(--color-bg-main);
   height: 100vh;

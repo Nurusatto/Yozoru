@@ -12,6 +12,7 @@
   --color-hover: #5a5d61;
 
   --color-border: #2f3336;
+  --border: var(--color-border) solid 1px;
 
   --font-base: "Segoe UI", sans-serif;
   --font-alt: "Manrope", sans-serif;
@@ -28,8 +29,6 @@
 
   --container-width: #{rem(1200)};
   --container-padding-x: #{rem(20)};
-
-  --border: var(--color-border) solid 1px;
 
   @include tablet {
     --container-width: #{rem(800)};
