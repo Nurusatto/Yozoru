@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { Header } from "@/widgets/Header/";
 import { Footer } from "@/widgets/Footer/";
-import { Aside } from "@/widgets/Aside";
+import { Aside } from "@/widgets/Aside/";
 
 export const Route = createFileRoute("/__layout")({
   component: MainLayoutRoute,

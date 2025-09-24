@@ -7,6 +7,7 @@ import Message from "@svg/Mes.svg?react";
 import { useAuthStore } from "@/app/provider/store/authStore";
 import clsx from "clsx";
 import Settings from "@svg/settings.svg?react";
+import LogOut from "@svg/logOut.svg?react";
 import { useState } from "react";
 
 export const HeaderDesktop = () => {
@@ -40,15 +41,17 @@ export const HeaderDesktop = () => {
         <div className={clsx(styles.HeaderUser)}>
           <div className={clsx(styles.HeaderUserInfo)}>
             <h1 className="h1">{user?.login ?? "User"}</h1>
-            <h2 className="h2">UID: {user?.id ?? "Guest"}</h2>
+            <h2 className="h2">UID: {user?.id ?? " Guest"}</h2>
           </div>
-
-          <Settings
-            height={20}
-            width={20}
-            onClick={() => setDropMenu(!dropMenu)}
-            className={clsx(dropMenu && styles.HeaderUserSpin)}
-          />
+          <div className={styles.HeaderAction}>
+            <LogOut className={styles.HeaderActionLogOut} />
+            <Settings
+              height={20}
+              width={20}
+              onClick={() => setDropMenu(!dropMenu)}
+              className={clsx(dropMenu && styles.HeaderActionSpin)}
+            />
+          </div>
         </div>
       </header>
     </>

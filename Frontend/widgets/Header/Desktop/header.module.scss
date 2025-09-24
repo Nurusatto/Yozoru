@@ -1,4 +1,5 @@
 .Header {
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -67,6 +68,15 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+    }
+  }
+
+  &Action {
+    display: flex;
+    gap: rem(10);
+
+    &LogOut {
+      @include square(rem(20));
     }
 
     &Spin {

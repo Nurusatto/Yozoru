@@ -1,9 +1,27 @@
 .Weather {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: var(--border);
   padding: rem(10);
+  flex-direction: column;
 
   backdrop-filter: blur(10px);
   border-radius: rem(16);
+  min-height: rem(340);
+
+  &Btn {
+    background-color: var(--color-bg-main);
+    border: var(--border);
+    border-radius: rem(20);
+    color: var(--color-accent-alt);
+  }
+
+  &Head {
+    display: flex;
+    flex-direction: column;
+    gap: rem(10);
+  }
 
   &Img {
     border-radius: rem(10);

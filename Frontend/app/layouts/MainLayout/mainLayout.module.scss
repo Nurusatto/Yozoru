@@ -2,18 +2,28 @@
   @include mixinContainer;
 
   //настрока интерфэйса лээ
-  padding-top: 10px;
+
   display: grid;
   grid-template-columns: 250px 2fr 350px;
+
   gap: 10px;
   margin: 0 auto;
   background-color: var(--color-bg-main);
   height: 100vh;
 
-  @include mobile {
-    grid-template-columns: 2fr 1fr;
+  @include tablet {
+    grid-template-columns: 1fr 2fr;
+  }
 
+  @include mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
     footer {
+      grid-column: 1 / -1;
+      height: 200px;
+    }
+
+    main {
       grid-column: 1 / -1;
     }
   }

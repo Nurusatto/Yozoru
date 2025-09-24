@@ -11,21 +11,43 @@ import {
   Wind,
 } from "../../../../shared/svg/weather";
 
-import type { renderStatus, WeatherMain } from "../../model/aside/type";
+import type { WeatherMain } from "../../model/aside/type";
+import type { renderStatus } from "@/shared/types/renderStatus";
 
-const renderStatus = ({ loading, error, requestLocation }: renderStatus) => {
-  if (loading) return <div>Получаю координаты...</div>;
+const renderStatus = ({
+  isInitialLoading,
+  isFetching,
+  error,
+  requestLocation,
+}: {
+  isInitialLoading: boolean;
+  isFetching: boolean;
+  error: string | null;
+  requestLocation: () => void;
+}) => {
+  if (isInitialLoading) return "Определяю координаты...";
   if (error)
     return (
-      <div>
+      <>
         Ошибка: {error}
-        <button onClick={requestLocation}>Попробовать снова</button>
-      </div>
+        <button onClick={requestLocation} className={styles.WeatherBtn}>
+          Попробовать снова
+        </button>
+      </>
     );
+  if (isFetching) return "Обновляю координаты...";
+  return null;
 };
 
 export const Weather = () => {
-  const { coords, error, loading, requestLocation } = useLocation();
+  const {
+    coords,
+    error,
+    isFetching,
+    isInitialLoading,
+    hasCoords,
+    requestLocation,
+  } = useLocation();
 
   const weatherQuery = useWeatherData(
     coords ? { lat: coords.latitude, lon: coords.longitude } : undefined
@@ -35,9 +57,9 @@ export const Weather = () => {
 
   return (
     <div className={styles.Weather}>
-      <div className="WeatherHead">
-        {renderStatus({ error, loading, requestLocation })}
-        {weatherQuery.data && (
+      <div className={styles.WeatherHead}>
+        {renderStatus({ isInitialLoading, isFetching, error, requestLocation })}
+        {hasCoords && weatherQuery.data && (
           <img
             className={styles.WeatherImg}
             src={
@@ -54,7 +76,7 @@ export const Weather = () => {
         {weatherQuery.error && (
           <span>Ошибка: {String(weatherQuery.error)}</span>
         )}
-        {weatherQuery.data && (
+        {hasCoords && weatherQuery.data && (
           <>
             <span>
               <City />
