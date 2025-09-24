@@ -45,7 +45,7 @@ export const DateAside = () => {
         error,
       })}
 
-      <Clock startTime={getTime} />
+      {!isInitialLoading && <Clock startTime={getTime} />}
     </div>
   );
 };
