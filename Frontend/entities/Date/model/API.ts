@@ -1,4 +1,4 @@
-import { url } from "./constant";
+import { url, DateUrl } from "./constant";
 import axios from "axios";
 
 export const getTimeZone = async (lat: number, lon: number) => {
@@ -10,10 +10,7 @@ export const getTimeZone = async (lat: number, lon: number) => {
 };
 
 export const getDate = async (TimeZone: string) => {
-  const res = await axios.get(
-    // `https://timeapi.io/api/TimeZone/zone?timeZone=${TimeZone}`
-    `https://worldtimeapi.org/api/timezone/${TimeZone}`
-  );
+  const res = await axios.get(`${DateUrl}${TimeZone}`);
   console.log(res);
   return res.data;
 };
