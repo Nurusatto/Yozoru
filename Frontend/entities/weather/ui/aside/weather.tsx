@@ -3,16 +3,11 @@ import styles from "./weather.module.scss";
 import { useLocation } from "@/shared/hooks/useLocation";
 import { useWeatherData } from "../../model/aside/query";
 import { weatherIcon } from "../../model/aside/constant";
-import {
-  City,
-  Humdity,
-  Temp,
-  WeatherSVG,
-  Wind,
-} from "../../../../shared/svg/weather";
+import { City, Humdity, Temp, WeatherSVG, Wind } from "@svg/weather";
 
 import type { WeatherMain } from "../../model/aside/type";
 import type { renderStatus } from "@/shared/types/renderStatus";
+import { Button } from "@/shared/ui/ButtonBase";
 
 const renderStatus = ({
   isInitialLoading,
@@ -30,9 +25,9 @@ const renderStatus = ({
     return (
       <>
         Ошибка: {error}
-        <button onClick={requestLocation} className={styles.WeatherBtn}>
+        <Button onClick={requestLocation} className={styles.WeatherBtn}>
           Попробовать снова
-        </button>
+        </Button>
       </>
     );
   if (isFetching) return "Обновляю координаты...";

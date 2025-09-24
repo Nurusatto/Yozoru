@@ -11,7 +11,8 @@ export const getTimeZone = async (lat: number, lon: number) => {
 
 export const getDate = async (TimeZone: string) => {
   const res = await axios.get(
-    `https://timeapi.io/api/TimeZone/zone?timeZone=${TimeZone}`
+    // `https://timeapi.io/api/TimeZone/zone?timeZone=${TimeZone}`
+    `https://worldtimeapi.org/api/timezone/${TimeZone}`
   );
   console.log(res);
   return res.data;

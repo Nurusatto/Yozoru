@@ -5,26 +5,31 @@ import type { InformativeItem } from "../../model/type";
 import { Clock } from "../../model/clock";
 
 import styles from "./Date.module.scss";
+import { Button } from "@/shared/ui/ButtonBase";
 
 const renderStatus = ({
   isInitialLoading,
   error,
   isFetching,
+  requestLocation,
 }: renderStatus) => {
   if (isInitialLoading) return "Определяю координаты...";
-  if (error) return <>Ошибка: {error}</>;
+  if (error)
+    return (
+      <>
+        Ошибка: {error}
+        <Button onClick={requestLocation} className={styles.DateBtn}>
+          Попробовать снова
+        </Button>
+      </>
+    );
   if (isFetching) return "Обновляю местоположение...";
   return null;
 };
 
 export const DateAside = () => {
-  const {
-    coords,
-    isFetching,
-    isInitialLoading,
-
-    error,
-  } = useLocation();
+  const { coords, isFetching, isInitialLoading, requestLocation, error } =
+    useLocation();
 
   const TimeZoneQuery = useTimeZoneQuery(
     coords ? { lat: coords.latitude, lon: coords.longitude } : undefined
@@ -35,7 +40,7 @@ export const DateAside = () => {
   )?.name;
 
   const DateQuery = useDateQuery(Tz);
-  const getTime = DateQuery.data?.currentLocalTime;
+  const getTime = DateQuery.data?.datetime;
 
   return (
     <div className={styles.Date}>
@@ -43,9 +48,10 @@ export const DateAside = () => {
         isFetching,
         isInitialLoading,
         error,
+        requestLocation,
       })}
 
-      {!isInitialLoading && <Clock startTime={getTime} />}
+      {!isInitialLoading && !error && <Clock startTime={getTime} />}
     </div>
   );
 };
