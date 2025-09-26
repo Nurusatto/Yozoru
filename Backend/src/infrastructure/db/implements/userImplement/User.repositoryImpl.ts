@@ -45,11 +45,16 @@ export class UserRepositoryImpl implements UserRepository {
 
 		const hashedPass = await bcrypt.hash(password, 10)
 
+		const userNumber = await redis.incr('User_UID_Count');
+		const UID = `user_${userNumber}`;
+
+
 		const createdUser = await prisma.user.create({
 			data: {
 				login: login,
 				email: email,
-				password: hashedPass
+				password: hashedPass,
+				UID: UID
 			}
 		})
 
@@ -61,7 +66,11 @@ export class UserRepositoryImpl implements UserRepository {
 			createdUser.id,
 			createdUser.login,
 			createdUser.email,
-			''
+			'',
+			'',
+			'',
+			UID,
+			createdUser.views
 		)
 	}
 
@@ -95,11 +104,16 @@ export class UserRepositoryImpl implements UserRepository {
 		await redis.del(`login_code:${email}`)
 		await redis.del(`login_code_extraData:${email}`)
 
+
 		return new User(
 			user.id,
 			user.login,
 			user.email,
-			''
+			'',
+			'',
+			'',
+			user.UID,
+			user.views
 		)
 	}
 
@@ -116,13 +130,17 @@ export class UserRepositoryImpl implements UserRepository {
 	}
 
 	async createGoogleAccount(acc: { sub: string; name: string; email: string; avatar: string }): Promise<User> {
+		const userNumber = await redis.incr('User_UID_Count')
+		const UID = `user_${userNumber}`
+
 		const user = await prisma.user.create({
 			data: {
 				login: acc.name,
 				email: acc.email,
 				googleId: acc.sub,
 				authProvider: "GOOGLE",
-				avatarUrl: acc.avatar
+				avatarUrl: acc.avatar,
+				UID: UID
 			}
 		})
 		return new User(
@@ -131,7 +149,9 @@ export class UserRepositoryImpl implements UserRepository {
 			user.email,
 			null,
 			user.avatarUrl,
-			user.googleId
+			user.googleId,
+			UID,
+			user.views
 		)
 	};
 
@@ -159,7 +179,9 @@ export class UserRepositoryImpl implements UserRepository {
 			user.email,
 			'',
 			user.avatarUrl,
-			user.googleId
+			user.googleId,
+			user.UID,
+			user.views
 		)
 	}
 }

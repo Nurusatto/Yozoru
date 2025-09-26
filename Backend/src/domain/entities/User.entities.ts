@@ -5,7 +5,9 @@ export class User {
 		public email: string,
 		public password: string | null,
 		public avatarUrl?: string | null,
-		public googleId?: string | null
+		public googleId?: string | null,
+		public UID?: string | null,
+		public views?: number | null,
 	) { };
 
 }

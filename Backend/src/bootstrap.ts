@@ -2,7 +2,7 @@
 import { UserRepositoryImpl } from "./infrastructure/db/implements/userImplement/User.repositoryImpl";
 
 // User-Use-Cases
-import { Register } from "./domain/use-cases/User-Cases/Register.use-case";
+import { Register } from "./domain/use-cases/User-Cases/register.use-case";
 import { VerifyRegister } from "./domain/use-cases/User-Cases/verifyRegister.use-case";
 import { Login } from "./domain/use-cases/User-Cases/login.use-case";
 import { VerifyLogin } from "./domain/use-cases/User-Cases/verifyLogin.use-case";
