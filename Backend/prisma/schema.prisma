@@ -10,6 +10,7 @@ datasource db {
 model User {
   id       Int     @id @default(autoincrement())
   login    String
+  UID      String  @unique
   email    String  @unique
   password String?
 
@@ -18,11 +19,38 @@ model User {
 
   avatarUrl String?
 
+  views Int @default(0)
+
+  sentFriendship    Friendship[] @relation("UserSentFriendships")
+  recivedFriendship Friendship[] @relation("UserReceivedFriendships")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Friendship {
+  id Int @default(autoincrement())
+
+  requesterId Int
+  requester   User @relation("UserSentFriendships", fields: [requesterId], references: [id], onDelete: Cascade)
+
+  addresseeId Int
+  addressee   User @relation("UserReceivedFriendships", fields: [addresseeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([requesterId, addresseeId])
 }
 
 enum AuthProvider {
   LOCAL
   GOOGLE
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  BLOCKED
 }
