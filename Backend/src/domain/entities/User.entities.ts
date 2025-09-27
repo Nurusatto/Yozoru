@@ -12,5 +12,24 @@ export class User {
 
 }
 
+export class UserWithFriends extends User {
+	constructor(
+		public user: User,
+		public friends: User[]
+	) {
+		super(
+			user.id,
+			user.login, 
+			user.email,
+			user.password,
+			user.avatarUrl,
+			user.googleId,
+			user.UID,
+			user.views,
+		)
+	};
+
+}
+
 export type registerDTO = Omit<User, 'id'>
 export type logindDTO = Omit<User, 'id' | 'login'>

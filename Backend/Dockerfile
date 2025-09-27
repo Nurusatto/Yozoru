@@ -48,7 +48,7 @@ RUN echo '#!/bin/sh' > /app/start.sh && \
     echo 'echo "Waiting for database..."' >> /app/start.sh && \
     echo 'sleep 10' >> /app/start.sh && \
     echo 'echo "Running database migrations..."' >> /app/start.sh && \
-    echo 'npx prisma db push' >> /app/start.sh && \
+    echo 'npx prisma migrate deploy' >> /app/start.sh && \
     echo 'echo "Starting application..."' >> /app/start.sh && \
     echo 'node dist/server.js' >> /app/start.sh && \
     chmod +x /app/start.sh
