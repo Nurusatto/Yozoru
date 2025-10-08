@@ -3,7 +3,7 @@ import redisClient from './infrastructure/db/redis/redis-client'
 import http from "http"
 
 import dotenv from 'dotenv'
-import { Server, Socket } from 'socket.io'
+import { Server } from 'socket.io'
 dotenv.config()
 
 const start = async () => {

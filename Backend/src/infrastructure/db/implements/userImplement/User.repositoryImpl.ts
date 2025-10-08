@@ -45,8 +45,8 @@ export class UserRepositoryImpl implements UserRepository {
 
 		const hashedPass = await bcrypt.hash(password, 10)
 
-		const userNumber = await redis.incr('User_UID_Count');
-		const UID = `user_${userNumber}`;
+		const userNumber = await redis.incr('User_UID_Count')
+		const UID = `user_${userNumber}`
 
 
 		const createdUser = await prisma.user.create({
@@ -182,6 +182,210 @@ export class UserRepositoryImpl implements UserRepository {
 			user.googleId,
 			user.UID,
 			user.views
+		)
+	}
+
+	async getUserFriends(userId: number): Promise<User[]> {
+		const userFriends = await prisma.user.findUnique({
+			where: { id: userId },
+			include: {
+				sentFriendship: {
+					where: { status: 'ACCEPTED' },
+					include: { addressee: true }
+				},
+				recivedFriendship: {
+					where: { status: 'ACCEPTED' },
+					include: { requester: true }
+				}
+			}
+		})
+
+		if (!userFriends) {
+			return []
+		}
+
+		const friends = [
+			...userFriends.sentFriendship.map(f => new User(
+				f.addressee.id,
+				f.addressee.login,
+				f.addressee.email,
+				'',
+				f.addressee.avatarUrl,
+				f.addressee.googleId,
+				f.addressee.UID,
+				f.addressee.views
+			)),
+			...userFriends.recivedFriendship.map(f => new User(
+				f.requester.id,
+				f.requester.login,
+				f.requester.email,
+				'',
+				f.requester.avatarUrl,
+				f.requester.googleId,
+				f.requester.UID,
+				f.requester.views
+			))
+		]
+
+		return friends
+	}
+
+	async sendedRequestList(userId: number): Promise<User[]> {
+		const userSendedRequsetFriends = await prisma.user.findUnique({
+			where: { id: userId },
+			include: {
+				sentFriendship: {
+					where: { status: "PENDING" },
+					include: { addressee: true }
+				}
+			}
+		})
+
+		if (!userSendedRequsetFriends) {
+			return []
+		}
+
+		const friends = [
+			...userSendedRequsetFriends.sentFriendship.map(f => new User(
+				f.addressee.id,
+				f.addressee.login,
+				f.addressee.email,
+				'',
+				f.addressee.avatarUrl,
+				f.addressee.googleId,
+				f.addressee.UID,
+				f.addressee.views
+			))
+		]
+
+		return friends
+	}
+
+	async receivedRequestList(userId: number): Promise<User[]> {
+		const userRecivedRequsetFriends = await prisma.user.findUnique({
+			where: { id: userId },
+			include: {
+				recivedFriendship: {
+					where: { status: "PENDING" },
+					include: { addressee: true }
+				}
+			}
+		})
+
+		if (!userRecivedRequsetFriends) {
+			return []
+		}
+
+		const friends = [
+			...userRecivedRequsetFriends.recivedFriendship.map(f => new User(
+				f.addressee.id,
+				f.addressee.login,
+				f.addressee.email,
+				'',
+				f.addressee.avatarUrl,
+				f.addressee.googleId,
+				f.addressee.UID,
+				f.addressee.views
+			))
+		]
+
+		return friends
+	}
+
+	async sentFriendRequest(reciveUser: User, userId: number): Promise<User> {
+		const sendRequest = await prisma.friendship.create({
+			data: {
+				requesterId: userId,
+				addresseeId: reciveUser.id,
+				status: "PENDING"
+			}
+		})
+		return new User(
+			reciveUser.id,
+			reciveUser.login,
+			'',
+			'',
+			reciveUser.avatarUrl,
+			'',
+			reciveUser.UID
+		)
+	}
+
+	async acceptFriendRequest(user: User, recivedUser: string): Promise<User> {
+
+		const receivedUser = await prisma.user.findUnique({
+			where: { UID: recivedUser }
+		})
+
+		if (!receivedUser) {
+			throw new CannotFindUserId()
+		}
+
+		const request = await prisma.friendship.findFirst({
+			where: {
+				requesterId: receivedUser.id,
+				addresseeId: user.id,
+				status: "PENDING"
+			}
+		})
+
+		if (!request) {
+			throw new Error("Запрос дружбы не найден или уже обработан")
+		}
+
+		await prisma.friendship.update({
+			where: { id: request.id },
+			data: { status: "ACCEPTED" }
+		})
+
+		return new User(
+			receivedUser.id,
+			receivedUser.login,
+			receivedUser.email,
+			'',
+			receivedUser.avatarUrl,
+			receivedUser.googleId,
+			receivedUser.UID,
+			receivedUser.views
+		)
+	}
+
+	async declineFriendRequest(user: User, recivedUser: string): Promise<User> {
+		const receivedUser = await prisma.user.findUnique({
+			where: { UID: recivedUser }
+		})
+
+		if (!receivedUser) {
+
+			throw new CannotFindUserId()
+		}
+
+		const request = await prisma.friendship.findFirst({
+			where: {
+				requesterId: receivedUser.id,
+				addresseeId: user.id,
+				status: "PENDING"
+			}
+		})
+
+		if (!request) {
+			throw new Error("Запрос дружбы не найден или уже обработан")
+		}
+
+		await prisma.friendship.update({
+			where: { id: request.id },
+			data: { status: "DECLINED" }
+		})
+
+		return new User(
+			receivedUser.id,
+			receivedUser.login,
+			receivedUser.email,
+			'',
+			receivedUser.avatarUrl,
+			receivedUser.googleId,
+			receivedUser.UID,
+			receivedUser.views
 		)
 	}
 }
