@@ -267,7 +267,7 @@ export class UserRepositoryImpl implements UserRepository {
 			include: {
 				recivedFriendship: {
 					where: { status: "PENDING" },
-					include: { addressee: true }
+					include: { requester: true }
 				}
 			}
 		})
@@ -278,36 +278,68 @@ export class UserRepositoryImpl implements UserRepository {
 
 		const friends = [
 			...userRecivedRequsetFriends.recivedFriendship.map(f => new User(
-				f.addressee.id,
-				f.addressee.login,
-				f.addressee.email,
+				f.requester.id,
+				f.requester.login,
+				f.requester.email,
 				'',
-				f.addressee.avatarUrl,
-				f.addressee.googleId,
-				f.addressee.UID,
-				f.addressee.views
+				f.requester.avatarUrl,
+				f.requester.googleId,
+				f.requester.UID,
+				f.requester.views
 			))
 		]
 
 		return friends
 	}
 
-	async sentFriendRequest(reciveUser: User, userId: number): Promise<User> {
-		const sendRequest = await prisma.friendship.create({
+	async sentFriendRequest(receiveUserUID: string, userId: number): Promise<User> {
+		const receiveUser = await prisma.user.findUnique({
+			where: { UID: receiveUserUID }
+		})
+
+		if (!receiveUser) {
+			throw new CannotFindUserId()
+		}
+
+		if (receiveUser.id === userId) {
+			throw new Error("Вы не можете отправить запрос самому себе")
+		}
+
+		const existingFriendship = await prisma.friendship.findFirst({
+			where: {
+				OR: [
+					{ requesterId: userId, addresseeId: receiveUser.id },
+					{ requesterId: receiveUser.id, addresseeId: userId }
+				]
+			}
+		})
+
+		if (existingFriendship) {
+			if (existingFriendship.status === "ACCEPTED") {
+				throw new Error("Вы уже друзья с этим пользователем")
+			}
+			if (existingFriendship.status === "PENDING") {
+				throw new Error("Запрос дружбы уже отправлен")
+			}
+		}
+
+		await prisma.friendship.create({
 			data: {
 				requesterId: userId,
-				addresseeId: reciveUser.id,
+				addresseeId: receiveUser.id,
 				status: "PENDING"
 			}
 		})
+
 		return new User(
-			reciveUser.id,
-			reciveUser.login,
+			receiveUser.id,
+			receiveUser.login,
+			receiveUser.email,
 			'',
-			'',
-			reciveUser.avatarUrl,
-			'',
-			reciveUser.UID
+			receiveUser.avatarUrl,
+			receiveUser.googleId,
+			receiveUser.UID,
+			receiveUser.views
 		)
 	}
 
@@ -356,7 +388,6 @@ export class UserRepositoryImpl implements UserRepository {
 		})
 
 		if (!receivedUser) {
-
 			throw new CannotFindUserId()
 		}
 
@@ -372,9 +403,8 @@ export class UserRepositoryImpl implements UserRepository {
 			throw new Error("Запрос дружбы не найден или уже обработан")
 		}
 
-		await prisma.friendship.update({
-			where: { id: request.id },
-			data: { status: "DECLINED" }
+		await prisma.friendship.delete({
+			where: { id: request.id }
 		})
 
 		return new User(
@@ -387,5 +417,79 @@ export class UserRepositoryImpl implements UserRepository {
 			receivedUser.UID,
 			receivedUser.views
 		)
+	}
+
+	async findUserByUID(UID: string): Promise<User | null> {
+		const user = await prisma.user.findUnique({
+			where: { UID: UID }
+		})
+
+		if (!user) {
+			return null
+		}
+
+		return new User(
+			user.id,
+			user.login,
+			user.email,
+			'',
+			user.avatarUrl,
+			user.googleId,
+			user.UID,
+			user.views
+		)
+	}
+
+	async removeFriend(userId: number, friendUID: string): Promise<void> {
+		const friend = await prisma.user.findUnique({
+			where: { UID: friendUID }
+		})
+
+		if (!friend) {
+			throw new CannotFindUserId()
+		}
+
+		const friendship = await prisma.friendship.findFirst({
+			where: {
+				OR: [
+					{ requesterId: userId, addresseeId: friend.id, status: "ACCEPTED" },
+					{ requesterId: friend.id, addresseeId: userId, status: "ACCEPTED" }
+				]
+			}
+		})
+
+		if (!friendship) {
+			throw new Error("Дружба не найдена")
+		}
+
+		await prisma.friendship.delete({
+			where: { id: friendship.id }
+		})
+	}
+
+	async cancelSentRequest(userId: number, addresseeUID: string): Promise<void> {
+		const addressee = await prisma.user.findUnique({
+			where: { UID: addresseeUID }
+		})
+
+		if (!addressee) {
+			throw new CannotFindUserId()
+		}
+
+		const request = await prisma.friendship.findFirst({
+			where: {
+				requesterId: userId,
+				addresseeId: addressee.id,
+				status: "PENDING"
+			}
+		})
+
+		if (!request) {
+			throw new Error("Запрос не найден")
+		}
+
+		await prisma.friendship.delete({
+			where: { id: request.id }
+		})
 	}
 }

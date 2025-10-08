@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { acceptFriendRequest, createAccess, createRefresh, declineFriendRequest, getUserById, getUserFriends, googleAuth, login, receivedRequestList, register, sendedRequestList, sentFriendRequest, verifyLogin, verifyRegister } from '../../bootstrap'
+import { acceptFriendRequest, cancelSentRequest, createAccess, createRefresh, declineFriendRequest, findUserByUID, getUserById, getUserFriends, googleAuth, login, receivedRequestList, register, removeFriend, sendedRequestList, sentFriendRequest, verifyLogin, verifyRegister } from '../../bootstrap'
 import { User } from '../../domain/entities/User.entities'
 
 import { Cookie_Expired_Or_NotFound } from '../errors/errorTypes/Cookies-Errors'
@@ -171,8 +171,8 @@ export const UserController = {
 
 	async sentFriendRequest(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { receiveUser } = req.body
-			const result = await sentFriendRequest.execute(receiveUser, req.userId)
+			const { receiveUserUID } = req.body
+			const result = await sentFriendRequest.execute(receiveUserUID, req.userId)
 
 			res.status(200).json({
 				success: true,
@@ -258,6 +258,55 @@ export const UserController = {
 			res.status(200).json({
 				success: true,
 				requests: requests
+			})
+		} catch (err) {
+			next(err)
+		}
+	},
+
+	async findUserByUID(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { UID } = req.params
+			const user = await findUserByUID.execute(UID)
+
+			if (!user) {
+				return res.status(404).json({
+					success: false,
+					message: "Пользователь не найден"
+				})
+			}
+
+			res.status(200).json({
+				success: true,
+				user: user
+			})
+		} catch (err) {
+			next(err)
+		}
+	},
+
+	async removeFriend(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { friendUID } = req.body
+			await removeFriend.execute(req.userId, friendUID)
+
+			res.status(200).json({
+				success: true,
+				message: "Пользователь удален из друзей"
+			})
+		} catch (err) {
+			next(err)
+		}
+	},
+
+	async cancelSentRequest(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { addresseeUID } = req.body
+			await cancelSentRequest.execute(req.userId, addresseeUID)
+
+			res.status(200).json({
+				success: true,
+				message: "Запрос дружбы отменен"
 			})
 		} catch (err) {
 			next(err)

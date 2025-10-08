@@ -1,10 +1,10 @@
 import { User } from '../../entities/User.entities'
 import { UserRepository } from '../../repositories/User.repository'
 
-export class SentFriendRequest {
+export class FindUserByUID {
 	constructor(private userRepo: UserRepository) { }
 
-	async execute(receiveUserUID: string, userId: number): Promise<User> {
-		return await this.userRepo.sentFriendRequest(receiveUserUID, userId)
+	async execute(UID: string): Promise<User | null> {
+		return await this.userRepo.findUserByUID(UID)
 	}
 }
