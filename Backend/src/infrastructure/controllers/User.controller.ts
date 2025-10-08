@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
-import { createAccess, createRefresh, getUserById, googleAuth, login, register, verifyLogin, verifyRegister } from '../../bootstrap'
+import { acceptFriendRequest, createAccess, createRefresh, declineFriendRequest, getUserById, getUserFriends, googleAuth, login, receivedRequestList, register, sendedRequestList, sentFriendRequest, verifyLogin, verifyRegister } from '../../bootstrap'
+import { User } from '../../domain/entities/User.entities'
 
 import { Cookie_Expired_Or_NotFound } from '../errors/errorTypes/Cookies-Errors'
 import { getGoogleClient } from '../providers/googleClient'
@@ -153,6 +154,113 @@ export const UserController = {
 		} catch (err) {
 			next(err)
 		}
-	}
+	},
 
+	async getUserFriends(req: Request, res: Response, next: NextFunction) {
+		try {
+			const friends = await getUserFriends.execute(req.userId)
+
+			res.status(200).json({
+				success: true,
+				friends: friends
+			})
+		} catch (err) {
+			next(err)
+		}
+	},
+
+	async sentFriendRequest(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { receiveUser } = req.body
+			const result = await sentFriendRequest.execute(receiveUser, req.userId)
+
+			res.status(200).json({
+				success: true,
+				message: "Запрос дружбы отправлен",
+				user: result
+			})
+		} catch (err) {
+			next(err)
+		}
+	},
+
+	async acceptFriendRequest(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { receivedUser } = req.body
+			const currentUser = await getUserById.execute(req.userId)
+			// Создаем полный объект User для передачи в use-case
+			const fullUser = new User(
+				currentUser.id,
+				currentUser.login,
+				currentUser.email,
+				'', // password не нужен для этой операции
+				currentUser.avatarUrl,
+				currentUser.googleId,
+				currentUser.UID,
+				currentUser.views
+			)
+			const result = await acceptFriendRequest.execute(fullUser, receivedUser)
+
+			res.status(200).json({
+				success: true,
+				message: "Запрос дружбы принят",
+				user: result
+			})
+		} catch (err) {
+			next(err)
+		}
+	},
+
+	async declineFriendRequest(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { receivedUser } = req.body
+			const currentUser = await getUserById.execute(req.userId)
+			// Создаем полный объект User для передачи в use-case
+			const fullUser = new User(
+				currentUser.id,
+				currentUser.login,
+				currentUser.email,
+				'', // password не нужен для этой операции
+				currentUser.avatarUrl,
+				currentUser.googleId,
+				currentUser.UID,
+				currentUser.views
+			)
+			const result = await declineFriendRequest.execute(fullUser, receivedUser)
+
+			res.status(200).json({
+				success: true,
+				message: "Запрос дружбы отклонен",
+				user: result
+			})
+		} catch (err) {
+			next(err)
+		}
+	},
+
+	async getReceivedRequests(req: Request, res: Response, next: NextFunction) {
+		try {
+			const requests = await receivedRequestList.execute(req.userId)
+
+			res.status(200).json({
+				success: true,
+				requests: requests
+			})
+		} catch (err) {
+			next(err)
+		}
+	},
+
+	async getSendedRequests(req: Request, res: Response, next: NextFunction) {
+		try {
+			const requests = await sendedRequestList.execute(req.userId)
+
+			res.status(200).json({
+				success: true,
+				requests: requests
+			})
+		} catch (err) {
+			next(err)
+		}
+	}
 }

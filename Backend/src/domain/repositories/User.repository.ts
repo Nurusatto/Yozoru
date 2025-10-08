@@ -23,4 +23,18 @@ export interface UserRepository {
 
 	// Another funcitons
 	findUserById(userId: number): Promise<Omit<User, 'password'>>
+
+	// Online Functions
+
+	// Show Friends Requsets / Show Friends
+	getUserFriends(userId: number): Promise <User[]>
+	receivedRequestList(userId: number): Promise <User[]>
+	sendedRequestList(userId: number): Promise <User[]>
+
+	// Friends Functions
+	sentFriendRequest(reciveUser: User, userId: number): Promise <User>
+	acceptFriendRequest(user: User, recivedUser: string): Promise <User>
+	declineFriendRequest(user: User, recivedUser: string): Promise <User>
+	
+
 }
