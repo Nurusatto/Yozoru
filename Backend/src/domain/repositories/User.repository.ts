@@ -32,9 +32,12 @@ export interface UserRepository {
 	sendedRequestList(userId: number): Promise <User[]>
 
 	// Friends Functions
-	sentFriendRequest(reciveUser: User, userId: number): Promise <User>
-	acceptFriendRequest(user: User, recivedUser: string): Promise <User>
-	declineFriendRequest(user: User, recivedUser: string): Promise <User>
+	sentFriendRequest(receiveUserUID: string, userId: number): Promise<User>
+	acceptFriendRequest(user: User, recivedUser: string): Promise<User>
+	declineFriendRequest(user: User, recivedUser: string): Promise<User>
+	removeFriend(userId: number, friendUID: string): Promise<void>
+	cancelSentRequest(userId: number, addresseeUID: string): Promise<void>
 	
-
+	// Search Users
+	findUserByUID(UID: string): Promise<User | null>
 }

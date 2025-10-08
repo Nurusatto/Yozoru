@@ -22,7 +22,12 @@ router.get('/friends', authVerify, UserController.getUserFriends)
 router.post('/friends/send-request', authVerify, UserController.sentFriendRequest)
 router.post('/friends/accept-request', authVerify, UserController.acceptFriendRequest)
 router.post('/friends/decline-request', authVerify, UserController.declineFriendRequest)
+router.delete('/friends/remove', authVerify, UserController.removeFriend)
+router.delete('/friends/cancel-request', authVerify, UserController.cancelSentRequest)
 router.get('/friends/received-requests', authVerify, UserController.getReceivedRequests)
 router.get('/friends/sended-requests', authVerify, UserController.getSendedRequests)
+
+// User search
+router.get('/users/:UID', authVerify, UserController.findUserByUID)
 
 export default router
