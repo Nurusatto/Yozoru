@@ -1,18 +1,15 @@
 .MainLayout {
   @include mixinContainer;
-
-  //настрока интерфэйса лээ
-
+  --container-padding-x: 0;
   display: grid;
-  grid-template-columns: 250px 2fr 350px;
+  grid-template-columns: 250px minmax(0, 2fr) 350px;
 
-  gap: 10px;
   margin: 0 auto;
   background-color: var(--color-bg-main);
   height: 100vh;
 
   @include tablet {
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr minmax(0, 2fr);
   }
 
   @include mobile {
@@ -25,6 +22,7 @@
 
     main {
       grid-column: 1 / -1;
+      min-width: 0;
     }
   }
 

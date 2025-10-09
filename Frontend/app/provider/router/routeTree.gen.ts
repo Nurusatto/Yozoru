@@ -17,7 +17,9 @@ import { Route as AuthSignUpRouteImport } from './auth/signUp'
 import { Route as AuthLoginRouteImport } from './auth/login'
 import { Route as Auth_layoutRouteImport } from './auth/__layout'
 import { Route as AuthForgotPasswordRouteImport } from './auth/ForgotPassword'
+import { Route as _layoutProfileRouteImport } from './__layout/profile'
 import { Route as _layoutMessageRouteImport } from './__layout/message'
+import { Route as _layoutFriendRouteImport } from './__layout/friend'
 
 const AuthRouteImport = createFileRoute('/auth')()
 
@@ -54,14 +56,26 @@ const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   path: '/auth/ForgotPassword',
   getParentRoute: () => rootRouteImport,
 } as any)
+const _layoutProfileRoute = _layoutProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => _layoutRoute,
+} as any)
 const _layoutMessageRoute = _layoutMessageRouteImport.update({
   id: '/message',
   path: '/message',
   getParentRoute: () => _layoutRoute,
 } as any)
+const _layoutFriendRoute = _layoutFriendRouteImport.update({
+  id: '/friend',
+  path: '/friend',
+  getParentRoute: () => _layoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/friend': typeof _layoutFriendRoute
   '/message': typeof _layoutMessageRoute
+  '/profile': typeof _layoutProfileRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
   '/auth': typeof Auth_layoutRoute
   '/auth/login': typeof AuthLoginRoute
@@ -69,7 +83,9 @@ export interface FileRoutesByFullPath {
   '/': typeof _layoutIndexRoute
 }
 export interface FileRoutesByTo {
+  '/friend': typeof _layoutFriendRoute
   '/message': typeof _layoutMessageRoute
+  '/profile': typeof _layoutProfileRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
   '/auth': typeof Auth_layoutRoute
   '/auth/login': typeof AuthLoginRoute
@@ -79,7 +95,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/__layout': typeof _layoutRouteWithChildren
+  '/__layout/friend': typeof _layoutFriendRoute
   '/__layout/message': typeof _layoutMessageRoute
+  '/__layout/profile': typeof _layoutProfileRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
   '/auth': typeof AuthRouteWithChildren
   '/auth/__layout': typeof Auth_layoutRoute
@@ -90,7 +108,9 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/friend'
     | '/message'
+    | '/profile'
     | '/auth/ForgotPassword'
     | '/auth'
     | '/auth/login'
@@ -98,7 +118,9 @@ export interface FileRouteTypes {
     | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/friend'
     | '/message'
+    | '/profile'
     | '/auth/ForgotPassword'
     | '/auth'
     | '/auth/login'
@@ -107,7 +129,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/__layout'
+    | '/__layout/friend'
     | '/__layout/message'
+    | '/__layout/profile'
     | '/auth/ForgotPassword'
     | '/auth'
     | '/auth/__layout'
@@ -173,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/__layout/profile': {
+      id: '/__layout/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof _layoutProfileRouteImport
+      parentRoute: typeof _layoutRoute
+    }
     '/__layout/message': {
       id: '/__layout/message'
       path: '/message'
@@ -180,16 +211,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutMessageRouteImport
       parentRoute: typeof _layoutRoute
     }
+    '/__layout/friend': {
+      id: '/__layout/friend'
+      path: '/friend'
+      fullPath: '/friend'
+      preLoaderRoute: typeof _layoutFriendRouteImport
+      parentRoute: typeof _layoutRoute
+    }
   }
 }
 
 interface _layoutRouteChildren {
+  _layoutFriendRoute: typeof _layoutFriendRoute
   _layoutMessageRoute: typeof _layoutMessageRoute
+  _layoutProfileRoute: typeof _layoutProfileRoute
   _layoutIndexRoute: typeof _layoutIndexRoute
 }
 
 const _layoutRouteChildren: _layoutRouteChildren = {
+  _layoutFriendRoute: _layoutFriendRoute,
   _layoutMessageRoute: _layoutMessageRoute,
+  _layoutProfileRoute: _layoutProfileRoute,
   _layoutIndexRoute: _layoutIndexRoute,
 }
 

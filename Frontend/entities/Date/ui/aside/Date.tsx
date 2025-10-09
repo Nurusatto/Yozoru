@@ -51,7 +51,18 @@ export const DateAside = () => {
         requestLocation,
       })}
 
-      {!isInitialLoading && !error && <Clock startTime={getTime} />}
+      {!isInitialLoading && !DateQuery.error && <Clock startTime={getTime} />}
+      {DateQuery.isError && (
+        <>
+          <p style={{ marginBottom: "5px" }}>{DateQuery.error.message}</p>
+          <Button
+            className={styles.DateBtn}
+            onClick={() => DateQuery.refetch()}
+          >
+            попробовать снова
+          </Button>
+        </>
+      )}
     </div>
   );
 };

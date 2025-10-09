@@ -1,0 +1,29 @@
+.Profile {
+  display: flex;
+  flex-direction: column;
+  &Promo {
+    display: flex;
+    align-items: center;
+    padding-left: rem(16);
+    padding-right: rem(16);
+    padding-block: rem(5);
+    border-bottom: var(--border);
+    height: rem(50);
+    gap: rem(25);
+
+    &Svg {
+      @include square(rem(24));
+      flex: 0 0 5%;
+    }
+
+    &Info {
+      display: flex;
+      flex-direction: column;
+      flex: 0 0 80%;
+
+      > h1 {
+        margin: 0;
+      }
+    }
+  }
+}

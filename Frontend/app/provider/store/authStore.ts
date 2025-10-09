@@ -1,6 +1,8 @@
 import { create } from "zustand";
 
 type UserData = {
+  UID: string;
+  views: number;
   avatarUrl?: string;
   googleId?: string;
   id: number;
