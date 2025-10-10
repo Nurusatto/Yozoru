@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     gap: rem(20);
+    transition: all 0.3s ease;
   }
 
   &Nav {
@@ -27,10 +28,14 @@
       transition-duration: var(--transition-duration);
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: rem(20);
       border-radius: 9999px;
       padding: rem(12);
       height: rem(50);
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
 
       @include hover {
         background-color: var(--color-hover);
@@ -44,6 +49,23 @@
           transform: scale(1.1);
           filter: drop-shadow(0 0 4px white);
           transform: rotate(5deg) scale(1.1);
+        }
+      }
+
+      > h2 {
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+      }
+
+      @media (max-width: 1200px) {
+        > h2 {
+          transform: translateX(-100%);
+          opacity: 0;
+          pointer-events: none;
+          width: 0;
+          height: 0;
+          position: absolute;
         }
       }
     }
@@ -61,16 +83,34 @@
     margin-bottom: 5px;
     align-items: center;
 
+    @media (max-width: 1200px) {
+      width: 100%;
+      justify-content: center;
+    }
+
     &Info {
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      @media (max-width: 1200px) {
+        transform: translateX(-100%);
+        opacity: 0;
+        pointer-events: none;
+        width: 0;
+        height: 0;
+      }
     }
   }
 
   &Action {
     display: flex;
     gap: rem(10);
+
+    @media (max-width: 1200px) {
+      flex-direction: column;
+      gap: rem(10);
+    }
 
     &LogOut {
       @include square(rem(20));
