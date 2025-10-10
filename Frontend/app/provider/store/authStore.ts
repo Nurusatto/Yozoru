@@ -4,6 +4,7 @@ type UserData = {
   UID: string;
   views: number;
   avatarUrl?: string;
+  bannerUrl?: string;
   googleId?: string;
   id: number;
   email: string;
