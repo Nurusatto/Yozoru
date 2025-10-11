@@ -33,10 +33,10 @@ export interface UserRepository {
 
 	// Friends Functions
 	sentFriendRequest(receiveUserUID: string, userId: number): Promise<User>
-	acceptFriendRequest(userId: number, recivedUser: string): Promise<User>
-	declineFriendRequest(userId: number, recivedUser: string): Promise<User>
-	removeFriend(userId: number, friendUID: string): Promise<void>
-	cancelSentRequest(userId: number, addresseeUID: string): Promise<void>
+	acceptFriendRequest(recivedUser: string, userId: number): Promise<User>
+	declineFriendRequest(recivedUser: string, userId: number): Promise<User>
+	removeFriend(friendUID: string, userId: number): Promise<void>
+	cancelSentRequest(addresseeUID: string, userId: number): Promise<void>
 
 	// Search Users
 	findUserByUID(UID: string): Promise<User | null>
