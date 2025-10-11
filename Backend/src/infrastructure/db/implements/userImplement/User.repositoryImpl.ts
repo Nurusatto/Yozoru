@@ -343,7 +343,7 @@ export class UserRepositoryImpl implements UserRepository {
 		)
 	}
 
-	async acceptFriendRequest(user: User, recivedUser: string): Promise<User> {
+	async acceptFriendRequest(userId: number, recivedUser: string): Promise<User> {
 
 		const receivedUser = await prisma.user.findUnique({
 			where: { UID: recivedUser }
@@ -356,7 +356,7 @@ export class UserRepositoryImpl implements UserRepository {
 		const request = await prisma.friendship.findFirst({
 			where: {
 				requesterId: receivedUser.id,
-				addresseeId: user.id,
+				addresseeId: userId,
 				status: "PENDING"
 			}
 		})
@@ -382,7 +382,7 @@ export class UserRepositoryImpl implements UserRepository {
 		)
 	}
 
-	async declineFriendRequest(user: User, recivedUser: string): Promise<User> {
+	async declineFriendRequest(userId: number, recivedUser: string): Promise<User> {
 		const receivedUser = await prisma.user.findUnique({
 			where: { UID: recivedUser }
 		})
@@ -394,7 +394,7 @@ export class UserRepositoryImpl implements UserRepository {
 		const request = await prisma.friendship.findFirst({
 			where: {
 				requesterId: receivedUser.id,
-				addresseeId: user.id,
+				addresseeId: userId,
 				status: "PENDING"
 			}
 		})

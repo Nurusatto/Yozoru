@@ -20,6 +20,7 @@ model User {
   avatarUrl String?
 
   views Int @default(0)
+  bannerUrl String?
 
   sentFriendship    Friendship[] @relation("UserSentFriendships")
   recivedFriendship Friendship[] @relation("UserReceivedFriendships")
