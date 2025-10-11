@@ -186,7 +186,7 @@ export const UserController = {
 	async acceptFriendRequest(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { receivedUser } = req.body
-			const result = await acceptFriendRequest.execute(req.userId, receivedUser)
+			const result = await acceptFriendRequest.execute(receivedUser, req.userId)
 
 			res.status(200).json({
 				success: true,
@@ -201,7 +201,7 @@ export const UserController = {
 	async declineFriendRequest(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { receivedUser } = req.body
-			const result = await declineFriendRequest.execute(req.userId, receivedUser)
+			const result = await declineFriendRequest.execute(receivedUser, req.userId)
 
 			res.status(200).json({
 				success: true,
@@ -263,7 +263,7 @@ export const UserController = {
 	async removeFriend(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { friendUID } = req.body
-			await removeFriend.execute(req.userId, friendUID)
+			await removeFriend.execute(friendUID, req.userId)
 
 			res.status(200).json({
 				success: true,
@@ -277,7 +277,7 @@ export const UserController = {
 	async cancelSentRequest(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { addresseeUID } = req.body
-			await cancelSentRequest.execute(req.userId, addresseeUID)
+			await cancelSentRequest.execute(addresseeUID, req.userId)
 
 			res.status(200).json({
 				success: true,
