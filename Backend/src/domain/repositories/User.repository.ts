@@ -27,17 +27,17 @@ export interface UserRepository {
 	// Online Functions
 
 	// Show Friends Requsets / Show Friends
-	getUserFriends(userId: number): Promise <User[]>
-	receivedRequestList(userId: number): Promise <User[]>
-	sendedRequestList(userId: number): Promise <User[]>
+	getUserFriends(userId: number): Promise<User[]>
+	receivedRequestList(userId: number): Promise<User[]>
+	sendedRequestList(userId: number): Promise<User[]>
 
 	// Friends Functions
 	sentFriendRequest(receiveUserUID: string, userId: number): Promise<User>
-	acceptFriendRequest(user: User, recivedUser: string): Promise<User>
-	declineFriendRequest(user: User, recivedUser: string): Promise<User>
-	removeFriend(userId: number, friendUID: string): Promise<void>
-	cancelSentRequest(userId: number, addresseeUID: string): Promise<void>
-	
+	acceptFriendRequest(recivedUser: string, userId: number): Promise<User>
+	declineFriendRequest(recivedUser: string, userId: number): Promise<User>
+	removeFriend(friendUID: string, userId: number): Promise<void>
+	cancelSentRequest(addresseeUID: string, userId: number): Promise<void>
+
 	// Search Users
 	findUserByUID(UID: string): Promise<User | null>
 }

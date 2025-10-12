@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
 import { acceptFriendRequest, cancelSentRequest, createAccess, createRefresh, declineFriendRequest, findUserByUID, getUserById, getUserFriends, googleAuth, login, receivedRequestList, register, removeFriend, sendedRequestList, sentFriendRequest, verifyLogin, verifyRegister } from '../../bootstrap'
-import { User } from '../../domain/entities/User.entities'
 
 import { Cookie_Expired_Or_NotFound } from '../errors/errorTypes/Cookies-Errors'
 import { getGoogleClient } from '../providers/googleClient'
@@ -187,19 +186,7 @@ export const UserController = {
 	async acceptFriendRequest(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { receivedUser } = req.body
-			const currentUser = await getUserById.execute(req.userId)
-			// Создаем полный объект User для передачи в use-case
-			const fullUser = new User(
-				currentUser.id,
-				currentUser.login,
-				currentUser.email,
-				'', // password не нужен для этой операции
-				currentUser.avatarUrl,
-				currentUser.googleId,
-				currentUser.UID,
-				currentUser.views
-			)
-			const result = await acceptFriendRequest.execute(fullUser, receivedUser)
+			const result = await acceptFriendRequest.execute(receivedUser, req.userId)
 
 			res.status(200).json({
 				success: true,
@@ -214,19 +201,7 @@ export const UserController = {
 	async declineFriendRequest(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { receivedUser } = req.body
-			const currentUser = await getUserById.execute(req.userId)
-			// Создаем полный объект User для передачи в use-case
-			const fullUser = new User(
-				currentUser.id,
-				currentUser.login,
-				currentUser.email,
-				'', // password не нужен для этой операции
-				currentUser.avatarUrl,
-				currentUser.googleId,
-				currentUser.UID,
-				currentUser.views
-			)
-			const result = await declineFriendRequest.execute(fullUser, receivedUser)
+			const result = await declineFriendRequest.execute(receivedUser, req.userId)
 
 			res.status(200).json({
 				success: true,
@@ -288,7 +263,7 @@ export const UserController = {
 	async removeFriend(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { friendUID } = req.body
-			await removeFriend.execute(req.userId, friendUID)
+			await removeFriend.execute(friendUID, req.userId)
 
 			res.status(200).json({
 				success: true,
@@ -302,7 +277,7 @@ export const UserController = {
 	async cancelSentRequest(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { addresseeUID } = req.body
-			await cancelSentRequest.execute(req.userId, addresseeUID)
+			await cancelSentRequest.execute(addresseeUID, req.userId)
 
 			res.status(200).json({
 				success: true,
