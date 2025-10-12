@@ -13,11 +13,6 @@ export const MyProfile = () => {
   const router = useRouter();
   const isBanner = user?.bannerUrl;
 
-  user.bannerUrl =
-    "https://i.pinimg.com/736x/ff/6a/fc/ff6afc47e9e5489d99b3acf3e07c22c8.jpg";
-  user.avatarUrl =
-    "https://i.pinimg.com/736x/78/40/0c/78400cba3bc1d673d4a64e27c9c94a4b.jpg";
-
   const handleBack = () => {
     if (window.history.length > 1) {
       router.history.back();

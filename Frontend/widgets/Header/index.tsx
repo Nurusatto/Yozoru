@@ -1,5 +1,5 @@
 import { useBreakpoint } from "@/shared/hooks/useBreakPoint";
-import { HeaderDesktop } from "./Desktop/";
+import { HeaderDesktop } from "./ui";
 
 export const Header = function () {
   const bp = useBreakpoint();

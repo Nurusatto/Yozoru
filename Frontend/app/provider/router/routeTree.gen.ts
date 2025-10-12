@@ -17,6 +17,7 @@ import { Route as AuthSignUpRouteImport } from './auth/signUp'
 import { Route as AuthLoginRouteImport } from './auth/login'
 import { Route as Auth_layoutRouteImport } from './auth/__layout'
 import { Route as AuthForgotPasswordRouteImport } from './auth/ForgotPassword'
+import { Route as _layoutSettingsRouteImport } from './__layout/settings'
 import { Route as _layoutProfileRouteImport } from './__layout/profile'
 import { Route as _layoutMessageRouteImport } from './__layout/message'
 import { Route as _layoutFriendRouteImport } from './__layout/friend'
@@ -56,6 +57,11 @@ const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   path: '/auth/ForgotPassword',
   getParentRoute: () => rootRouteImport,
 } as any)
+const _layoutSettingsRoute = _layoutSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => _layoutRoute,
+} as any)
 const _layoutProfileRoute = _layoutProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/friend': typeof _layoutFriendRoute
   '/message': typeof _layoutMessageRoute
   '/profile': typeof _layoutProfileRoute
+  '/settings': typeof _layoutSettingsRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
   '/auth': typeof Auth_layoutRoute
   '/auth/login': typeof AuthLoginRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/friend': typeof _layoutFriendRoute
   '/message': typeof _layoutMessageRoute
   '/profile': typeof _layoutProfileRoute
+  '/settings': typeof _layoutSettingsRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
   '/auth': typeof Auth_layoutRoute
   '/auth/login': typeof AuthLoginRoute
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/__layout/friend': typeof _layoutFriendRoute
   '/__layout/message': typeof _layoutMessageRoute
   '/__layout/profile': typeof _layoutProfileRoute
+  '/__layout/settings': typeof _layoutSettingsRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
   '/auth': typeof AuthRouteWithChildren
   '/auth/__layout': typeof Auth_layoutRoute
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/friend'
     | '/message'
     | '/profile'
+    | '/settings'
     | '/auth/ForgotPassword'
     | '/auth'
     | '/auth/login'
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/friend'
     | '/message'
     | '/profile'
+    | '/settings'
     | '/auth/ForgotPassword'
     | '/auth'
     | '/auth/login'
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/__layout/friend'
     | '/__layout/message'
     | '/__layout/profile'
+    | '/__layout/settings'
     | '/auth/ForgotPassword'
     | '/auth'
     | '/auth/__layout'
@@ -197,6 +209,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/__layout/settings': {
+      id: '/__layout/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof _layoutSettingsRouteImport
+      parentRoute: typeof _layoutRoute
+    }
     '/__layout/profile': {
       id: '/__layout/profile'
       path: '/profile'
@@ -225,6 +244,7 @@ interface _layoutRouteChildren {
   _layoutFriendRoute: typeof _layoutFriendRoute
   _layoutMessageRoute: typeof _layoutMessageRoute
   _layoutProfileRoute: typeof _layoutProfileRoute
+  _layoutSettingsRoute: typeof _layoutSettingsRoute
   _layoutIndexRoute: typeof _layoutIndexRoute
 }
 
@@ -232,6 +252,7 @@ const _layoutRouteChildren: _layoutRouteChildren = {
   _layoutFriendRoute: _layoutFriendRoute,
   _layoutMessageRoute: _layoutMessageRoute,
   _layoutProfileRoute: _layoutProfileRoute,
+  _layoutSettingsRoute: _layoutSettingsRoute,
   _layoutIndexRoute: _layoutIndexRoute,
 }
 

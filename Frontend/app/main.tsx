@@ -8,7 +8,9 @@ import { routeTree } from "./provider/router/routeTree.gen";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import "./style/index.scss";
+
 import { AppInit } from "./provider/init/AppInit";
+import { SocketProvider } from "./provider/init/Socket";
 
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient();
@@ -22,9 +24,11 @@ declare module "@tanstack/react-router" {
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <StrictMode>
-      <AppInit />
-      <RouterProvider router={router} />
-      <TanStackRouterDevtools router={router} />
+      <SocketProvider>
+        <AppInit />
+        <RouterProvider router={router} />
+        <TanStackRouterDevtools router={router} />
+      </SocketProvider>
     </StrictMode>
   </QueryClientProvider>
 );

@@ -1,5 +1,7 @@
 export const api_url = import.meta.env.VITE_API_URL;
 
+export const socket_url = import.meta.env.VITE_SOCKET_URL;
+
 export const prefix = {
   auth: {
     register: "/users/auth/register",

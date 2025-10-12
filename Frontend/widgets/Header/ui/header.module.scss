@@ -11,6 +11,23 @@
     transition: all 0.3s ease;
   }
 
+  &Settings {
+    &.HeaderNavItemActive {
+      svg {
+        animation: spin 2s linear infinite;
+
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      }
+    }
+  }
+
   &Nav {
     display: flex;
     align-items: flex-start;
@@ -77,21 +94,38 @@
     justify-content: space-between;
     width: 100%;
     min-height: rem(60);
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: var(--color-bg-alt);
-    margin-bottom: 5px;
     align-items: center;
 
     @media (max-width: 1200px) {
       width: 100%;
+      justify-content: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-left: rem(5);
+      gap: rem(10);
+      background-color: var(--color-bg-main);
+    }
+
+    &Block {
+      display: flex;
       justify-content: center;
+      gap: rem(5);
+    }
+
+    &Wrap {
+      @include square(rem(40));
+      position: relative;
+    }
+
+    &Avatar {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
     }
 
     &Info {
       display: flex;
       flex-direction: column;
-      justify-content: center;
 
       @media (max-width: 1200px) {
         transform: translateX(-100%);
@@ -100,33 +134,54 @@
         width: 0;
         height: 0;
       }
+
+      &Id {
+        color: var(--color-muted);
+      }
+    }
+  }
+
+  &OnlineDot {
+    position: absolute;
+    top: 0px;
+    left: 80%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #f44336;
+    box-shadow: 0 0 4px #f44336;
+    animation: pulse 1.5s infinite;
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.4);
+        opacity: 0.7;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    &.isActive {
+      background-color: #4caf50; // 🟢 зелёный при активе
+      box-shadow: 0 0 4px #4caf50;
     }
   }
 
   &Action {
     display: flex;
     gap: rem(10);
-
-    @media (max-width: 1200px) {
-      flex-direction: column;
-      gap: rem(10);
-    }
-
-    &LogOut {
-      @include square(rem(20));
-    }
-
-    &Spin {
-      animation: spin 2s linear infinite;
-
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    }
+    position: relative;
+    align-items: center;
+    padding: 10px;
+  }
+  &LogOut {
+    @include square(rem(20));
+    grid-area: LogOut;
   }
 }

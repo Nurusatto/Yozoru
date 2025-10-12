@@ -60,7 +60,6 @@ export const useLocation = () => {
 
   useEffect(() => {
     requestLocation(); // первая загрузка
-    console.log("location used");
   }, [requestLocation]);
 
   return {
