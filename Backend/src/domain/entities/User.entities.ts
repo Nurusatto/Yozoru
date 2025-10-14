@@ -8,6 +8,7 @@ export class User {
 		public googleId?: string | null,
 		public UID?: string | null,
 		public views?: number | null,
+		public bannerUrl?: string | null,
 	) { };
 
 }
@@ -26,6 +27,7 @@ export class UserWithFriends extends User {
 			user.googleId,
 			user.UID,
 			user.views,
+			user.bannerUrl,
 		)
 	};
 

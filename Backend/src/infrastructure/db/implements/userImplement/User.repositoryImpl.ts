@@ -70,7 +70,8 @@ export class UserRepositoryImpl implements UserRepository {
 			'',
 			'',
 			UID,
-			createdUser.views
+			createdUser.views,
+			createdUser.bannerUrl
 		)
 	}
 
@@ -113,7 +114,8 @@ export class UserRepositoryImpl implements UserRepository {
 			'',
 			'',
 			user.UID,
-			user.views
+			user.views,
+			user.bannerUrl
 		)
 	}
 
@@ -151,7 +153,8 @@ export class UserRepositoryImpl implements UserRepository {
 			user.avatarUrl,
 			user.googleId,
 			UID,
-			user.views
+			user.views,
+			user.bannerUrl
 		)
 	};
 
@@ -181,7 +184,8 @@ export class UserRepositoryImpl implements UserRepository {
 			user.avatarUrl,
 			user.googleId,
 			user.UID,
-			user.views
+			user.views,
+			user.bannerUrl
 		)
 	}
 
@@ -213,7 +217,8 @@ export class UserRepositoryImpl implements UserRepository {
 				f.addressee.avatarUrl,
 				f.addressee.googleId,
 				f.addressee.UID,
-				f.addressee.views
+				f.addressee.views,
+				f.addressee.bannerUrl
 			)),
 			...userFriends.recivedFriendship.map(f => new User(
 				f.requester.id,
@@ -223,7 +228,8 @@ export class UserRepositoryImpl implements UserRepository {
 				f.requester.avatarUrl,
 				f.requester.googleId,
 				f.requester.UID,
-				f.requester.views
+				f.requester.views,
+				f.requester.bannerUrl
 			))
 		]
 
@@ -254,7 +260,8 @@ export class UserRepositoryImpl implements UserRepository {
 				f.addressee.avatarUrl,
 				f.addressee.googleId,
 				f.addressee.UID,
-				f.addressee.views
+				f.addressee.views,
+				f.addressee.bannerUrl
 			))
 		]
 
@@ -285,7 +292,8 @@ export class UserRepositoryImpl implements UserRepository {
 				f.requester.avatarUrl,
 				f.requester.googleId,
 				f.requester.UID,
-				f.requester.views
+				f.requester.views,
+				f.requester.bannerUrl
 			))
 		]
 
@@ -339,7 +347,8 @@ export class UserRepositoryImpl implements UserRepository {
 			receiveUser.avatarUrl,
 			receiveUser.googleId,
 			receiveUser.UID,
-			receiveUser.views
+			receiveUser.views,
+			receiveUser.bannerUrl
 		)
 	}
 
@@ -378,7 +387,8 @@ export class UserRepositoryImpl implements UserRepository {
 			receivedUser.avatarUrl,
 			receivedUser.googleId,
 			receivedUser.UID,
-			receivedUser.views
+			receivedUser.views,
+			receivedUser.bannerUrl
 		)
 	}
 
@@ -415,7 +425,8 @@ export class UserRepositoryImpl implements UserRepository {
 			receivedUser.avatarUrl,
 			receivedUser.googleId,
 			receivedUser.UID,
-			receivedUser.views
+			receivedUser.views,
+			receivedUser.bannerUrl
 		)
 	}
 
@@ -436,7 +447,8 @@ export class UserRepositoryImpl implements UserRepository {
 			user.avatarUrl,
 			user.googleId,
 			user.UID,
-			user.views
+			user.views,
+			user.bannerUrl
 		)
 	}
 
