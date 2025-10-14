@@ -1,0 +1,41 @@
+.Friend {
+  &Wrap {
+    display: flex;
+    justify-content: center;
+    gap: rem(40);
+    padding-block: rem(20);
+    border-top: var(--border);
+    border-bottom: var(--border);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    transition:
+      backdrop-filter 0.3s ease,
+      background-color 0.3s ease;
+  }
+
+  &Links {
+    position: relative;
+    transition: color var(--transition-duration) ease;
+
+    &.isActive {
+      color: var(--color-accent-alt) !important;
+
+      &::after {
+        width: 100%;
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-accent-alt);
+      bottom: - rem(5);
+      transition: width var(--transition-duration) ease;
+    }
+  }
+}
