@@ -1,5 +1,5 @@
 import { ProtectRoute } from "@/shared/hooks/useProtectRoute";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 import { Friend } from "@/pages/friend";
 
@@ -9,5 +9,9 @@ export const Route = createFileRoute("/__layout/friend")({
 });
 
 function RouteComponent() {
-  return <Friend />;
+  return (
+    <Friend>
+      <Outlet />
+    </Friend>
+  );
 }
