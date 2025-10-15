@@ -30,7 +30,7 @@ services:
     container_name: postgres_db
     restart: always
     env_file:
-      - .env.docker
+      - ./backend_nest/.env.docker
     ports:
       - '5433:5432'
     volumes:
