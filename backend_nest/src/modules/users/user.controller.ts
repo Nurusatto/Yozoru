@@ -13,7 +13,7 @@ export class UserController {
 		return await this.userService.getUserById(req.userId)
 	}
 
-	@Post('accessToken')
+	@Get('accessToken')
 	async refreshAccessToken(@Req() req: Request) {
 		const refreshToken = req.cookies?.refreshToken
 				
