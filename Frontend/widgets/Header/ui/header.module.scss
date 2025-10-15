@@ -2,13 +2,19 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
+  position: sticky;
+  height: 100%;
+  top: 0;
   justify-content: space-between;
+  scrollbar-width: thin;
 
   &Body {
     display: flex;
     flex-direction: column;
     gap: rem(20);
     transition: all 0.3s ease;
+    position: sticky;
+    top: 0;
   }
 
   &Settings {
@@ -89,15 +95,16 @@
   }
 
   &User {
+    position: sticky;
     border-radius: rem(40);
     display: flex;
+    bottom: rem(10);
     justify-content: space-between;
-    width: 100%;
     min-height: rem(60);
     align-items: center;
+    gap: rem(30);
 
     @media (max-width: 1200px) {
-      width: 100%;
       justify-content: flex-start;
       flex-direction: column;
       align-items: flex-start;

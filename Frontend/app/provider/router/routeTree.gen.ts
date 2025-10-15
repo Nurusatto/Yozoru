@@ -21,6 +21,8 @@ import { Route as _layoutSettingsRouteImport } from './__layout/settings'
 import { Route as _layoutProfileRouteImport } from './__layout/profile'
 import { Route as _layoutMessageRouteImport } from './__layout/message'
 import { Route as _layoutFriendRouteImport } from './__layout/friend'
+import { Route as _layoutFriendIndexRouteImport } from './__layout/friend/index'
+import { Route as _layoutFriendAddRouteImport } from './__layout/friend/add'
 
 const AuthRouteImport = createFileRoute('/auth')()
 
@@ -77,9 +79,19 @@ const _layoutFriendRoute = _layoutFriendRouteImport.update({
   path: '/friend',
   getParentRoute: () => _layoutRoute,
 } as any)
+const _layoutFriendIndexRoute = _layoutFriendIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => _layoutFriendRoute,
+} as any)
+const _layoutFriendAddRoute = _layoutFriendAddRouteImport.update({
+  id: '/add',
+  path: '/add',
+  getParentRoute: () => _layoutFriendRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/friend': typeof _layoutFriendRoute
+  '/friend': typeof _layoutFriendRouteWithChildren
   '/message': typeof _layoutMessageRoute
   '/profile': typeof _layoutProfileRoute
   '/settings': typeof _layoutSettingsRoute
@@ -88,9 +100,10 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signUp': typeof AuthSignUpRoute
   '/': typeof _layoutIndexRoute
+  '/friend/add': typeof _layoutFriendAddRoute
+  '/friend/': typeof _layoutFriendIndexRoute
 }
 export interface FileRoutesByTo {
-  '/friend': typeof _layoutFriendRoute
   '/message': typeof _layoutMessageRoute
   '/profile': typeof _layoutProfileRoute
   '/settings': typeof _layoutSettingsRoute
@@ -99,11 +112,13 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signUp': typeof AuthSignUpRoute
   '/': typeof _layoutIndexRoute
+  '/friend/add': typeof _layoutFriendAddRoute
+  '/friend': typeof _layoutFriendIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/__layout': typeof _layoutRouteWithChildren
-  '/__layout/friend': typeof _layoutFriendRoute
+  '/__layout/friend': typeof _layoutFriendRouteWithChildren
   '/__layout/message': typeof _layoutMessageRoute
   '/__layout/profile': typeof _layoutProfileRoute
   '/__layout/settings': typeof _layoutSettingsRoute
@@ -113,6 +128,8 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signUp': typeof AuthSignUpRoute
   '/__layout/': typeof _layoutIndexRoute
+  '/__layout/friend/add': typeof _layoutFriendAddRoute
+  '/__layout/friend/': typeof _layoutFriendIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -126,9 +143,10 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signUp'
     | '/'
+    | '/friend/add'
+    | '/friend/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/friend'
     | '/message'
     | '/profile'
     | '/settings'
@@ -137,6 +155,8 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signUp'
     | '/'
+    | '/friend/add'
+    | '/friend'
   id:
     | '__root__'
     | '/__layout'
@@ -150,6 +170,8 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signUp'
     | '/__layout/'
+    | '/__layout/friend/add'
+    | '/__layout/friend/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -237,11 +259,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutFriendRouteImport
       parentRoute: typeof _layoutRoute
     }
+    '/__layout/friend/': {
+      id: '/__layout/friend/'
+      path: '/'
+      fullPath: '/friend/'
+      preLoaderRoute: typeof _layoutFriendIndexRouteImport
+      parentRoute: typeof _layoutFriendRoute
+    }
+    '/__layout/friend/add': {
+      id: '/__layout/friend/add'
+      path: '/add'
+      fullPath: '/friend/add'
+      preLoaderRoute: typeof _layoutFriendAddRouteImport
+      parentRoute: typeof _layoutFriendRoute
+    }
   }
 }
 
+interface _layoutFriendRouteChildren {
+  _layoutFriendAddRoute: typeof _layoutFriendAddRoute
+  _layoutFriendIndexRoute: typeof _layoutFriendIndexRoute
+}
+
+const _layoutFriendRouteChildren: _layoutFriendRouteChildren = {
+  _layoutFriendAddRoute: _layoutFriendAddRoute,
+  _layoutFriendIndexRoute: _layoutFriendIndexRoute,
+}
+
+const _layoutFriendRouteWithChildren = _layoutFriendRoute._addFileChildren(
+  _layoutFriendRouteChildren,
+)
+
 interface _layoutRouteChildren {
-  _layoutFriendRoute: typeof _layoutFriendRoute
+  _layoutFriendRoute: typeof _layoutFriendRouteWithChildren
   _layoutMessageRoute: typeof _layoutMessageRoute
   _layoutProfileRoute: typeof _layoutProfileRoute
   _layoutSettingsRoute: typeof _layoutSettingsRoute
@@ -249,7 +299,7 @@ interface _layoutRouteChildren {
 }
 
 const _layoutRouteChildren: _layoutRouteChildren = {
-  _layoutFriendRoute: _layoutFriendRoute,
+  _layoutFriendRoute: _layoutFriendRouteWithChildren,
   _layoutMessageRoute: _layoutMessageRoute,
   _layoutProfileRoute: _layoutProfileRoute,
   _layoutSettingsRoute: _layoutSettingsRoute,
