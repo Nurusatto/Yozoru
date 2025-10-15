@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException, Logger } from '@nestjs/common'
 import { UserRepository } from './repositories/user.repository'
-import { JwtUtils } from 'src/common/utils/jwt.utils'
-import { TokenUtils } from 'src/common/utils/token.utils'
+import { JwtUtils } from '../../common/utils/jwt.utils'
+import { TokenUtils } from '../../common/utils/token.utils'
 import { Prisma, User } from '@prisma/client'
 
 @Injectable()

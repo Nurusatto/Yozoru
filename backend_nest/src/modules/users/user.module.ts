@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
-import { PrismaService } from 'src/db/prismaService/prisma.service'
+import { PrismaService } from '../../db/prismaService/prisma.service'
 import { UserRepository } from './repositories/user.repository'
 import { UserService } from './user.service'
 import { UserController } from './user.controller'
-import { JwtUtils } from 'src/common/utils/jwt.utils'
-import { TokenUtils } from 'src/common/utils/token.utils'
-import { RedisModule } from 'src/db/redis/redis.module'
+import { JwtUtils } from '../../common/utils/jwt.utils'
+import { TokenUtils } from '../../common/utils/token.utils'
+import { RedisModule } from '../../db/redis/redis.module'
 
 
 

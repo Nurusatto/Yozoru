@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common'
-import { CommonModule } from 'src/common/common.module'
-import { PrismaModule } from 'src/db/prismaService/prisma.module'
-import { RedisModule } from 'src/db/redis/redis.module'
+import { CommonModule } from '../../common/common.module'
+import { PrismaModule } from '../../db/prismaService/prisma.module'
+import { RedisModule } from '../../db/redis/redis.module'
+import { UserModule } from '../users/user.module'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
-import { RegisterRepository } from './repositories/register.repository'
-import { LoginRepository } from './repositories/login.repository'
-import { UserModule } from '../users/user.module'
 import { GoogleAuthRepository } from './repositories/google-auth.repository'
+import { LoginRepository } from './repositories/login.repository'
+import { RegisterRepository } from './repositories/register.repository'
+
 
 @Module({
   imports: [RedisModule, PrismaModule, CommonModule, UserModule],

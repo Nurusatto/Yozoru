@@ -8,7 +8,7 @@ import {
 	UserAlreadyExistsException,
 } from '../exceptions/auth.exceptions'
 import { GoogleUserDto } from '../dto/google-auth.dto'
-import { UserService } from 'src/modules/users/user.service'
+import { UserService } from '../../users/user.service'
 
 @Injectable()
 export class GoogleAuthRepository {

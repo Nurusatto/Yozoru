@@ -9,9 +9,8 @@ services:
     volumes:
       - ./Frontend:/frontend
       - /frontend/node_modules
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - VITE_API_URL=http://localhost:3000
+    env_file:
+      - .env.docker
     depends_on:
       - backend_nest
 
@@ -22,18 +21,8 @@ services:
     ports:
       - '3000:3000'
       - '5555:5555'
-    environment:
-      PORT: "3000"
-      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/mydb"
-      REDIS_URL: "redis://redis:6379"
-      JWT_SECRET: "secret"
-      JWT_REFRESH_SECRET: "secretSecret"
-      MAIL_USER: "murynbokgaziz1@gmail.com"
-      MAIL_PASS: "ebdi nnte wwwj ledb"
-      GOOGLE_CLIENT_ID: "28541606858-i2nvk2qqia0j3cacg59uir9b48q10c3n.apps.googleusercontent.com"
-      GOOGLE_CLIENT_SECRET: "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"
-      GOOGLE_REDIRECT_URI: "http://localhost:3000/auth/google/callback"
-      NODE_ENV: "production"
+    env_file:
+      - .env.docker
     depends_on:
       postgres:
         condition: service_healthy
@@ -44,10 +33,8 @@ services:
     image: postgres:15
     container_name: postgres_db
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydb
+    env_file:
+      - .env.docker
     ports:
       - '5433:5432'
     volumes:

@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common'
+import type { Client } from 'openid-client'
+import { Issuer } from 'openid-client'
+import { UserResponse } from '../types/userTypes/user.entity'
+import { UserService } from '../users/user.service'
+import { GoogleUserDto } from './dto/google-auth.dto'
+import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
 import { VerifyDto } from './dto/verify.dto'
-import { RegisterRepository } from './repositories/register.repository'
-import { LoginRepository } from './repositories/login.repository'
 import { GoogleAuthRepository } from './repositories/google-auth.repository'
-import { UserService } from '../users/user.service'
-import { LoginDto } from './dto/login.dto'
-import { UserResponse } from '../types/userTypes/user.entity'
-import { GoogleUserDto } from './dto/google-auth.dto'
-import { Issuer } from 'openid-client'
-import type { Client } from 'openid-client'
+import { LoginRepository } from './repositories/login.repository'
+import { RegisterRepository } from './repositories/register.repository'
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class AuthService {
 		private googleRepository: GoogleAuthRepository,
 		private userService: UserService,
 	) { }
-	
+
 
 	async register(dto: RegisterDto): Promise<void> {
 		await this.registerRepository.register(dto.login, dto.email, dto.password)
@@ -53,20 +53,20 @@ export class AuthService {
 	}
 
 	async createClient(): Promise<Client> {
-    const googleIssuer = await Issuer.discover('https://accounts.google.com');
-    return new googleIssuer.Client({
-      client_id: process.env.GOOGLE_CLIENT_ID!,
-      client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-      redirect_uris: [process.env.GOOGLE_REDIRECT_URI!],
-      response_types: ['code'],
-    });
-  }
+		const googleIssuer = await Issuer.discover('https://accounts.google.com')
+		return new googleIssuer.Client({
+			client_id: process.env.GOOGLE_CLIENT_ID!,
+			client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+			redirect_uris: [process.env.GOOGLE_REDIRECT_URI!],
+			response_types: ['code'],
+		})
+	}
 
-  async getClient(): Promise<Client> {
-    if (!this.client) {
-      this.client = await this.createClient();
-    }
-    return this.client;
-  }
+	async getClient(): Promise<Client> {
+		if (!this.client) {
+			this.client = await this.createClient()
+		}
+		return this.client
+	}
 
 }

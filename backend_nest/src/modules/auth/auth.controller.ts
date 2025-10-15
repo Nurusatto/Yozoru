@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Next, Post, Res, Req } from '@nestjs/common'
 import type { NextFunction, Response } from 'express'
 import { CookieUtils } from '../../common/utils/cookie.utils'
-import { TokenUtils } from 'src/common/utils/token.utils'
+import { TokenUtils } from '../../common/utils/token.utils'
 import { JwtUtils } from '../../common/utils/jwt.utils'
 import { AuthService } from './auth.service'
 import { RegisterDto } from './dto/register.dto'
@@ -123,7 +123,7 @@ export class AuthController {
 
       const user = await this.authService.googleAuth(dto)
 
-      const refreshToken = await this.tokenUtils.createRefreshToken(user.id)
+      const refreshToken = await this.tokenUtils.createRefreshToken(user!.id)
 
 			CookieUtils.setRefreshToken(res, refreshToken)
 
