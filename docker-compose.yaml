@@ -7,8 +7,6 @@ services:
     volumes:
       - ./Frontend:/frontend
       - /frontend/node_modules
-    env_file:
-      - .env.docker
     depends_on:
       - backend_nest
 
