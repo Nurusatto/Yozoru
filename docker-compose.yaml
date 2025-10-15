@@ -3,10 +3,15 @@ services:
     build: ./Frontend
     container_name: frontend_service
     ports:
-      - '5173:5173'
+      - "5173:5173"
     volumes:
       - ./Frontend:/frontend
       - /frontend/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - VITE_HOST=0.0.0.0
+    command: npm run dev
     depends_on:
       - backend_nest
 
@@ -15,8 +20,8 @@ services:
     container_name: backend_nest_service
     restart: always
     ports:
-      - '3000:3000'
-      - '5555:5555'
+      - "3000:3000"
+      - "5555:5555"
     env_file:
       - ./backend_nest/.env.docker
     depends_on:
@@ -34,7 +39,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: mydb
     ports:
-      - '5433:5432'
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -48,7 +53,7 @@ services:
     container_name: redis_cache
     restart: always
     ports:
-      - '6379:6379'
+      - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
