@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
-import { RedisService } from 'src/db/redis/redis.service'
+import { RedisService } from '../../db/redis/redis.service'
 
 @Injectable()
 export class TokenUtils {

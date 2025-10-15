@@ -4,7 +4,7 @@ import {
 	Injectable,
 	UnauthorizedException
 } from '@nestjs/common'
-import { TokenUtils } from 'src/common/utils/token.utils'
+import { TokenUtils } from '../common/utils/token.utils'
 import { Request } from 'express'
 
 declare global {
