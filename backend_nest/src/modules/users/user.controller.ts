@@ -1,7 +1,7 @@
-import { Controller, Get, UseGuards, Req, Post, UnauthorizedException } from '@nestjs/common'
-import { AuthGuard } from '../../guards/auth.guards'
-import { UserService } from './user.service'
+import { Controller, Get, Req, UnauthorizedException, UseGuards } from '@nestjs/common'
 import type { Request } from 'express'
+import { AuthGuard } from '../../guards/auth.guard'
+import { UserService } from './user.service'
 
 @Controller('account')
 export class UserController {
@@ -16,8 +16,8 @@ export class UserController {
 	@Get('accessToken')
 	async refreshAccessToken(@Req() req: Request) {
 		const refreshToken = req.cookies?.refreshToken
-				
-		if(!refreshToken) {
+
+		if (!refreshToken) {
 			throw new UnauthorizedException('Refresh token not found')
 		}
 		const accessToken = await this.userService.getAccessToken(refreshToken)

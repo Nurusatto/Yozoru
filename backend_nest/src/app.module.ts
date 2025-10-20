@@ -5,8 +5,9 @@ import { PrismaModule } from './db/prismaService/prisma.module'
 import { RedisModule } from './db/redis/redis.module'
 import { AuthModule } from './modules/auth/auth.module'
 
-import { ChatModule } from './chat/chat.module'
+import { ChatModule } from './WebSocket/chat/chat.module'
 import { UserModule } from './modules/users/user.module'
+import { FriendshipModule } from './modules/friendship/friendship.module'
 
 
 @Module({
@@ -19,7 +20,8 @@ import { UserModule } from './modules/users/user.module'
     ChatModule,
     CommonModule,
     AuthModule,
-    UserModule
+    UserModule,
+    FriendshipModule
   ],
   controllers: [],
   providers: [],

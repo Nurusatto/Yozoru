@@ -22,8 +22,8 @@ model User {
   views Int @default(0)
   bannerUrl String?
 
-  sentFriendship    Friendship[] @relation("UserSentFriendships")
-  recivedFriendship Friendship[] @relation("UserReceivedFriendships")
+  sentFriendship    Friendship[] @relation("SentFriendRequests")
+  receivedFriendship Friendship[] @relation("ReceivedFriendRequests")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -32,18 +32,20 @@ model User {
 model Friendship {
   id Int @id @default(autoincrement())
 
-  requesterId Int
-  requester   User @relation("UserSentFriendships", fields: [requesterId], references: [id], onDelete: Cascade)
+  senderId Int
+  sender   User @relation("SentFriendRequests", fields: [senderId], references: [id], onDelete: Cascade)
 
-  addresseeId Int
-  addressee   User @relation("UserReceivedFriendships", fields: [addresseeId], references: [id], onDelete: Cascade)
+  receiverId Int
+  receiver   User @relation("ReceivedFriendRequests", fields: [receiverId], references: [id], onDelete: Cascade)
 
   status FriendshipStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([requesterId, addresseeId])
+  @@unique([senderId, receiverId])
+  @@index([receiverId])
+  @@index([senderId])
 }
 
 enum AuthProvider {
