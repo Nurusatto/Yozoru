@@ -12,9 +12,11 @@ import DefaultAvatar from "@/shared/images/default/avatar.svg?react";
 
 export const HeaderDesktop = () => {
   const [dropMenu, setDropMenu] = useState(false);
-  const { user } = useAuthStore();
+  const { user, isInitialized } = useAuthStore();
 
   const { isConnected } = useSocketStore();
+
+  if (!isInitialized) return <p>Loading...</p>;
 
   return (
     <>

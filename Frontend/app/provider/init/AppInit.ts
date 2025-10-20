@@ -6,6 +6,7 @@ import { useAuthStore } from "@/app/provider/store/authStore";
 export function AppInit() {
   const setToken = useAuthStore((t) => t.setToken);
   const setUserData = useAuthStore((data) => data.setUser);
+  const setIsInitialized = useAuthStore((s) => s.setIsInitialized);
 
   const { data, isError } = useQuery({
     queryKey: ["me"],
@@ -16,12 +17,12 @@ export function AppInit() {
   useEffect(() => {
     if (data) {
       setToken(data.getToken.data);
-      setUserData(data.userData.data.user);
+      setUserData(data.userData.data);
     }
     if (data || isError) {
-      useAuthStore.getState().setIsInitialized(true);
+      setIsInitialized(true);
     }
-  }, [data, isError, setToken, setUserData]);
+  }, [data, isError, setToken, setUserData, setIsInitialized]);
 
   return null;
 }
