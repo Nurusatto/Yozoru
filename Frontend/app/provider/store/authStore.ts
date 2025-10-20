@@ -2,14 +2,17 @@ import { create } from "zustand";
 
 type UserData = {
   UID: string;
-  views: number;
+  authProvider?: string | null;
   avatarUrl?: string;
   bannerUrl?: string;
+  createdAt?: string | null;
   googleId?: string;
   id: number;
   email: string;
   login: string;
-  password: string;
+  updatedAt: string | null;
+  password?: string;
+  views: number;
 };
 
 type ParticalUserData = Partial<UserData>;
