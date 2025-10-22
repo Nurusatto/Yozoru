@@ -16,14 +16,14 @@ services:
       - backend_nest
 
   backend_nest:
-    build: ./backend_nest
+    build: ./Backend
     container_name: backend_nest_service
     restart: always
     ports:
       - "3000:3000"
       - "5555:5555"
     env_file:
-      - ./backend_nest/.env.docker
+      - ./Backend/.env.docker
     depends_on:
       postgres:
         condition: service_healthy

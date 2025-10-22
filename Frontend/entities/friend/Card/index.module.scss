@@ -1,0 +1,96 @@
+.Card {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: var(--border);
+  padding: rem(10);
+  min-height: rem(100);
+  width: 100%;
+
+  &Content {
+    display: flex;
+    gap: rem(20);
+  }
+
+  &Wrapp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &Avatar {
+    max-width: rem(60);
+    max-height: rem(60);
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  &Info {
+    display: flex;
+    flex-direction: column;
+
+    &Login {
+      margin-block: rem(10);
+    }
+
+    &Id {
+      color: var(--color-muted);
+    }
+  }
+
+  &Action {
+    display: flex;
+    gap: rem(10);
+  }
+
+  &Btn {
+    padding: rem(5);
+    background-color: var(--color-bg-main);
+    color: var(--color-accent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all var(--transition-duration) ease;
+
+    @include square(rem(40));
+
+    &Svg {
+      @include square(rem(25));
+    }
+
+    &Add {
+      border: none;
+
+      @include hover {
+        color: var(--color-accent-alt);
+      }
+    }
+
+    &Accept {
+      border: var(--border);
+      border-radius: 50%;
+
+      @include hover {
+        color: var(--color-accent-alt);
+      }
+    }
+
+    &Reject {
+      border: var(--border);
+      border-radius: 50%;
+
+      @include hover {
+        color: var(--color-error);
+      }
+    }
+
+    &Message {
+      border: none;
+
+      @include hover {
+        color: var(--color-accent-alt);
+      }
+    }
+  }
+}

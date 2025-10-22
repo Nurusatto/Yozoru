@@ -1,0 +1,9 @@
+.Friends {
+  &Body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-block: rem(10);
+  }
+}
