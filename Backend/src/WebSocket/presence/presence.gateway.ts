@@ -1,4 +1,3 @@
-import { UseGuards } from '@nestjs/common'
 import {
 	OnGatewayConnection,
 	OnGatewayDisconnect,
@@ -7,7 +6,7 @@ import {
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
 import { RedisService } from '../../db/redis/redis.service'
-import { WsAuthGuard } from '../../guards/wsAuth.guard'
+import { WsAuthMiddleware } from '../../middleware/websocket-auth.module'
 
 @WebSocketGateway({
 	cors: {
@@ -15,16 +14,23 @@ import { WsAuthGuard } from '../../guards/wsAuth.guard'
 		credentials: true,
 	},
 })
-@UseGuards(WsAuthGuard)
+
 export class PresenceGateway implements OnGatewayConnection, OnGatewayDisconnect {
 	@WebSocketServer()
 	server: Server
 
-	constructor(private redis: RedisService) { }
+	constructor(
+		private redis: RedisService,
+		private wsAuthMiddleware: WsAuthMiddleware
+	) { }
+
+	afterInit(server: Server) {
+		server.use(this.wsAuthMiddleware.use())
+	}
 
 	async handleConnection(client: Socket) {
 		const userId = client['userId']
-		console.log('userId из client:', userId) // ← ДЕБАГ
+		console.log('userId из client:', userId)
 
 		if (!userId) return
 
