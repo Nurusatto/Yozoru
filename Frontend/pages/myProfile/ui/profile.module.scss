@@ -10,6 +10,14 @@
     border-bottom: var(--border);
     min-height: rem(50);
     gap: rem(25);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-index-always-top);
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    transition:
+      backdrop-filter 0.3s ease,
+      background-color 0.3s ease;
 
     &Left {
       display: flex;
@@ -28,6 +36,42 @@
 
       > h1 {
         margin: 0;
+      }
+    }
+  }
+
+  &OnlineDot {
+    display: none;
+    @media (max-height: 450px) {
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 80%;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background-color: #f44336;
+      box-shadow: 0 0 4px #f44336;
+      animation: pulse 1.5s infinite;
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.4);
+          opacity: 0.7;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      &.isActive {
+        background-color: #4caf50;
+        box-shadow: 0 0 4px #4caf50;
       }
     }
   }
@@ -77,8 +121,8 @@
 
     &Wrapper {
       position: absolute;
-      bottom: rem(-65); // если хочешь наполовину поверх баннера
-      left: rem(32); // пример
+      bottom: rem(-65);
+      left: rem(32);
 
       @include square(rem(130));
     }

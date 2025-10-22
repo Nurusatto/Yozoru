@@ -7,11 +7,15 @@ import ArrowLeft from "@svg/straightArrows/left.svg?react";
 import Search from "@svg/searchSVG/search.svg?react";
 
 import DefaultAvatar from "@/shared/images/default/avatar.svg?react";
+import { useSocketStore } from "@/app/provider/store/socketStore";
+import clsx from "clsx";
 
 export const MyProfile = () => {
   const { user } = useAuthStore();
   const router = useRouter();
   const isBanner = user?.bannerUrl;
+
+  const { isConnected } = useSocketStore();
 
   const handleBack = () => {
     if (window.history.length > 1) {
@@ -60,11 +64,17 @@ export const MyProfile = () => {
             ) : (
               <DefaultAvatar className={styles.ProfileAvatar} />
             )}
+            <span
+              className={clsx(
+                styles.ProfileOnlineDot,
+                isConnected && styles.isActive
+              )}
+            ></span>
           </div>
         </div>
         <div className={styles.ProfileInfo}>
           <h2 className={styles.ProfileInfoName}>{user?.login}</h2>
-          <p className={styles.ProfileInfoId}>{user?.UID}</p>
+          <p className={styles.ProfileInfoId}>@{user?.UID}</p>
         </div>
       </div>
     </main>

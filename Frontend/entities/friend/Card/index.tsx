@@ -45,9 +45,7 @@ export const FriendCard = ({
           <h3 className={`${styles.CardInfoLogin} h1`}>
             {value?.login ?? "failed"}
           </h3>
-          <span className={styles.CardInfoId}>
-            UID: {value?.UID ?? "failed"}
-          </span>
+          <span className={styles.CardInfoId}>@{value?.UID ?? "failed"}</span>
         </div>
       </div>
       {variant === "requests" && (

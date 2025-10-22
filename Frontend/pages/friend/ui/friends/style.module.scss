@@ -1,4 +1,83 @@
+%FrSection {
+  display: flex;
+  flex-direction: column;
+  border-bottom: var(--border);
+}
+
 .Friends {
+  &Head {
+    @extend %FrSection;
+
+    &Promo {
+      display: flex;
+      padding-block: rem(10);
+      align-items: center;
+      gap: rem(10);
+      border-bottom: var(--border);
+      padding-left: rem(5);
+    }
+
+    &Notification {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition:
+        max-height 0.1s ease,
+        opacity var(--transition-duration) ease;
+
+      &.isActive {
+        max-height: 500px;
+        opacity: 1;
+        padding-block: rem(10);
+        overflow-y: auto;
+      }
+    }
+  }
+
+  &Sended {
+    @extend %FrSection;
+
+    &Promo {
+      display: flex;
+      padding-block: rem(10);
+      align-items: center;
+      gap: rem(10);
+      border-bottom: var(--border);
+      padding-left: rem(5);
+    }
+
+    &Notification {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition:
+        max-height 0.1s ease,
+        opacity var(--transition-duration) ease;
+
+      &.isActive {
+        max-height: 500px;
+        opacity: 1;
+        padding-block: rem(10);
+        overflow-y: auto;
+      }
+    }
+  }
+
+  &Arrow {
+    transition: transform 0.3s ease;
+    @include square(rem(20));
+
+    &.isActive {
+      transform: rotate(180deg);
+    }
+  }
+
   &Body {
     display: flex;
     flex-direction: column;

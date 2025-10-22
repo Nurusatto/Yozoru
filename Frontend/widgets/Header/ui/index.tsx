@@ -62,7 +62,7 @@ export const HeaderDesktop = () => {
             <div className={styles.HeaderUserInfo}>
               <span className="h1">{user?.login ?? "User"}</span>
               <p className={styles.HeaderUserInfoId}>
-                UID: {user?.id ?? " Guest"}
+                @{user?.UID ?? " Guest"}
               </p>
             </div>
           </div>

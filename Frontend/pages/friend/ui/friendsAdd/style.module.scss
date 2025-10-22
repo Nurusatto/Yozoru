@@ -1,0 +1,47 @@
+.Friends {
+  &Page {
+    display: flex;
+    flex-direction: column;
+  }
+  &Form {
+    display: flex;
+    align-items: center;
+    padding-inline: rem(30);
+    padding-block: rem(20);
+    justify-content: center;
+    gap: rem(20);
+  }
+
+  &Label {
+    font-size: rem(20);
+  }
+
+  &Wrapper {
+    border: var(--border);
+    border-radius: rem(10);
+    display: flex;
+    align-items: center;
+  }
+
+  &Button {
+    padding: rem(10);
+    background-color: var(--color-bg-main);
+    color: var(--color-accent);
+    border: var(--border);
+    border-radius: rem(15);
+    height: 100%;
+
+    @include hover {
+      color: var(--color-accent-alt);
+    }
+  }
+
+  &Alert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-bottom: rem(5);
+    border-bottom: var(--border);
+  }
+}

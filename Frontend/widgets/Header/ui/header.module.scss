@@ -103,6 +103,7 @@
     min-height: rem(60);
     align-items: center;
     gap: rem(30);
+    transition: all var(--transition-duration) ease;
 
     @media (max-width: 1200px) {
       justify-content: flex-start;
@@ -111,6 +112,12 @@
       padding-left: rem(5);
       gap: rem(10);
       background-color: var(--color-bg-main);
+    }
+
+    @media (max-height: 450px) {
+      transform: translateY(+100%);
+      opacity: 0;
+      pointer-events: none;
     }
 
     &Block {
