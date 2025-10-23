@@ -66,17 +66,18 @@ export class FriendshipGetListRepository {
 						login: true,
 						UID: true,
 						avatarUrl: true,
-						password: false
 					}
 				}
 			}
 		})
 
 		return list.map(friendReq => {
-			friendReq.receiver.id
-			friendReq.receiver.login
-			friendReq.receiver.UID
-			friendReq.receiver.avatarUrl
+			return {
+				id: friendReq.receiver.id,
+				login: friendReq.receiver.login,
+				UID: friendReq.receiver.UID,
+				avatarUrl: friendReq.receiver.avatarUrl
+			}
 		})
 	}
 
@@ -94,16 +95,18 @@ export class FriendshipGetListRepository {
 						login: true,
 						UID: true,
 						avatarUrl: true,
-						password: false
 					}
 				}
 			}
 		})
 		return list.map(friendReq => {
-			friendReq.sender.id
-			friendReq.sender.login
-			friendReq.sender.UID
-			friendReq.sender.avatarUrl
+			return{
+				id: friendReq.sender.id,
+				login: friendReq.sender.login,
+				UID: friendReq.sender.UID,
+				avatarUrl: friendReq.sender.avatarUrl
+			}
+
 		})
 	}
 

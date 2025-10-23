@@ -86,8 +86,8 @@ export class FriendshipController {
     }
 
     this.notificationGateway.sendNotificationToUser(receiverId, {
-      type: 'friend_accepted',
-      title: 'Запрос принят',
+      type: 'friend_declined',
+      title: 'Запрос отклонён',
       message: `${decliner.login || decliner.UID} отклонил ваш запрос в друзья`,
       userId: req.userId,
       username: decliner.login,
