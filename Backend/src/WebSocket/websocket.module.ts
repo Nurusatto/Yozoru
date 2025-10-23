@@ -5,9 +5,10 @@ import { RedisModule } from '../db/redis/redis.module'
 import { WsAuthMiddleware } from '../middleware/websocket-auth.module'
 import { PresenceGateway } from './presence/presence.gateway'
 import { NotificationGateway } from './notification/notification.gateway'
+import { UserModule } from '../modules/users/user.module'
 
 @Module({
-	imports: [RedisModule, CommonModule],
+	imports: [RedisModule, CommonModule, UserModule],
 	providers: [PresenceGateway, NotificationGateway, WsAuthMiddleware, TokenUtils],
 	exports: [WsAuthMiddleware, NotificationGateway]
 })

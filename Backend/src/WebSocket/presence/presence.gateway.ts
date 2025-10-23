@@ -7,6 +7,7 @@ import {
 import { Server, Socket } from 'socket.io'
 import { RedisService } from '../../db/redis/redis.service'
 import { WsAuthMiddleware } from '../../middleware/websocket-auth.module'
+import { UserService } from '../../modules/users/user.service'
 
 @WebSocketGateway({
 	cors: {
@@ -21,7 +22,8 @@ export class PresenceGateway implements OnGatewayConnection, OnGatewayDisconnect
 
 	constructor(
 		private redis: RedisService,
-		private wsAuthMiddleware: WsAuthMiddleware
+		private wsAuthMiddleware: WsAuthMiddleware,
+		private userService: UserService
 	) { }
 
 	afterInit(server: Server) {
@@ -30,16 +32,17 @@ export class PresenceGateway implements OnGatewayConnection, OnGatewayDisconnect
 
 	async handleConnection(client: Socket) {
 		const userId = client['userId']
-		console.log('userId из client:', userId)
 
 		if (!userId) return
 
-		console.log(`Пользователь: ${userId} подключился`)
+		const user = await this.userService.getUserById(userId)
+
+		const count = await this.redis.scard('online_users')
+
+		console.log(`✅ Пользователь: ${user?.login} подключился | [Онлайн: ${count}] ✅`)
 
 		await this.redis.sadd('online_users', userId)
 		await this.redis.expire('online_users', 86400)
-
-		const count = await this.redis.scard('online_users')
 
 		this.server.emit('onlineUsers', {
 			count,
@@ -51,7 +54,7 @@ export class PresenceGateway implements OnGatewayConnection, OnGatewayDisconnect
 	async handleDisconnect(client: Socket) {
 		const userId = client['userId']
 		if (!userId) return
-
+		const user = await this.userService.getUserById(userId)
 		const wasOnline = await this.redis.srem('online_users', userId)
 		if (wasOnline) {
 			const count = await this.redis.scard('online_users')
@@ -62,7 +65,7 @@ export class PresenceGateway implements OnGatewayConnection, OnGatewayDisconnect
 				action: 'left'
 			})
 
-			console.log(`Пользователь ${userId} отключился. Онлайн: ${count}`)
+			console.log(`❌ Пользователь: ${user?.login} отключился | [Онлайн: ${count}] ❌`)
 		}
 	}
 

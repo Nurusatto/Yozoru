@@ -43,7 +43,7 @@ export class FriendshipController {
     return {
       success: "true",
       message: "Запрос на дружбу успешно отправлен!",
-      sendRequest
+      data: sendRequest
     }
   }
 
@@ -106,33 +106,33 @@ export class FriendshipController {
   @Get('friends')
   @HttpCode(200)
   async getMyFriends(@Req() req: Request) {
-    const friends = await this.friendshipService.getFriends(req.userId)
+    const friendList = await this.friendshipService.getFriends(req.userId)
     return {
       success: true,
       message: "Список ваших друзей",
-      friends
+      friends: friendList
     }
   }
 
   @Get('received-friends')
   @HttpCode(200)
   async getMyRecivedFriends(@Req() req: Request) {
-    const friends = await this.friendshipService.getReceivedFriends(req.userId)
+    const friendList = await this.friendshipService.getReceivedFriends(req.userId)
     return {
       success: true,
       message: "Список полученных запросов друзей",
-      friends
+      friends: friendList
     }
   }
 
   @Get('sended-friends')
   @HttpCode(200)
   async getMySendedFriends(@Req() req: Request) {
-    const friends = await this.friendshipService.getSendedFriends(req.userId)
+    const friendList = await this.friendshipService.getSendedFriends(req.userId)
     return {
       success: true,
       message: "Список отправленных запросов друзей",
-      friends
+      friends: friendList
     }
   }
 }
