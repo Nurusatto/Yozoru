@@ -12,12 +12,13 @@ export type friendItem = {
     id: number;
     login: string;
     UID: string;
-    avatarUrl: string;
+    avatarUrl: string | null;
   };
-  variant: "friends" | "requests" | "search";
+  variant: "friends" | "requests" | "search" | "sended";
   onAccept?: () => void;
   onReject?: () => void;
   onAdd?: () => void;
+  onDelRequest?: () => void;
 };
 
 export const FriendCard = ({
@@ -26,6 +27,7 @@ export const FriendCard = ({
   onAccept,
   onReject,
   onAdd,
+  onDelRequest,
 }: friendItem) => {
   return (
     <div className={styles.Card}>
@@ -71,6 +73,15 @@ export const FriendCard = ({
           className={`${styles.CardBtnAdd} ${styles.CardBtn}`}
         >
           <UserPlus className={styles.CardBtnSvg} />
+        </button>
+      )}
+
+      {variant === "sended" && (
+        <button
+          onClick={onDelRequest}
+          className={`${styles.CardBtnReject} ${styles.CardBtn}`}
+        >
+          <Reject className={styles.CardBtnSvg} />
         </button>
       )}
 

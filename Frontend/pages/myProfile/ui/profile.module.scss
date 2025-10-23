@@ -42,6 +42,7 @@
 
   &OnlineDot {
     display: none;
+
     @media (max-height: 450px) {
       display: block;
       position: absolute;

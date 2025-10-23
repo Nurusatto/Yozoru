@@ -9,10 +9,14 @@ import { navLinks } from "@/app/config/navLinks";
 import { useSocketStore } from "@/app/provider/store/socketStore";
 
 import DefaultAvatar from "@/shared/images/default/avatar.svg?react";
+import { Button } from "@/shared/ui/ButtonBase";
+import { useLogOut } from "../model/query";
 
 export const HeaderDesktop = () => {
-  const [dropMenu, setDropMenu] = useState(false);
+  const [dropMenu, setDropMenu] = useState<boolean>(false);
   const { user, isInitialized } = useAuthStore();
+
+  const logOutMutation = useLogOut();
 
   const { isConnected } = useSocketStore();
 
@@ -67,7 +71,29 @@ export const HeaderDesktop = () => {
             </div>
           </div>
           <div className={styles.HeaderAction}>
-            <LogOut className={styles.HeaderLogOut} />
+            <div
+              className={clsx(
+                styles.HeaderActionMenu,
+                dropMenu && styles.isActive
+              )}
+            >
+              <Button
+                className={clsx(styles.HeaderBtn, styles.HeaderBtnOut)}
+                onClick={() => logOutMutation.mutate()}
+              >
+                Log Out
+              </Button>
+              <Button
+                className={styles.HeaderBtn}
+                onClick={() => setDropMenu(!dropMenu)}
+              >
+                Cancel
+              </Button>
+            </div>
+            <LogOut
+              className={styles.HeaderLogOut}
+              onClick={() => setDropMenu(!dropMenu)}
+            />
           </div>
         </div>
       </header>

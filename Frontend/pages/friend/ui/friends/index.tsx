@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { FriendCard } from "@/entities/friend/Card";
 import ChevronDown from "@/shared/svg/arrows/chevronDown.svg?react";
@@ -9,6 +10,8 @@ import {
   useGetFriends,
   useReceivedFriends,
   useSendedFriends,
+  usePostAccept,
+  usePostDecline,
 } from "../../model/querry";
 
 export const Friends = () => {
@@ -18,6 +21,9 @@ export const Friends = () => {
   const friendQuerry = useGetFriends();
   const requestsQuerry = useReceivedFriends();
   const sendedFriendQuerry = useSendedFriends();
+  const AcceptQuerry = usePostAccept();
+  const DeclineQuerry = usePostDecline();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!open) return;
@@ -30,6 +36,23 @@ export const Friends = () => {
     const timer = setTimeout(() => setSendOpen(!sendOpen), 180000);
     return () => clearTimeout(timer);
   }, [sendOpen]);
+
+  const handleAccept = (id: number) => {
+    AcceptQuerry.mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["getReceivedFriends"] });
+        queryClient.invalidateQueries({ queryKey: ["getFriends"] });
+      },
+    });
+  };
+
+  const handleDecline = (id: number) => {
+    DeclineQuerry.mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["getReceivedFriends"] });
+      },
+    });
+  };
 
   return (
     <>
@@ -47,8 +70,14 @@ export const Friends = () => {
             open && styles.isActive
           )}
         >
-          {requestsQuerry.data?.friends?.map((obj) => (
-            <FriendCard variant="requests" value={obj} key={obj.UID} />
+          {requestsQuerry.data?.friends?.filter(Boolean).map((obj) => (
+            <FriendCard
+              variant="requests"
+              value={obj}
+              key={obj.UID}
+              onAccept={() => handleAccept(obj.id)}
+              onReject={() => handleDecline(obj.id)}
+            />
           ))}
           {!requestsQuerry.isLoading &&
             !requestsQuerry.isError &&
@@ -73,7 +102,7 @@ export const Friends = () => {
           )}
         >
           {sendedFriendQuerry.data?.friends?.map((obj) => (
-            <FriendCard variant="requests" value={obj} key={obj.UID} />
+            <FriendCard variant="sended" value={obj} key={obj.UID} />
           ))}
           {!sendedFriendQuerry.isLoading &&
             !sendedFriendQuerry.isError &&

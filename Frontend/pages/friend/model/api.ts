@@ -20,3 +20,14 @@ export const postSendRequest = async (UID: string) => {
   const res = await API.post(prefix.friend.send, { UID });
   return res.data;
 };
+
+// requets
+export const postAccept = async (id: number) => {
+  const res = await API.post(prefix.friend.accept, { id });
+  return res.data;
+};
+
+export const postReject = async (id: number) => {
+  const res = await API.post(prefix.friend.decline, { id });
+  return res.data;
+};

@@ -193,9 +193,36 @@
     position: relative;
     align-items: center;
     padding: 10px;
+
+    &Menu {
+      display: none;
+      position: absolute;
+      right: -180%;
+      bottom: 0;
+      gap: rem(5);
+      flex-direction: column;
+
+      &.isActive {
+        display: flex;
+      }
+    }
   }
+
+  &Btn {
+    padding: rem(5);
+    text-wrap: nowrap;
+    border-radius: rem(10);
+    border: var(--border);
+    background-color: var(--color-bg-main);
+    color: var(--color-accent);
+
+    &Out {
+      color: var(--color-error);
+    }
+  }
+
   &LogOut {
     @include square(rem(20));
-    grid-area: LogOut;
+    position: relative;
   }
 }

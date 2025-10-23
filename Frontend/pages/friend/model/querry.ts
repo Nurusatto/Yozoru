@@ -6,6 +6,8 @@ import {
   getReceivedFriends,
   getSendedFriends,
   postSendRequest,
+  postAccept,
+  postReject,
 } from "./api";
 
 export const useGetFriends = () => {
@@ -31,6 +33,21 @@ export const useSendedFriends = () => {
 
 export const usePostSend = () => {
   return useMutation({
+    mutationKey: ["usePostSend"],
     mutationFn: (UID: string) => postSendRequest(UID),
+  });
+};
+
+export const usePostAccept = () => {
+  return useMutation({
+    mutationKey: ["usePostAccept"],
+    mutationFn: (id: number) => postAccept(id),
+  });
+};
+
+export const usePostDecline = () => {
+  return useMutation({
+    mutationKey: ["usePostDecline"],
+    mutationFn: (id: number) => postReject(id),
   });
 };
