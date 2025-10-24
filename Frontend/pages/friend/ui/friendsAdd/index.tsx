@@ -22,7 +22,6 @@ export const FriendsAdd = () => {
   const handleClick = () => {
     mutate(UID, {
       onSuccess: (succes) => {
-        console.log(succes);
         setAlert(succes.message);
       },
       onError: (error) => {
@@ -44,10 +43,11 @@ export const FriendsAdd = () => {
         <div className={styles.FriendsWrapper}>
           <Input
             id="uid"
-            placeholder="@"
+            placeholder=""
             value={UID}
             onChange={(e) => setUID(e.target.value)}
           />
+          <span className={styles.FriendsReminder}>Вводить без @</span>
         </div>
         <Button
           className={styles.FriendsButton}

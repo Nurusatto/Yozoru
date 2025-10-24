@@ -21,6 +21,19 @@
     border-radius: rem(10);
     display: flex;
     align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &Reminder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: var(--border);
+    width: 100%;
+    padding-block: rem(5);
+    font-size: rem(14);
+    color: var(--color-error);
   }
 
   &Button {
@@ -39,6 +52,7 @@
   &Alert {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     text-align: center;
     padding-bottom: rem(5);

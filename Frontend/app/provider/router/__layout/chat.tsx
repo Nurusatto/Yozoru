@@ -1,11 +1,15 @@
 import { ProtectRoute } from "@/shared/hooks/useProtectRoute";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/__layout/message")({
+export const Route = createFileRoute("/__layout/chat")({
   beforeLoad: () => ProtectRoute(),
   component: Message,
 });
 
 function Message() {
-  return <div>Hello /message!</div>;
+  return (
+    <main>
+      <div>Hello /message!</div>
+    </main>
+  );
 }

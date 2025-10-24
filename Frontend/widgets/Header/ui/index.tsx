@@ -22,6 +22,12 @@ export const HeaderDesktop = () => {
 
   if (!isInitialized) return <p>Loading...</p>;
 
+  const MenuActive = () => {
+    if (user) {
+      setDropMenu(!dropMenu);
+    }
+  };
+
   return (
     <>
       <header className={clsx(styles.Header)}>
@@ -90,10 +96,7 @@ export const HeaderDesktop = () => {
                 Cancel
               </Button>
             </div>
-            <LogOut
-              className={styles.HeaderLogOut}
-              onClick={() => setDropMenu(!dropMenu)}
-            />
+            <LogOut className={styles.HeaderLogOut} onClick={MenuActive} />
           </div>
         </div>
       </header>

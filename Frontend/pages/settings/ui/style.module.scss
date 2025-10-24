@@ -1,0 +1,54 @@
+.Settings {
+  &Page {
+    display: flex;
+    flex-direction: column;
+    gap: rem(30);
+    padding-top: rem(20);
+    padding-inline: rem(10);
+  }
+}
+
+.LogOut {
+  display: flex;
+  flex-direction: column;
+  gap: rem(5);
+  position: relative;
+
+  &Svg {
+    @include square(rem(25));
+    color: var(--color-error);
+
+    &.isActive {
+      color: var(--color-accent-alt);
+    }
+  }
+
+  &Title {
+    margin-top: 0;
+  }
+
+  &Menu {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    flex-direction: column;
+
+    &.isActive {
+      display: flex;
+      gap: rem(5);
+    }
+  }
+
+  &Btn {
+    background-color: var(--color-bg-main);
+    border: var(--border);
+    border-radius: rem(10);
+    color: var(--color-accent);
+    padding: rem(5);
+
+    &Out {
+      color: var(--color-error);
+    }
+  }
+}

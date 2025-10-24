@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 
 import { FriendCard } from "@/entities/friend/Card";
 import ChevronDown from "@/shared/svg/arrows/chevronDown.svg?react";
@@ -10,9 +9,10 @@ import {
   useGetFriends,
   useReceivedFriends,
   useSendedFriends,
-  usePostAccept,
-  usePostDecline,
 } from "../../model/querry";
+
+import { useHandleDecline, useHandleAccept } from "../../model/handlers";
+import { Button } from "@/shared/ui/ButtonBase";
 
 export const Friends = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -21,9 +21,8 @@ export const Friends = () => {
   const friendQuerry = useGetFriends();
   const requestsQuerry = useReceivedFriends();
   const sendedFriendQuerry = useSendedFriends();
-  const AcceptQuerry = usePostAccept();
-  const DeclineQuerry = usePostDecline();
-  const queryClient = useQueryClient();
+  const { handleDecline } = useHandleDecline();
+  const { handleAccept } = useHandleAccept();
 
   useEffect(() => {
     if (!open) return;
@@ -37,33 +36,19 @@ export const Friends = () => {
     return () => clearTimeout(timer);
   }, [sendOpen]);
 
-  const handleAccept = (id: number) => {
-    AcceptQuerry.mutate(id, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["getReceivedFriends"] });
-        queryClient.invalidateQueries({ queryKey: ["getFriends"] });
-      },
-    });
-  };
-
-  const handleDecline = (id: number) => {
-    DeclineQuerry.mutate(id, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["getReceivedFriends"] });
-      },
-    });
-  };
-
   return (
     <>
       <div className={styles.FriendsHead}>
-        <div className={styles.FriendsHeadPromo}>
+        <Button
+          className={styles.FriendsHeadPromo}
+          onClick={() => setOpen(!open)}
+        >
           <ChevronDown
             onClick={() => setOpen(!open)}
             className={clsx(styles.FriendsArrow, open && styles.isActive)}
           />
           <span>Запросы:</span>
-        </div>
+        </Button>
         <div
           className={clsx(
             styles.FriendsHeadNotification,
@@ -88,13 +73,17 @@ export const Friends = () => {
         </div>
       </div>
       <div className={styles.FriendsSended}>
-        <div className={styles.FriendsSendedPromo}>
+        <Button
+          className={styles.FriendsSendedPromo}
+          aria-expanded={open}
+          onClick={() => setSendOpen(!sendOpen)}
+        >
           <ChevronDown
             onClick={() => setSendOpen(!sendOpen)}
             className={clsx(styles.FriendsArrow, sendOpen && styles.isActive)}
           />
           <span>Отправленные запросы:</span>
-        </div>
+        </Button>
         <div
           className={clsx(
             styles.FriendsSendedNotification,

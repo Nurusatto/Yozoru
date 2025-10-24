@@ -19,8 +19,8 @@ import { Route as Auth_layoutRouteImport } from './auth/__layout'
 import { Route as AuthForgotPasswordRouteImport } from './auth/ForgotPassword'
 import { Route as _layoutSettingsRouteImport } from './__layout/settings'
 import { Route as _layoutProfileRouteImport } from './__layout/profile'
-import { Route as _layoutMessageRouteImport } from './__layout/message'
 import { Route as _layoutFriendRouteImport } from './__layout/friend'
+import { Route as _layoutChatRouteImport } from './__layout/chat'
 import { Route as _layoutFriendIndexRouteImport } from './__layout/friend/index'
 import { Route as _layoutFriendAddRouteImport } from './__layout/friend/add'
 
@@ -69,14 +69,14 @@ const _layoutProfileRoute = _layoutProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => _layoutRoute,
 } as any)
-const _layoutMessageRoute = _layoutMessageRouteImport.update({
-  id: '/message',
-  path: '/message',
-  getParentRoute: () => _layoutRoute,
-} as any)
 const _layoutFriendRoute = _layoutFriendRouteImport.update({
   id: '/friend',
   path: '/friend',
+  getParentRoute: () => _layoutRoute,
+} as any)
+const _layoutChatRoute = _layoutChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => _layoutRoute,
 } as any)
 const _layoutFriendIndexRoute = _layoutFriendIndexRouteImport.update({
@@ -91,8 +91,8 @@ const _layoutFriendAddRoute = _layoutFriendAddRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/chat': typeof _layoutChatRoute
   '/friend': typeof _layoutFriendRouteWithChildren
-  '/message': typeof _layoutMessageRoute
   '/profile': typeof _layoutProfileRoute
   '/settings': typeof _layoutSettingsRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
@@ -104,7 +104,7 @@ export interface FileRoutesByFullPath {
   '/friend/': typeof _layoutFriendIndexRoute
 }
 export interface FileRoutesByTo {
-  '/message': typeof _layoutMessageRoute
+  '/chat': typeof _layoutChatRoute
   '/profile': typeof _layoutProfileRoute
   '/settings': typeof _layoutSettingsRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
@@ -118,8 +118,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/__layout': typeof _layoutRouteWithChildren
+  '/__layout/chat': typeof _layoutChatRoute
   '/__layout/friend': typeof _layoutFriendRouteWithChildren
-  '/__layout/message': typeof _layoutMessageRoute
   '/__layout/profile': typeof _layoutProfileRoute
   '/__layout/settings': typeof _layoutSettingsRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
@@ -134,8 +134,8 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/chat'
     | '/friend'
-    | '/message'
     | '/profile'
     | '/settings'
     | '/auth/ForgotPassword'
@@ -147,7 +147,7 @@ export interface FileRouteTypes {
     | '/friend/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/message'
+    | '/chat'
     | '/profile'
     | '/settings'
     | '/auth/ForgotPassword'
@@ -160,8 +160,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/__layout'
+    | '/__layout/chat'
     | '/__layout/friend'
-    | '/__layout/message'
     | '/__layout/profile'
     | '/__layout/settings'
     | '/auth/ForgotPassword'
@@ -245,18 +245,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutProfileRouteImport
       parentRoute: typeof _layoutRoute
     }
-    '/__layout/message': {
-      id: '/__layout/message'
-      path: '/message'
-      fullPath: '/message'
-      preLoaderRoute: typeof _layoutMessageRouteImport
-      parentRoute: typeof _layoutRoute
-    }
     '/__layout/friend': {
       id: '/__layout/friend'
       path: '/friend'
       fullPath: '/friend'
       preLoaderRoute: typeof _layoutFriendRouteImport
+      parentRoute: typeof _layoutRoute
+    }
+    '/__layout/chat': {
+      id: '/__layout/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof _layoutChatRouteImport
       parentRoute: typeof _layoutRoute
     }
     '/__layout/friend/': {
@@ -291,16 +291,16 @@ const _layoutFriendRouteWithChildren = _layoutFriendRoute._addFileChildren(
 )
 
 interface _layoutRouteChildren {
+  _layoutChatRoute: typeof _layoutChatRoute
   _layoutFriendRoute: typeof _layoutFriendRouteWithChildren
-  _layoutMessageRoute: typeof _layoutMessageRoute
   _layoutProfileRoute: typeof _layoutProfileRoute
   _layoutSettingsRoute: typeof _layoutSettingsRoute
   _layoutIndexRoute: typeof _layoutIndexRoute
 }
 
 const _layoutRouteChildren: _layoutRouteChildren = {
+  _layoutChatRoute: _layoutChatRoute,
   _layoutFriendRoute: _layoutFriendRouteWithChildren,
-  _layoutMessageRoute: _layoutMessageRoute,
   _layoutProfileRoute: _layoutProfileRoute,
   _layoutSettingsRoute: _layoutSettingsRoute,
   _layoutIndexRoute: _layoutIndexRoute,
