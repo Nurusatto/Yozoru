@@ -11,6 +11,8 @@ import "./style/index.scss";
 
 import { AppInit } from "./provider/init/AppInit";
 import { SocketProvider } from "./provider/init/Socket";
+import { ToastContainer } from "react-toastify";
+import { SocketNotifications } from "./provider/init/SocketNotifications";
 
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient();
@@ -25,9 +27,11 @@ createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <StrictMode>
       <SocketProvider>
+        <SocketNotifications />
         <AppInit />
         <RouterProvider router={router} />
         <TanStackRouterDevtools router={router} />
+        <ToastContainer position="top-right" theme="dark" />
       </SocketProvider>
     </StrictMode>
   </QueryClientProvider>
