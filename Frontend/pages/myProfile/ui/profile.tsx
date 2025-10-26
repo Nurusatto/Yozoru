@@ -27,23 +27,20 @@ export const MyProfile = () => {
 
   return (
     <main>
-      <div className={styles.Profile}>
-        <div className={styles.ProfilePromo}>
-          <div className={styles.ProfilePromoLeft}>
-            <ArrowLeft
-              className={styles.ProfilePromoSvg}
-              onClick={handleBack}
-            />
-            <div className={styles.ProfilePromoInfo}>
-              <h1>{user?.login}</h1>
-              <span>Просмотров:{user?.id}</span>
-            </div>
+      <div className={styles.ProfilePromo}>
+        <div className={styles.ProfilePromoLeft}>
+          <ArrowLeft className={styles.ProfilePromoSvg} onClick={handleBack} />
+          <div className={styles.ProfilePromoInfo}>
+            <h1>{user?.login}</h1>
+            <span>Просмотров:{user?.id}</span>
           </div>
-          <Search
-            className={styles.ProfilePromoSvg}
-            onClick={() => router.navigate({ to: "/friend" })}
-          />
         </div>
+        <Search
+          className={styles.ProfilePromoSvg}
+          onClick={() => router.navigate({ to: "/friend" })}
+        />
+      </div>
+      <div className={styles.Profile}>
         <div className={styles.ProfileHeader}>
           <div className={styles.ProfileBanner}>
             {isBanner && (

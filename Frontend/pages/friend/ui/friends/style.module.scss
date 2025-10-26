@@ -9,12 +9,25 @@
     @extend %FrSection;
 
     &Promo {
+      all: unset;
       display: flex;
       padding-block: rem(10);
       align-items: center;
       gap: rem(10);
       border-bottom: var(--border);
       padding-left: rem(5);
+      cursor: pointer;
+      background-color: var(--color-bg-main);
+      color: var(--color-accent);
+      padding-block: rem(10);
+      padding-left: rem(5);
+
+      &:focus {
+        outline: none;
+      }
+      &:focus-visible {
+        outline: none;
+      }
     }
 
     &Notification {
@@ -41,12 +54,24 @@
     @extend %FrSection;
 
     &Promo {
+      all: unset;
+      cursor: pointer;
       display: flex;
-      padding-block: rem(10);
       align-items: center;
       gap: rem(10);
+      border: none;
       border-bottom: var(--border);
+      padding-block: rem(10);
       padding-left: rem(5);
+      background-color: var(--color-bg-main);
+      color: var(--color-accent);
+
+      &:focus {
+        outline: none;
+      }
+      &:focus-visible {
+        outline: none;
+      }
     }
 
     &Notification {

@@ -7,10 +7,15 @@ interface SocketProviderProps {
 
 export const SocketProvider = ({ children }: SocketProviderProps) => {
   const initializeSocket = useSocketStore((s) => s.initializeSocket);
+  const disconnectSockets = useSocketStore((s) => s.disconnectSockets);
 
   useEffect(() => {
     initializeSocket();
-  }, [initializeSocket]);
+
+    return () => {
+      disconnectSockets();
+    };
+  }, [initializeSocket, disconnectSockets]);
 
   return <>{children}</>;
 };

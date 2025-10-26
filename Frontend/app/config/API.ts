@@ -2,6 +2,10 @@ export const api_url = import.meta.env.VITE_API_URL;
 
 export const socket_url = import.meta.env.VITE_SOCKET_URL;
 
+export const socketBreakpoint = {
+  notific: "/notifications",
+};
+
 export const prefix = {
   auth: {
     register: "/auth/register",
