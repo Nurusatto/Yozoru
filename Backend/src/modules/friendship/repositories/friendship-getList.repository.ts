@@ -106,8 +106,10 @@ export class FriendshipGetListRepository {
 				UID: friendReq.sender.UID,
 				avatarUrl: friendReq.sender.avatarUrl
 			}
-
 		})
 	}
 
+	async getUsersList(searchUID: string){
+		
+	}
 }

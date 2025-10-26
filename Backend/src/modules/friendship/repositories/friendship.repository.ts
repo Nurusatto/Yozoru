@@ -15,10 +15,7 @@ export class FriendshipRepository {
 				OR: [
 					{ senderId: mainUserId, receiverId: receiverId },
 					{ senderId: receiverId, receiverId: mainUserId }
-				],
-				status: {
-					not: FriendshipStatus.DECLINED
-				}
+				]
 			}
 		})
 
