@@ -3,6 +3,7 @@ import type { Request } from 'express'
 import { AuthGuard } from '../../guards/auth.guard'
 import { UserService } from '../users/user.service'
 import { sendFriendDto } from './dto/sendFriend.dto'
+import { searchUserDto } from './dto/searchUser.dto'
 import { FriendshipService } from './friendship.service'
 import { NotificationGateway } from '../../WebSocket/notification/notification.gateway'
 
@@ -10,7 +11,7 @@ import { NotificationGateway } from '../../WebSocket/notification/notification.g
 @UseGuards(AuthGuard)
 export class FriendshipController {
   constructor(
-    private readonly friendshipService: FriendshipService,
+    private readonly friendshipService: FriendshipService,                    
     private userService: UserService,
     private notificationGateway: NotificationGateway
   ) { }
@@ -134,5 +135,11 @@ export class FriendshipController {
       message: "Список отправленных запросов друзей",
       friends: friendList
     }
+  }
+
+  @Post('user-list')
+  @HttpCode(200)
+  async getUserList(@Body() dto: searchUserDto) {
+    return await this.friendshipService.getUserList(dto.UID);
   }
 }

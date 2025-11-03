@@ -100,7 +100,7 @@ export class FriendshipGetListRepository {
 			}
 		})
 		return list.map(friendReq => {
-			return{
+			return {
 				id: friendReq.sender.id,
 				login: friendReq.sender.login,
 				UID: friendReq.sender.UID,
@@ -109,7 +109,26 @@ export class FriendshipGetListRepository {
 		})
 	}
 
-	async getUsersList(searchUID: string){
-		
+	async findUsersList(searchUID: string) {
+		const list = await this.prisma.user.findMany({
+			where: {
+				UID: {
+					startsWith: searchUID,	
+					mode: 'insensitive',
+				},
+			},
+			orderBy: {
+				views: 'desc'
+			}
+		})
+		return list.map(user => {
+			return {
+				id: user.id,
+				login: user.login,
+				UID: user.UID,
+				avatarUrl: user.avatarUrl,
+				views: user.views
+			}
+		})
 	}
 }
