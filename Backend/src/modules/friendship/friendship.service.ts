@@ -41,4 +41,8 @@ export class FriendshipService {
 	async getSendedFriends(mainUserId: number) {
 		return await this.friendGetListRepo.getSendedRequests(mainUserId)
 	}
+
+	async getUserList(searchUID: string){
+		return await this.friendGetListRepo.findUsersList(searchUID);
+	}
 }
