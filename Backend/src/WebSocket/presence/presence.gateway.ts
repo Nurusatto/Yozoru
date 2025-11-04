@@ -37,12 +37,12 @@ export class PresenceGateway implements OnGatewayConnection, OnGatewayDisconnect
 
 		const user = await this.userService.getUserById(userId)
 
+		await this.redis.sadd('online_users', userId)
+		await this.redis.expire('online_users', 86400)
+
 		const count = await this.redis.scard('online_users')
 
 		console.log(`✅ Пользователь: ${user?.login} подключился | [Онлайн: ${count}] ✅`)
-
-		await this.redis.sadd('online_users', userId)
-		await this.redis.expire('online_users', 86400)
 
 		this.server.emit('onlineUsers', {
 			count,

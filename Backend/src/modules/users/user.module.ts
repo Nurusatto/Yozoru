@@ -6,12 +6,13 @@ import { UserController } from './user.controller'
 import { JwtUtils } from '../../common/utils/jwt.utils'
 import { TokenUtils } from '../../common/utils/token.utils'
 import { RedisModule } from '../../db/redis/redis.module'
+import { MailService } from '../../common/services/mail.service'
 
 
 
 @Module({
 	imports: [RedisModule],
-	providers: [PrismaService, UserRepository, UserService, JwtUtils, TokenUtils],
+	providers: [PrismaService, UserRepository, UserService, JwtUtils, TokenUtils, MailService],
 	controllers: [UserController],
 	exports: [UserRepository, UserService]
 })
