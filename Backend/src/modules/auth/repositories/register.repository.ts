@@ -28,13 +28,21 @@ export class RegisterRepository {
 			throw new UserAlreadyExistsException(email)
 		}
 
-		const existingCode = await this.redis.get(`register_code:${email}`)
-		if (existingCode) {
+		const code = CodeGeneratorUtils.generateCode()
+		const codeKey = `register_code:${email}`
+
+		const wasSet = await this.redis.set(
+			codeKey,
+			code.toString(),
+			'EX',
+			60 * 5,
+			'NX'
+		)
+
+		if (!wasSet) {
 			throw new CodeAlreadySentException(email)
 		}
 
-		const code = CodeGeneratorUtils.generateCode()
-		await this.redis.setex(`register_code:${email}`, 60 * 5, code.toString())
 		await this.redis.setex(
 			`register_code_extraData:${email}`,
 			60 * 5,
@@ -93,6 +101,4 @@ export class RegisterRepository {
 
 		return createdUser; 
 	}
-
-
 }

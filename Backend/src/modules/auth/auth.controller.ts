@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Next, Post, Req, Res } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, HttpStatus, Next, NotFoundException, Post, Req, Res } from '@nestjs/common'
 import type { NextFunction, Response } from 'express'
 import { CookieUtils } from '../../common/utils/cookie.utils'
 import { JwtUtils } from '../../common/utils/jwt.utils'
@@ -7,13 +7,17 @@ import { AuthService } from './auth.service'
 import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
 import { VerifyDto } from './dto/verify.dto'
+import { PasswordResetDto } from './dto/resetPassword.dto'
+import { UserService } from '../users/user.service'
+import { PasswordResetVerifyDto } from './dto/resetPasswordVerify.dto'
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private jwtUtils: JwtUtils,
-    private tokenUtils: TokenUtils
+    private tokenUtils: TokenUtils,
+    private userService: UserService
   ) { }
 
   @Post('register')
@@ -130,6 +134,32 @@ export class AuthController {
 
     } catch (err) {
 
+    }
+  }
+
+  @Post('recoverPassword')
+  async resetPassword(@Body() dto: PasswordResetDto){
+    const user = await this.userService.getUserByEmail(dto.email);
+    if(!user){
+      throw new NotFoundException(`Пользователь с такой почтой не найдено: ${dto.email}`);
+    }
+    await this.authService.resetPasswordService(dto.email);
+    return {
+      success: true,
+      message: "На вашу почту отправлен код для сброса пароля!"
+    }
+  }
+
+  @Post('recoverPassword-verify')
+  async resetPasswordVerifycation(@Body() dto: PasswordResetVerifyDto){
+    const user = await this.userService.getUserByEmail(dto.email);
+    if(!user){
+      throw new NotFoundException(`Пользователь с такой почтой не найдено: ${dto.email}`);
+    }
+    await this.authService.resetPasswordVerify(dto.email, dto.code);
+    return {
+      success: true,
+      message: "На вашу почту отправлен новый пароль! Ваш пароль сброшен."
     }
   }
 }

@@ -6,6 +6,7 @@ import { PrismaService } from '../../../db/prismaService/prisma.service'
 import { RedisService } from '../../../db/redis/redis.service'
 import {
 	CannotFindEmail,
+	CodeAlreadySentException,
 	CodeExpiredOrNotFoundException,
 	WrongMatch,
 	WrongPassword
@@ -30,11 +31,28 @@ export class LoginRepository {
 		if (!comparePass) throw new WrongPassword()
 
 		const code = CodeGeneratorUtils.generateCode()
-		await this.redis.setex(`login_code:${email}`, 60 * 5, `${code.toString()}`)
+		const codeKey = `login_code:${email}`
+
+		const wasSet = await this.redis.set(
+			codeKey,
+			code.toString(),
+			'EX',
+			60 * 5,
+			'NX'
+		);
+
+		if(!wasSet){
+			throw new CodeAlreadySentException(email)
+		}
+
 		const { password: _password, ...userWithoutPassword } = searchUser
 		await this.redis.setex(`login_code_extraData:${email}`, 60 * 5, JSON.stringify(userWithoutPassword))
 
-		this.mailService.sendEmail(email, 'Login Code', `Код для входа в аккаунт: ${code}`)
+		this.mailService.sendEmail(
+			email,
+			'Login Code',
+			`Код для входа в аккаунт: ${code}`
+		)
 	}
 
 	async verifyLogin(email: string, code: string) {

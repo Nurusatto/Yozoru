@@ -8,12 +8,13 @@ import { AuthService } from './auth.service'
 import { GoogleAuthRepository } from './repositories/google-auth.repository'
 import { LoginRepository } from './repositories/login.repository'
 import { RegisterRepository } from './repositories/register.repository'
+import { authRepository } from './repositories/auth.repository'
 
 
 @Module({
   imports: [RedisModule, PrismaModule, CommonModule, UserModule],
   controllers: [AuthController],
-  providers: [AuthService, RegisterRepository, LoginRepository, GoogleAuthRepository],
-  exports: [AuthService, RegisterRepository, LoginRepository, GoogleAuthRepository],
+  providers: [AuthService, RegisterRepository, LoginRepository, GoogleAuthRepository, authRepository],
+  exports: [AuthService, RegisterRepository, LoginRepository, GoogleAuthRepository, authRepository],
 })
 export class AuthModule { }

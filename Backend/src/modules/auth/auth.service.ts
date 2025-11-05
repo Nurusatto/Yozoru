@@ -10,6 +10,7 @@ import { VerifyDto } from './dto/verify.dto'
 import { GoogleAuthRepository } from './repositories/google-auth.repository'
 import { LoginRepository } from './repositories/login.repository'
 import { RegisterRepository } from './repositories/register.repository'
+import { authRepository } from './repositories/auth.repository'
 
 
 @Injectable()
@@ -19,6 +20,7 @@ export class AuthService {
 		private registerRepository: RegisterRepository,
 		private loginRepository: LoginRepository,
 		private googleRepository: GoogleAuthRepository,
+		private authRepository: authRepository,
 		private userService: UserService,
 	) { }
 
@@ -66,7 +68,15 @@ export class AuthService {
 		if (!this.client) {
 			this.client = await this.createClient()
 		}
-		return this.client
+		return this.client							
+	}
+
+	async resetPasswordService(email: string){
+		await this.authRepository.resetPassword(email)
+	};
+
+	async resetPasswordVerify(email: string, code: number){
+		await this.authRepository.resetPasswordVerify(email, code)
 	}
 
 }
