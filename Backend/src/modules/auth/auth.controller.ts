@@ -156,7 +156,7 @@ export class AuthController {
     if(!user){
       throw new NotFoundException(`Пользователь с такой почтой не найдено: ${dto.email}`);
     }
-    await this.authService.resetPasswordVerify(dto.email, dto.code);
+    await this.authService.resetPasswordVerify(dto.email, dto.code)
     return {
       success: true,
       message: "На вашу почту отправлен новый пароль! Ваш пароль сброшен."

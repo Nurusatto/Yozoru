@@ -38,14 +38,14 @@ export class authRepository {
 		)
 	}
 
-	async resetPasswordVerify(email: string, sendedCode: number) {
+	async resetPasswordVerify(email: string, sendedCode: string) {
 		const codeKey = await this.redis.get(`recover_code:${email}`)
 
 		if (!codeKey) {
 			throw new CodeExpiredOrNotFoundException()
 		}
 
-		const code = Number(codeKey)
+		const code = codeKey
 
 		if (code !== sendedCode) {
 			throw new CodeMismatchException()

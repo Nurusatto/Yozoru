@@ -75,7 +75,7 @@ export class AuthService {
 		await this.authRepository.resetPassword(email)
 	};
 
-	async resetPasswordVerify(email: string, code: number){
+	async resetPasswordVerify(email: string, code: string){
 		await this.authRepository.resetPasswordVerify(email, code)
 	}
 
