@@ -164,7 +164,7 @@ export const SignUp = () => {
         </Button>
         <Button
           className={clsx(styles.SignUpFormButton)}
-          type="submit"
+          type="button"
           onClick={resetForm}
         >
           Изменить данные

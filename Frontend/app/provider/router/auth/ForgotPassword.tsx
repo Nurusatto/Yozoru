@@ -1,4 +1,5 @@
 import { AuthLayout } from "@/app/layouts/authLayout";
+import { ResetPassword } from "@/features/ResetPassword";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/auth/ForgotPassword")({
@@ -8,7 +9,9 @@ export const Route = createFileRoute("/auth/ForgotPassword")({
 function ForgotPassword() {
   return (
     <>
-      <AuthLayout>forgot password</AuthLayout>
+      <AuthLayout>
+        <ResetPassword />
+      </AuthLayout>
     </>
   );
 }
