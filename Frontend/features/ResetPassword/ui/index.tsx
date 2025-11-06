@@ -8,11 +8,13 @@ import { useForm } from "react-hook-form";
 import type { ResetForm } from "../model/type";
 
 import { useQuerryCode, useQuerryVerify } from "../model/query";
+import { useNavigate } from "@tanstack/react-router";
 
 export const ResetPassword = () => {
   const [block, setBlock] = useState<boolean>(false);
   const queryCode = useQuerryCode();
   const queryVerify = useQuerryVerify();
+  const navigate = useNavigate();
 
   const { getValues, register, handleSubmit, reset } = useForm<ResetForm>({
     mode: "onSubmit",
@@ -32,7 +34,11 @@ export const ResetPassword = () => {
   const onSubmit = async () => {
     queryCode.reset();
     const { code, email } = getValues();
-    queryVerify.mutate({ email, code });
+    const result = await queryVerify.mutateAsync({ email, code });
+    navigate({
+      to: "/auth/login",
+      search: { reset: "true", message: result.message },
+    });
   };
 
   return (

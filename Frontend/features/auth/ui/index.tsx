@@ -9,8 +9,8 @@ import { useForm } from "react-hook-form";
 import type { FormProps, message } from "../model/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../model/validations";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { loginUser, loginVerify } from "../model/API";
 import clsx from "clsx";
 import { useMutation } from "@tanstack/react-query";
@@ -18,12 +18,22 @@ import type { AxiosError } from "axios";
 
 import { useAuthStore } from "@/app/provider/store/authStore";
 import { api_url, prefix } from "@/app/config/API";
+import { toast } from "react-toastify";
 
 export const Auth = () => {
   const [block, setBlock] = useState(false);
   const [alert, setAlert] = useState<string | undefined>();
   const [succes, setSucces] = useState<boolean>();
   const navigate = useNavigate({ from: "/auth/login" });
+
+  const { reset: resetPassword, message } = useSearch({ from: "/auth/login" });
+
+  useEffect(() => {
+    if (resetPassword === "true") {
+      toast.success(message);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetPassword]);
 
   const {
     reset,
