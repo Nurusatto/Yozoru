@@ -29,11 +29,10 @@ export const Auth = () => {
   const { reset: resetPassword, message } = useSearch({ from: "/auth/login" });
 
   useEffect(() => {
-    if (resetPassword === "true") {
+    if (resetPassword === "true" && message) {
       toast.success(message);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resetPassword]);
+  }, [resetPassword, message]);
 
   const {
     reset,
