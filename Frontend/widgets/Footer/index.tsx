@@ -1,5 +1,5 @@
 import { useBreakpoint } from "@/shared/hooks/useBreakPoint";
-import { FooterTablet } from "./Tablet/";
+import { FooterTablet } from "./ui";
 
 export const Footer = function () {
   const bp = useBreakpoint();

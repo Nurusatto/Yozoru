@@ -1,0 +1,45 @@
+.Menu {
+  &Title {
+    display: flex;
+    justify-content: center;
+    padding-block: rem(10);
+  }
+
+  &List {
+    display: grid;
+    padding-block: rem(20);
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &Nav {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: rem(5);
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    &Item {
+      & > svg {
+        @include square(rem(30));
+      }
+      transition-duration: var(--transition-duration);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: rem(20);
+      border-radius: 9999px;
+      padding: rem(12);
+      height: rem(50);
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+
+      @include hover {
+        background-color: var(--color-hover);
+      }
+    }
+  }
+}

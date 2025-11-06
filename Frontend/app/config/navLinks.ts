@@ -4,6 +4,7 @@ import chat from "@svg/headerNavLinks/Mes.svg?react";
 import Friends from "@svg/headerNavLinks/friend.svg?react";
 import Profile from "@svg/headerNavLinks/profile.svg?react";
 import settings from "@/shared/svg/settings.svg?react";
+import Other from "@/shared/svg/mobileMenu/icon.svg?react";
 
 type NavLink = {
   to: string;
@@ -11,10 +12,22 @@ type NavLink = {
   icon: ComponentType<{ className?: string }>;
 };
 
+export const navLinkMenu: NavLink[] = [
+  { to: "/profile", label: "Profile", icon: Profile },
+  { to: "/settings", label: "Settings", icon: settings },
+];
+
+export const navLinksFooter: NavLink[] = [
+  { to: "/", label: "Home", icon: Home },
+  { to: "/chat", label: "Chat", icon: chat },
+  { to: "/friend", label: "Chat", icon: Friends },
+  { to: "/mobileMenu", label: "Menu", icon: Other },
+];
+
 export const navLinks: NavLink[] = [
   { to: "/", label: "Home", icon: Home },
   { to: "/chat", label: "Chat", icon: chat },
-  { to: "/friend", label: "Friend", icon: Friends },
+  { to: "/friend", label: "Chat", icon: Friends },
   { to: "/profile", label: "Profile", icon: Profile },
   { to: "/settings", label: "Settings", icon: settings },
 ];

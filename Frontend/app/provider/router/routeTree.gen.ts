@@ -19,6 +19,7 @@ import { Route as Auth_layoutRouteImport } from './auth/__layout'
 import { Route as AuthForgotPasswordRouteImport } from './auth/ForgotPassword'
 import { Route as _layoutSettingsRouteImport } from './__layout/settings'
 import { Route as _layoutProfileRouteImport } from './__layout/profile'
+import { Route as _layoutMobileMenuRouteImport } from './__layout/mobileMenu'
 import { Route as _layoutFriendRouteImport } from './__layout/friend'
 import { Route as _layoutChatRouteImport } from './__layout/chat'
 import { Route as _layoutSettingsIndexRouteImport } from './__layout/settings/index'
@@ -71,6 +72,11 @@ const _layoutProfileRoute = _layoutProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => _layoutRoute,
 } as any)
+const _layoutMobileMenuRoute = _layoutMobileMenuRouteImport.update({
+  id: '/mobileMenu',
+  path: '/mobileMenu',
+  getParentRoute: () => _layoutRoute,
+} as any)
 const _layoutFriendRoute = _layoutFriendRouteImport.update({
   id: '/friend',
   path: '/friend',
@@ -105,6 +111,7 @@ const _layoutFriendAddRoute = _layoutFriendAddRouteImport.update({
 export interface FileRoutesByFullPath {
   '/chat': typeof _layoutChatRoute
   '/friend': typeof _layoutFriendRouteWithChildren
+  '/mobileMenu': typeof _layoutMobileMenuRoute
   '/profile': typeof _layoutProfileRoute
   '/settings': typeof _layoutSettingsRouteWithChildren
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/chat': typeof _layoutChatRoute
+  '/mobileMenu': typeof _layoutMobileMenuRoute
   '/profile': typeof _layoutProfileRoute
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
   '/auth': typeof Auth_layoutRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/__layout': typeof _layoutRouteWithChildren
   '/__layout/chat': typeof _layoutChatRoute
   '/__layout/friend': typeof _layoutFriendRouteWithChildren
+  '/__layout/mobileMenu': typeof _layoutMobileMenuRoute
   '/__layout/profile': typeof _layoutProfileRoute
   '/__layout/settings': typeof _layoutSettingsRouteWithChildren
   '/auth/ForgotPassword': typeof AuthForgotPasswordRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/chat'
     | '/friend'
+    | '/mobileMenu'
     | '/profile'
     | '/settings'
     | '/auth/ForgotPassword'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/chat'
+    | '/mobileMenu'
     | '/profile'
     | '/auth/ForgotPassword'
     | '/auth'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/__layout'
     | '/__layout/chat'
     | '/__layout/friend'
+    | '/__layout/mobileMenu'
     | '/__layout/profile'
     | '/__layout/settings'
     | '/auth/ForgotPassword'
@@ -267,6 +279,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _layoutProfileRouteImport
       parentRoute: typeof _layoutRoute
     }
+    '/__layout/mobileMenu': {
+      id: '/__layout/mobileMenu'
+      path: '/mobileMenu'
+      fullPath: '/mobileMenu'
+      preLoaderRoute: typeof _layoutMobileMenuRouteImport
+      parentRoute: typeof _layoutRoute
+    }
     '/__layout/friend': {
       id: '/__layout/friend'
       path: '/friend'
@@ -343,6 +362,7 @@ const _layoutSettingsRouteWithChildren = _layoutSettingsRoute._addFileChildren(
 interface _layoutRouteChildren {
   _layoutChatRoute: typeof _layoutChatRoute
   _layoutFriendRoute: typeof _layoutFriendRouteWithChildren
+  _layoutMobileMenuRoute: typeof _layoutMobileMenuRoute
   _layoutProfileRoute: typeof _layoutProfileRoute
   _layoutSettingsRoute: typeof _layoutSettingsRouteWithChildren
   _layoutIndexRoute: typeof _layoutIndexRoute
@@ -351,6 +371,7 @@ interface _layoutRouteChildren {
 const _layoutRouteChildren: _layoutRouteChildren = {
   _layoutChatRoute: _layoutChatRoute,
   _layoutFriendRoute: _layoutFriendRouteWithChildren,
+  _layoutMobileMenuRoute: _layoutMobileMenuRoute,
   _layoutProfileRoute: _layoutProfileRoute,
   _layoutSettingsRoute: _layoutSettingsRouteWithChildren,
   _layoutIndexRoute: _layoutIndexRoute,
