@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import * as bcrypt from 'bcrypt'
 import { MailService } from '../../../common/services/mail.service'
 import { CodeGeneratorUtils } from '../../../common/utils/code-generator.utils'
 import { PrismaService } from '../../../db/prismaService/prisma.service'
@@ -19,7 +20,7 @@ export class authRepository {
 		const code = CodeGeneratorUtils.generateCode()
 		const codeKey = `recover_code:${email}`
 
-		const wasSet = this.redis.set(
+		const wasSet = await this.redis.set(
 			codeKey,
 			code.toString(),
 			'EX',
@@ -45,25 +46,28 @@ export class authRepository {
 			throw new CodeExpiredOrNotFoundException()
 		}
 
-		const code = codeKey
-
-		if (code !== sendedCode) {
+		if (codeKey !== sendedCode) {
 			throw new CodeMismatchException()
 		}
 
 		const generatedPassword = CodeGeneratorUtils.generatePassword()
-		await this.prisma.user.update({
+
+		const hashedPass = await bcrypt.hash(generatedPassword, 10)
+
+		const user = await this.prisma.user.update({
 			where: { email: email },
-			data: { password: generatedPassword }
-		});
+			data: { password: hashedPass }
+		})
 
 		await this.mailService.sendEmail(
 			email,
 			'Сброс пароля',
 			`Ваш новый пароль: ${generatedPassword}`
-		);
+		)
 
-		await this.redis.del(codeKey);
+		await this.redis.del(`recover_code:${email}`)
+		console.log(`Сгенерированный пароль: ${generatedPassword}`)
+		console.log(`Новый пароль: ${user.password}`)
 	}
 
 }
