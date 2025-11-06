@@ -1,0 +1,77 @@
+.Reset {
+  &Input {
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  &Logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &Blocked {
+    opacity: 0.7;
+  }
+
+  &Succes {
+    color: var(--color-success);
+  }
+
+  &Fail {
+    color: var(--color-error);
+  }
+
+  &Verify {
+    display: flex;
+    align-items: center;
+    gap: rem(50);
+  }
+
+  &Wrapper {
+    cursor: default;
+    user-select: none;
+    overflow: auto;
+    color: var(--color-accent);
+    background-color: var(--color-bg-main);
+    border-radius: rem(20);
+    border: var(--border);
+
+    padding: rem(50);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: rem(20);
+
+    width: rem(400);
+
+    @include mobile {
+      width: rem(310);
+      padding: rem(40);
+    }
+  }
+
+  &Action {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    gap: rem(10);
+  }
+
+  &Btn {
+    background-color: var(--color-bg-main);
+    color: var(--color-accent);
+    border: var(--border);
+    border-radius: rem(10);
+    padding: rem(15);
+    color: var(--color-accent-alt);
+  }
+}

@@ -13,6 +13,9 @@ export const prefix = {
 
     getDataUser: "/account/me",
     getAccessTokenUser: "/account/accessToken",
+
+    resetPassword: "auth/recoverPassword",
+    resetVerify: "auth/recoverPassword-verify",
   },
   login: {
     login: "/auth/login",
