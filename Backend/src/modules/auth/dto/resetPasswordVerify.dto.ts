@@ -1,4 +1,4 @@
-import { IsEmail, IsNumber, IsString, Length, MinLength } from 'class-validator'
+import { IsEmail, IsString, Length, MinLength } from 'class-validator'
 
 export class PasswordResetVerifyDto {
 	@IsString()
@@ -6,7 +6,6 @@ export class PasswordResetVerifyDto {
 	@MinLength(1, { message: "Поле не должно быть пустым\n" })
 	email: string
 
-	@IsNumber()
-	@Length(6,6, {message: "Код должен состоять из 6 символов "})
+	@Length(6, 6, { message: "Код должен состоять из 6 символов " })
 	code: string
 }
