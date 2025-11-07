@@ -1,24 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { PrismaService } from '../../../db/prismaService/prisma.service'
 import { RedisService } from '../../../db/redis/redis.service'
-import {
-	CodeAlreadySentException,
-	CodeExpiredOrNotFoundException,
-	CodeMismatchException,
-	UserAlreadyExistsException,
-} from '../exceptions/auth.exceptions'
-import { GoogleUserDto } from '../dto/google-auth.dto'
 import { UserService } from '../../users/user.service'
+import { GoogleUserDto } from '../dto/google-auth.dto'
 
 @Injectable()
 export class GoogleAuthRepository {
 	constructor(
-		private prisma: PrismaService,
 		private redis: RedisService,
 		private userRepo: UserService
-	) {}
+	) { }
 
-	async createGoogleAccount(dto: GoogleUserDto){	
+	async createGoogleAccount(dto: GoogleUserDto) {
 		if (!dto.email) {
 			throw new BadRequestException('Email is required from Google account')
 		}

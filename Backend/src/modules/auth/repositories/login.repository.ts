@@ -37,7 +37,7 @@ export class LoginRepository {
 			codeKey,
 			code.toString(),
 			'EX',
-			60 * 5,
+			60,
 			'NX'
 		);
 

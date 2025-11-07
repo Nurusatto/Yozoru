@@ -5,6 +5,14 @@ export class passwordChangeDto {
 	@IsString()
 	@MinLength(8, { message: 'Пароль должен быть как минимум с 8 символами' })
 	oldPassword: string
+
+	@IsNotEmpty()
+	@IsString()
+	@MinLength(8, { message: 'Пароль должен быть как минимум с 8 символами' })
 	newPassword: string
+
+	@IsNotEmpty()
+	@IsString()
+	@MinLength(8, { message: 'Пароль должен быть как минимум с 8 символами' })
 	confirmPassword: string
 }

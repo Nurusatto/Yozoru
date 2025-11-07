@@ -24,7 +24,7 @@ export class authRepository {
 			codeKey,
 			code.toString(),
 			'EX',
-			60 * 5,
+			60,
 			'NX'
 		)
 
