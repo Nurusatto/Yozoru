@@ -21,6 +21,10 @@
     gap: rem(10);
   }
 
+  &Blocked {
+    opacity: 0.5;
+  }
+
   &Action {
     display: flex;
   }

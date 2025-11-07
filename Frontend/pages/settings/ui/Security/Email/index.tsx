@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useEmail, useEmailVerify } from "@/pages/settings/model/query";
 import type { emailVerify } from "@/pages/settings/model/types/email";
 import { useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
 
 export const Email = () => {
   const queryClient = useQueryClient();
@@ -63,6 +64,7 @@ export const Email = () => {
           placeholder="New email"
           {...register("newEmail")}
           disabled={block}
+          className={clsx(block && styles.EmailBlocked)}
         />
         <div className={styles.EmailAction}>
           <Input
