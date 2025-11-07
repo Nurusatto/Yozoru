@@ -1,0 +1,57 @@
+.Footer {
+  display: flex;
+  justify-content: center;
+  gap: rem(20);
+  border: var(--border);
+  position: sticky;
+  bottom: 0;
+
+  &Nav {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: rem(5);
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    &Item {
+      & > svg {
+        @include square(rem(30));
+      }
+      transition-duration: var(--transition-duration);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: rem(20);
+      border-radius: 9999px;
+      padding: rem(12);
+      height: rem(50);
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+
+      @include hover {
+        background-color: var(--color-hover);
+      }
+
+      &Active {
+        h2 {
+          font-weight: 800;
+        }
+        > svg {
+          transform: scale(1.1);
+          filter: drop-shadow(0 0 4px white);
+          transform: rotate(5deg) scale(1.1);
+        }
+      }
+
+      > h2 {
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+      }
+    }
+  }
+}

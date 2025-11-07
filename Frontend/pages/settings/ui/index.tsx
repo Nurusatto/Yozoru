@@ -1,39 +1,34 @@
-import clsx from "clsx";
+import { Link } from "@tanstack/react-router";
 import styles from "./style.module.scss";
-import { useState } from "react";
-import { Button } from "@/shared/ui/ButtonBase";
-import LogOut from "@svg/logOut.svg?react";
-import { useLogOut } from "../model/query";
+import type { ReactNode } from "react";
 
-export const Settings = () => {
-  const [dropMenu, setDropMenu] = useState<boolean>();
+type prop = {
+  children: ReactNode;
+};
 
-  const logOutMutation = useLogOut();
-
+export const Settings = ({ children }: prop) => {
   return (
     <main>
       <div className={styles.SettingsPage}>
-        <div className={styles.LogOut}>
-          <h1 className={styles.LogOutTitle}>Выйти с аккаута?</h1>
-          <LogOut
-            className={clsx(styles.LogOutSvg, dropMenu && styles.isActive)}
-            onClick={() => setDropMenu(!dropMenu)}
-          />
-          <div className={clsx(styles.LogOutMenu, dropMenu && styles.isActive)}>
-            <Button
-              className={clsx(styles.LogOutBtn, styles.LogOutBtnOut)}
-              onClick={() => logOutMutation.mutate()}
-            >
-              Log Out
-            </Button>
-            <Button
-              className={styles.LogOutBtn}
-              onClick={() => setDropMenu(!dropMenu)}
-            >
-              Cancel
-            </Button>
-          </div>
-        </div>
+        <nav className={styles.SettingsNav}>
+          <Link
+            to="/settings"
+            activeProps={{ className: styles.isActive }}
+            activeOptions={{ exact: true }}
+            className={styles.SettingsLinks}
+          >
+            Main
+          </Link>
+          <Link
+            activeProps={{ className: styles.isActive }}
+            activeOptions={{ exact: true }}
+            to="/settings/Security"
+            className={styles.SettingsLinks}
+          >
+            Security
+          </Link>
+        </nav>
+        {children}
       </div>
     </main>
   );

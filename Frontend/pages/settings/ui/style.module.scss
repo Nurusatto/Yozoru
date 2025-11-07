@@ -2,53 +2,39 @@
   &Page {
     display: flex;
     flex-direction: column;
+    gap: rem(20);
+  }
+
+  &Nav {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
     gap: rem(30);
-    padding-top: rem(20);
-    padding-inline: rem(10);
+    border-bottom: var(--border);
+    padding-block: rem(20);
   }
-}
 
-.LogOut {
-  display: flex;
-  flex-direction: column;
-  gap: rem(5);
-  position: relative;
-
-  &Svg {
-    @include square(rem(25));
-    color: var(--color-error);
+  &Links {
+    position: relative;
+    transition: color var(--transition-duration) ease;
 
     &.isActive {
-      color: var(--color-accent-alt);
+      color: var(--color-accent-alt) !important;
+
+      &::after {
+        width: 100%;
+      }
     }
-  }
 
-  &Title {
-    margin-top: 0;
-  }
-
-  &Menu {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 8%;
-    flex-direction: column;
-
-    &.isActive {
-      display: flex;
-      gap: rem(5);
-    }
-  }
-
-  &Btn {
-    background-color: var(--color-bg-main);
-    border: var(--border);
-    border-radius: rem(10);
-    color: var(--color-accent);
-    padding: rem(5);
-
-    &Out {
-      color: var(--color-error);
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-accent-alt);
+      bottom: - rem(5);
+      transition: width var(--transition-duration) ease;
     }
   }
 }

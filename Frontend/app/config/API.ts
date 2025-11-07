@@ -37,4 +37,10 @@ export const prefix = {
     receivedFriends: "/friendship/received-friends",
     sendedFriends: "/friendship/sended-friends",
   },
+  account: {
+    updatePassword: "account/updatePassword",
+    updateEmail: "account/updateEmail",
+    updateEmailVerify: "account/updateEmailVerify",
+    updateProfile: "account/updateDefaultSettings",
+  },
 };

@@ -1,0 +1,38 @@
+.Form {
+  &Wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  &Inner {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    padding: rem(10);
+    border-radius: rem(20);
+    border: var(--border);
+    gap: rem(10);
+  }
+
+  &Fail {
+    color: var(--color-error);
+  }
+
+  &Btn {
+    border-radius: rem(20);
+    color: var(--color-accent-alt);
+    background-color: var(--color-bg-main);
+    border: var(--border);
+    transition: var(--transition-duration);
+
+    @include hover {
+      transform: translateY(-3px);
+    }
+  }
+
+  &Title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
