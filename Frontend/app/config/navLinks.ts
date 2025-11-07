@@ -20,14 +20,14 @@ export const navLinkMenu: NavLink[] = [
 export const navLinksFooter: NavLink[] = [
   { to: "/", label: "Home", icon: Home },
   { to: "/chat", label: "Chat", icon: chat },
-  { to: "/friend", label: "Chat", icon: Friends },
+  { to: "/friend", label: "friend", icon: Friends },
   { to: "/mobileMenu", label: "Menu", icon: Other },
 ];
 
 export const navLinks: NavLink[] = [
   { to: "/", label: "Home", icon: Home },
   { to: "/chat", label: "Chat", icon: chat },
-  { to: "/friend", label: "Chat", icon: Friends },
+  { to: "/friend", label: "friend", icon: Friends },
   { to: "/profile", label: "Profile", icon: Profile },
   { to: "/settings", label: "Settings", icon: settings },
 ];

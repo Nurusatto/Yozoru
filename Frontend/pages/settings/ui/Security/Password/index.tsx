@@ -12,16 +12,19 @@ export const Password = () => {
   const { register, handleSubmit, reset } = useForm<passwordData>({
     mode: "onSubmit",
   });
-  const { data, isPending, mutateAsync, error, isError } = usePassword();
+  const { isPending, mutateAsync, error, isError } = usePassword();
 
   const onSubmit = (dataForm: passwordData) => {
     reset();
-    mutateAsync(dataForm);
-    toast.success(data?.message);
+    mutateAsync(dataForm, {
+      onSuccess: (data) => {
+        toast.success(data?.message);
+      },
+    });
   };
 
   return (
-    <div className={styles.FormWrapper}>
+    <section className={styles.FormWrapper}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.FormInner}>
         <h1 className={styles.FormTitle}>Change Password</h1>
         <Input
@@ -48,6 +51,6 @@ export const Password = () => {
           {isPending ? "сохранение..." : "Сохранить"}
         </Button>
       </form>
-    </div>
+    </section>
   );
 };

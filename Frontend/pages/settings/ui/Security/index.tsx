@@ -1,10 +1,13 @@
 import { Password } from "./Password";
+import { Email } from "./Email";
+
 import styles from "./style.module.scss";
 
 export const SettingsSecurity = () => {
   return (
     <div className={styles.Wrapper}>
       <Password />
+      <Email />
     </div>
   );
 };
