@@ -35,7 +35,7 @@ export class RegisterRepository {
 			codeKey,
 			code.toString(),
 			'EX',
-			60,
+			60 * 5,
 			'NX'
 		)
 

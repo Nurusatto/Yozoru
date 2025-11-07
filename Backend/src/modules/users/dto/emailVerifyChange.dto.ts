@@ -1,8 +1,8 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class emailVerifyChangeDto {
 	@IsNotEmpty()
-	@IsString()
+	@IsNumber()
 	@IsEmail()
 	code: number
 }
